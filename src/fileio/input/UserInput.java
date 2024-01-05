@@ -31,13 +31,4 @@ public final class UserInput {
     public void setCity(final String city) {
         this.city = city;
     }
-
-    @Override
-    public String toString() {
-        return "UserInput{"
-                + "username='" + username + '\''
-                + ", age=" + age
-                + ", city='" + city + '\''
-                + '}';
-    }
 }

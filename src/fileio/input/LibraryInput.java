@@ -33,13 +33,4 @@ public final class LibraryInput {
     public void setUsers(final ArrayList<UserInput> users) {
         this.users = users;
     }
-
-    @Override
-    public String toString() {
-        return "LibraryInput{"
-                + "songs=" + songs
-                + ", podcasts=" + podcasts
-                + ", users=" + users
-                + '}';
-    }
 }

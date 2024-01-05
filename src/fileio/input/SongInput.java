@@ -78,18 +78,4 @@ public final class SongInput {
     public void setArtist(final String artist) {
         this.artist = artist;
     }
-
-    @Override
-    public String toString() {
-        return "SongInput{"
-                + "name='" + name + '\''
-                + ", duration=" + duration
-                + ", album='" + album + '\''
-                + ", tags=" + tags
-                + ", lyrics='" + lyrics + '\''
-                + ", genre='" + genre + '\''
-                + ", releaseYear='" + releaseYear + '\''
-                + ", artist='" + artist + '\''
-                + '}';
-    }
 }
