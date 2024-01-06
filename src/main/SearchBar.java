@@ -30,6 +30,7 @@ public class SearchBar {
     private ArrayList<Song> songs;
     private ArrayList<Episode> episodes;
 
+    private String recommendationType;
 
 
 
@@ -316,5 +317,13 @@ public class SearchBar {
      */
     public void setEpisodes(final ArrayList<Episode> episodes) {
         this.episodes = episodes;
+    }
+
+    public String getRecommendationType() {
+        return recommendationType;
+    }
+
+    public void setRecommendationType(String recommendationType) {
+        this.recommendationType = recommendationType;
     }
 }

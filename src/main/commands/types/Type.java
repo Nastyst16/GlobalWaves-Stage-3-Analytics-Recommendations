@@ -30,4 +30,14 @@ public interface Type {
      * @return
      */
     String getName();
+
+    /**
+     * listen the type
+     */
+    void listen();
+
+    /**
+     * add listen
+     */
+    void addListen();
 }

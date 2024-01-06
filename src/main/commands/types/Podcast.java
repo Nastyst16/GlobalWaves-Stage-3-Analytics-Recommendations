@@ -16,6 +16,8 @@ public final class Podcast implements Type {
     private int lastRemainingEpisode;
     @JsonIgnore
     private int secondsGone;
+    @JsonIgnore
+    private int numberOfListens;
 
 
     /**
@@ -50,6 +52,11 @@ public final class Podcast implements Type {
      */
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void listen() {
+
     }
 
     /**
@@ -149,5 +156,21 @@ public final class Podcast implements Type {
      */
     public void setEpisodes(final ArrayList<String> episodes) {
         this.episodes = episodes;
+    }
+
+    /**
+     * get number of listens
+     * @return
+     */
+    public int getNumberOfListens() {
+        return numberOfListens;
+    }
+
+    /**
+     * add listen
+     */
+    @Override
+    public void addListen() {
+        numberOfListens++;
     }
 }

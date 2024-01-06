@@ -2,7 +2,7 @@ package main.commands.types;
 
 import java.util.List;
 
-public class    Song implements Type {
+public class Song implements Type {
     private String name;
     private int duration;
     private String album;
@@ -13,6 +13,7 @@ public class    Song implements Type {
     private String artist;
     private int secondsGone;
     private int numberOfLikes;
+    private int numberOfListens;
 
 
     /**
@@ -60,6 +61,11 @@ public class    Song implements Type {
      */
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void listen() {
+
     }
 
     /**
@@ -221,6 +227,22 @@ public class    Song implements Type {
     @Override
     public void execute() {
 
+    }
+
+    /**
+     * get number of listens
+     * @return
+     */
+    public int getNumberOfListens() {
+        return numberOfListens;
+    }
+
+    /**
+     * add listen
+     */
+    @Override
+    public void addListen() {
+        numberOfListens++;
     }
 
 }

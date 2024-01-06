@@ -16,10 +16,7 @@ import main.commands.player.host.AddAnnouncement;
 import main.commands.player.host.AddPodcast;
 import main.commands.player.host.RemoveAnnouncement;
 import main.commands.player.host.RemovePodcast;
-import main.commands.player.statistics.GetTop5Albums;
-import main.commands.player.statistics.GetTop5Artists;
-import main.commands.player.statistics.GetTop5Playlists;
-import main.commands.player.statistics.GetTop5Songs;
+import main.commands.player.statistics.*;
 import main.commands.searchBar.Search;
 import main.commands.searchBar.Select;
 import main.commands.player.AddRemoveInPlaylist;
@@ -36,8 +33,6 @@ import main.commands.player.Forward;
 import main.commands.player.Follow;
 import main.commands.player.SwitchVisibility;
 import main.commands.player.Load;
-import main.commands.player.statistics.GetOnlineUsers;
-import main.commands.player.statistics.GetAllUsers;
 import main.commands.player.ShowPlaylists;
 import main.commands.player.ShowPreferredSongs;
 import main.commands.player.user.SwitchConnectionStatus;
@@ -393,4 +388,11 @@ public class ConcreteCommandVisitor implements CommandVisitor {
         getTop5Artists.execute();
     }
 
+    /**
+     * @param wrapped - the command to be executed
+     */
+    @Override
+    public void visit(final Wrapped wrapped) {
+        wrapped.execute(user, artist, host);
+    }
 }

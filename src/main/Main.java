@@ -5,6 +5,7 @@ import checker.CheckerConstants;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import fileio.input.LibraryInput;
 import main.collections.Users;
@@ -29,12 +30,12 @@ import main.commands.player.host.AddAnnouncement;
 import main.commands.player.host.AddPodcast;
 import main.commands.player.host.RemoveAnnouncement;
 import main.commands.player.host.RemovePodcast;
-import main.commands.player.statistics.GetTop5Albums;
-import main.commands.player.statistics.GetTop5Artists;
-import main.commands.player.statistics.GetTop5Playlists;
-import main.commands.player.statistics.GetTop5Songs;
+import main.commands.player.statistics.*;
 import main.commands.searchBar.Search;
 import main.commands.searchBar.Select;
+import main.commands.types.Episode;
+import main.commands.types.Podcast;
+import main.commands.types.Song;
 import main.commands.types.Type;
 import main.commands.player.AddRemoveInPlaylist;
 import main.commands.player.CreatePlayList;
@@ -50,8 +51,6 @@ import main.commands.player.Forward;
 import main.commands.player.Follow;
 import main.commands.player.SwitchVisibility;
 import main.commands.player.Load;
-import main.commands.player.statistics.GetOnlineUsers;
-import main.commands.player.statistics.GetAllUsers;
 import main.commands.player.ShowPlaylists;
 import main.commands.player.ShowPreferredSongs;
 import main.commands.player.user.SwitchConnectionStatus;
@@ -124,6 +123,9 @@ public final class Main {
     public static void action(final String filePathInput,
                               final String filePathOutput) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
+
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); // ChatGpt
+
         LibraryInput library = objectMapper.readValue(new File(LIBRARY_PATH), LibraryInput.class);
 
         ArrayNode outputs = objectMapper.createArrayNode();
@@ -142,6 +144,7 @@ public final class Main {
 //        creating the executor
         ConcreteCommandVisitor executor = new ConcreteCommandVisitor();
 
+
 //        parsing the Json content into corresponding commands
         for (SearchBar input : searchBarInputs) {
 
@@ -155,6 +158,7 @@ public final class Main {
             howManySecsGone(input);
 
             int index = commands.size();
+            boolean countListen = false;
 
 //            creating the commands
             executor.setExecutor(commands, input, user, artist, host);
@@ -162,7 +166,9 @@ public final class Main {
             switch (command) {
                 case "search":              commands.add(new Search(input));                 break;
                 case "select":              commands.add(new Select(input));                 break;
-                case "load":                commands.add(new Load(input));                   break;
+                case "load":                commands.add(new Load(input));
+                                            countListen = true;
+                break;
                 case "playPause":           commands.add(new PlayPause(input));              break;
                 case "repeat":              commands.add(new Repeat(input));                 break;
                 case "status":              commands.add(new Status(input));                 break;
@@ -204,10 +210,27 @@ public final class Main {
                 case "getTop5Albums":       commands.add(new GetTop5Albums(input));          break;
                 case "getTop5Artists":      commands.add(new GetTop5Artists(input));         break;
 
+//                Stage 3:
+                case "wrapped":             commands.add(new Wrapped(input));                break;
+
                 default: break;
             }
 //            we have the command created, now we use the visitor design pattern
+
+            if (index == commands.size()) { // for not timplementing all the commands
+                continue;
+            }
+
+            if (input.getTimestamp() == 1255) {
+                int x = 5;
+            }
+
             commands.get(index).accept(executor);
+
+            if (countListen && user.getCurrentType() != null) {
+                user.getListenable().listen(user.getCurrentType(), user);
+            }
+
         }
 //        reseting the collections after every test
         resetCollections();

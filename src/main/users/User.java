@@ -10,6 +10,8 @@ import main.commands.types.Podcast;
 import main.commands.types.Song;
 import main.commands.types.Playlist;
 import main.commands.types.Type;
+import main.decoratorPattern.ListenCounterDecorator;
+import main.decoratorPattern.Listenable;
 
 import java.util.ArrayList;
 
@@ -54,6 +56,8 @@ public class User {
     private boolean online;
     private String selectedPageOwner;
 
+//    Stage 3 variables
+    private ListenCounterDecorator listenable;
 
 
     public User(final String username, final int age, final String city,
@@ -115,6 +119,9 @@ public class User {
         currentPage = "Home";
         online = true;
         selectedPageOwner = "";
+
+//        Stage 3:
+        listenable = new ListenCounterDecorator();
     }
 
 
@@ -236,6 +243,9 @@ public class User {
                 Episode newEpisode = user.getCurrentPodcast().getEpisodesList().get(indexEpisode);
 
                 currentType = newEpisode;
+
+                user.getListenable().listen(currentType, user);
+
                 currentType.setSecondsGone(Math.abs(user.getRemainingTime()));
 
                 user.setRemainingTime(currentType.getDuration() - currentType.getSecondsGone());
@@ -267,6 +277,9 @@ public class User {
                     int secsGone = currentType.getSecondsGone() - currentType.getDuration();
 
                     currentType = user.getCurrentPlaylist().getSongList().get(0);
+
+                    user.getListenable().listen(currentType, user);
+
                     currentType.setSecondsGone(secsGone);
                     user.setRemainingTime(currentType.getDuration() - currentType.getSecondsGone());
 
@@ -285,6 +298,9 @@ public class User {
 
                         int firstIndex = user.getShuffledIndices().get(0);
                         currentType = user.getCurrentPlaylist().getSongList().get(firstIndex);
+
+                        user.getListenable().listen(currentType, user);
+
                         currentType.setSecondsGone(Math.abs(user.getRemainingTime()));
                         user.setRemainingTime(currentType.getDuration()
                                 - currentType.getSecondsGone());
@@ -303,6 +319,8 @@ public class User {
 
                     currentType = newSong;
 
+                    user.getListenable().listen(currentType, user);
+
 //                if repeat current song we won't change the currentType
                 } else if (user.getRepeatStatus() != 2) {
                     if (playlist.getSongList().size() - 1 > indexSong) {
@@ -311,6 +329,8 @@ public class User {
 
                         newSong = playlist.getSongList().get(indexSong + 1);
                         currentType = newSong;
+
+                        user.getListenable().listen(currentType, user);
                     } else {
                         break;
                     }
@@ -366,6 +386,9 @@ public class User {
                 if (user.getCurrentPlaylist().getSongList().get(index).
                         getName().equals(user.getSelectedName())) {
                     currentType = user.getCurrentPlaylist().getSongList().get(0);
+
+                    user.getListenable().listen(user.getCurrentType(), user);
+
                     currentType.setSecondsGone(currentType.getDuration()
                             + currentType.getSecondsGone());
                 }
@@ -925,5 +948,23 @@ public class User {
      */
     public void setSelectedPageOwner(final String selectedPageOwner) {
         this.selectedPageOwner = selectedPageOwner;
+    }
+
+//    Stage 3 getter and setters:
+
+    /**
+     * get the listenable
+     * @return the listenable
+     */
+    public ListenCounterDecorator getListenable() {
+        return listenable;
+    }
+
+    /**
+     * set the listenable
+     * @param listenable the listenable
+     */
+    public void setListenable(final ListenCounterDecorator listenable) {
+        this.listenable = listenable;
     }
 }

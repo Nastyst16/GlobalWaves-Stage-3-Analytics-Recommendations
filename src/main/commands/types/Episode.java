@@ -7,6 +7,7 @@ public class Episode implements Type {
     private int duration;
     private String description;
     private int secondsGone;
+    private int numberOfListens;
 
     /**
      * default constructor
@@ -16,6 +17,7 @@ public class Episode implements Type {
         this.name = null;
         this.duration = 0;
         this.description = null;
+        this.numberOfListens = 0;
     }
 
     public Episode(final String name, final int duration, final String description) {
@@ -40,6 +42,11 @@ public class Episode implements Type {
      */
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void listen() {
+
     }
 
     /**
@@ -105,5 +112,21 @@ public class Episode implements Type {
     @Override
     public void execute() {
 
+    }
+
+    /**
+     * get number of listens
+     * @return
+     */
+    public int getNumberOfListens() {
+        return numberOfListens;
+    }
+
+    /**
+     * add listen
+     */
+    @Override
+    public void addListen() {
+        numberOfListens++;
     }
 }
