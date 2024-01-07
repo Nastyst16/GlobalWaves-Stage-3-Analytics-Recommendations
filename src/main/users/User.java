@@ -61,7 +61,6 @@ public class User {
     private Song searchedSong;
     private boolean premium = false;
 
-
     public User(final String username, final int age, final String city,
                 final ArrayList<Song> everySong, final ArrayList<Podcast> everyPodcast) {
         this.username = username;
@@ -367,14 +366,14 @@ public class User {
     private void loadedSongOrPodcast(final User user, final Type type) {
         Type currentType = type;
 
-        if (type instanceof Song) {
-            if (((Song) type).getAlbum().equals("Out of Sight")
-                    && user.getUsername().equals("jack29")) {
-                int x = 5;
-//                printing the song
-                System.out.println("Song: " + type.getName());
-            }
-        }
+//        if (type instanceof Song) {
+//            if (((Song) type).getAlbum().equals("Out of Sight")
+//                    && user.getUsername().equals("jack29")) {
+//                int x = 5;
+////                printing the song
+//                System.out.println("Song: " + type.getName());
+//            }
+//        }
 
 
 

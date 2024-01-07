@@ -16,13 +16,13 @@ import main.users.User;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import static net.sf.saxon.query.QueryResult.serialize;
+
 public class Wrapped implements Command {
     private final String command;
     private final String user;
     private final int timestamp;
-    private final Map<String, Object> result = new LinkedHashMap<>();
-
-
+    private Map<String, Object> result = new LinkedHashMap<>();
 
     /**
      * executes the command
@@ -57,6 +57,11 @@ public class Wrapped implements Command {
 
 //        deep copying the songs
         for (Song s : currUser.getEverySong()) {
+
+            if (s.getNumberOfListens() == 0) {
+                continue;
+            }
+
             mostListenedSongs.add(new Song(s.getName(), s.getDuration(), s.getAlbum(), s.getTags(),
                     s.getLyrics(), s.getGenre(), s.getReleaseYear(), s.getArtist()));
         }
@@ -119,12 +124,17 @@ public class Wrapped implements Command {
 
         for (Podcast p : currUser.getEveryPodcast()) {
             for (Episode e : p.getEpisodesList()) {
+
+                if (e.getNumberOfListens() == 0) {
+                    continue;
+                }
+
                 mostListenedEpisodes.add(new Episode(e.getName(), e.getDuration(), e.getDescription()));
             }
         }
 
         for (Artist a : Artists.getArtists()) {
-            mostListenedArtists.add(a);
+            mostListenedArtists.add(new Artist(a));
         }
 
 //        putting the number of listens for each artist
@@ -143,7 +153,8 @@ public class Wrapped implements Command {
 //        most listened genres based on the songs listened
         Map<String, Integer> tmpTopGenres = new LinkedHashMap<>();
         for (Song s : currUser.getEverySong()) {
-            if (s.getName().equalsIgnoreCase("ad break")) {
+            if (s.getName().equalsIgnoreCase("ad break")
+                || s.getNumberOfListens() == 0) {
                 continue;
             }
 
@@ -208,7 +219,25 @@ public class Wrapped implements Command {
             return o2.getNumberOfListens() - o1.getNumberOfListens();
         });
 
+//        removing the artists with 0 listens
+        for (int i = 0; i < mostListenedArtists.size(); i++) {
+            if (mostListenedArtists.get(i).getNumberOfListens() == 0) {
+                mostListenedArtists.remove(i);
+                i--;
+            }
+        }
 
+        if (mostListenedArtists.size() == 0
+            && tmpTopGenres.size() == 0
+            && mostListenedSongs.size() == 0
+            && mostListenedAlbums.size() == 0
+            && mostListenedEpisodes.size() == 0) {
+//            this.result.put("message", "No data to show for user " + currUser.getUsername() + ".");
+
+            result = null;
+
+            return;
+        }
 
 
         Map<String, Object> topArtists = new LinkedHashMap<>();
@@ -426,5 +455,4 @@ public class Wrapped implements Command {
     public Map<String, Object> getResult() {
         return result;
     }
-
 }

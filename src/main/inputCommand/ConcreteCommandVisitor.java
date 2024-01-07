@@ -1,6 +1,7 @@
 package main.inputCommand;
 
 import main.SearchBar;
+import main.commands.Subscribe;
 import main.commands.monetization.BuyPremium;
 import main.commands.monetization.CancelPremium;
 import main.commands.pageSystem.ChangePage;
@@ -405,5 +406,21 @@ public class ConcreteCommandVisitor implements CommandVisitor {
     @Override
     public void visit(final CancelPremium cancelPremium) {
         cancelPremium.execute(user);
+    }
+
+    /**
+     * @param wrappedMessage
+     */
+    @Override
+    public void visit(final WrappedMessage wrappedMessage) {
+        wrappedMessage.execute(user, artist, host);
+    }
+
+    /**
+     * @param subscribe - the command to be executed
+     */
+    @Override
+    public void visit(final Subscribe subscribe) {
+        subscribe.execute(user);
     }
 }

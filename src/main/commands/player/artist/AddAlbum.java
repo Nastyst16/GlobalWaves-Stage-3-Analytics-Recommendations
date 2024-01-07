@@ -121,18 +121,18 @@ public class AddAlbum implements Command {
             }
         }
 
-//        sorting the songs on the criteria: the albums that contains "th" in their name
-//        will be last
-        for (User u : Users.getUsers()) {
-            for (int i = 0; i < u.getEverySong().size(); ++i) {
-                for (int j = i + 1; j < u.getEverySong().size(); ++j) {
-                    if (u.getEverySong().get(i).getAlbum().contains("th")
-                            && !u.getEverySong().get(j).getAlbum().contains("th")) {
-                        Collections.swap(u.getEverySong(), i, j);
-                    }
-                }
-            }
-        }
+////        sorting the songs on the criteria: the albums that contains "th" in their name
+////        will be last
+//        for (User u : Users.getUsers()) {
+//            for (int i = 0; i < u.getEverySong().size(); ++i) {
+//                for (int j = i + 1; j < u.getEverySong().size(); ++j) {
+//                    if (u.getEverySong().get(i).getAlbum().contains("th ")
+//                            && !u.getEverySong().get(j).getAlbum().contains("th ")) {
+//                        Collections.swap(u.getEverySong(), i, j);
+//                    }
+//                }
+//            }
+//        }
 
         Albums.addAlbum(new Album(this.user, this.name, this.releaseYear,
                 this.description, this.albumSongs));

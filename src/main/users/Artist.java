@@ -15,6 +15,7 @@ public class Artist {
     private final ArrayList<Event> events;
     private final ArrayList<Merch> merchandise;
     private int numberOfListens = 0;
+    private ArrayList<User> subscribers = new ArrayList<>();
 
 
     public Artist(Artist artist) {
@@ -107,4 +108,24 @@ public class Artist {
         this.numberOfListens += newListens;
     }
 
+    /**
+     * gets the subscribers of the artist
+     */
+    public ArrayList<User> getSubscribers() {
+        return subscribers;
+    }
+
+    /**
+     * adds a subscriber to the artist
+     */
+    public void addSubscriber(User user) {
+        subscribers.add(user);
+    }
+
+    /**
+     * removes a subscriber from the artist
+     */
+    public void removeSubscriber(User user) {
+        subscribers.remove(user);
+    }
 }

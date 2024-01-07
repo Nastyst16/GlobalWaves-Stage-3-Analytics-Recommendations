@@ -15,6 +15,7 @@ import main.collections.Hosts;
 import main.collections.Playlists;
 import main.collections.Podcasts;
 import main.collections.Songs;
+import main.commands.Subscribe;
 import main.commands.monetization.BuyPremium;
 import main.commands.monetization.CancelPremium;
 import main.commands.pageSystem.ChangePage;
@@ -165,6 +166,10 @@ public final class Main {
                 int pula = 6;
             }
 
+            if (input.getTimestamp() == 242) {
+                int pula = 6;
+            }
+
 
             if (input.getCommand().equals("select")) {
                 int x = 5;
@@ -225,6 +230,7 @@ public final class Main {
                 case "wrapped":             commands.add(new Wrapped(input));                break;
                 case "buyPremium":          commands.add(new BuyPremium(input));             break;
                 case "cancelPremium":       commands.add(new CancelPremium(input));          break;
+                case "subscribe":           commands.add(new Subscribe(input));              break;
 
 
 
@@ -241,6 +247,16 @@ public final class Main {
             }
 
             commands.get(index).accept(executor);
+
+            if (commands.get(index) instanceof Wrapped) {
+                if (((Wrapped)commands.get(index)).getResult() == null) {
+                    int idx = index;
+                    commands.add(new WrappedMessage(input));
+                    commands.get(idx + 1).accept(executor);
+                    commands.remove(idx);
+                }
+            }
+
 
             if (countListen && user.getCurrentType() != null) {
                 user.getListenable().listen(user.getCurrentType(), user);

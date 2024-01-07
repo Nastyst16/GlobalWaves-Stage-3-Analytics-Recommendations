@@ -1,11 +1,7 @@
 package main.commands.searchBar;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import main.collections.Albums;
-import main.collections.Artists;
-import main.collections.Hosts;
-import main.collections.Playlists;
-import main.collections.Podcasts;
+import main.collections.*;
 import main.commands.types.*;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
@@ -82,7 +78,7 @@ public class Search implements Command {
      * searching by song type
      * @param songs every song
      */
-    public void searchingBySongType(final ArrayList<Song> songs) {
+    public void searchingBySongType(final ArrayList<Song> songs, User currUser) {
         String songPrefix = (String) (filters.get("name"));
         if (songPrefix != null) {
             songPrefix = songPrefix.toLowerCase();
@@ -124,6 +120,25 @@ public class Search implements Command {
         String artist = (String) (filters.get("artist"));
 
         ArrayList<String> result = new ArrayList<>();
+
+////        shallow copy of the user's songs
+//        ArrayList<Song> userSongsCopy = new ArrayList<>();
+//        for (Song song : currUser.getEverySong()) {
+//            userSongsCopy.add(song);
+//        }
+//
+////        sorting the songs on the criteria: the albums that contains "th" in their name
+////        will be last
+//        for (int i = 0; i < userSongsCopy.size(); ++i) {
+//            for (int j = i + 1; j < userSongsCopy.size(); ++j) {
+//                if (userSongsCopy.get(i).getAlbum().contains("th ")
+//                        && !userSongsCopy.get(j).getAlbum().contains("th ")) {
+//                    Collections.swap(userSongsCopy, i, j);
+//                }
+//            }
+//        }
+
+
 
         for (Song song : songs) {
             String songLyrics = song.getLyrics().toLowerCase();
@@ -285,7 +300,7 @@ public class Search implements Command {
 
 //                if only type is songs:
         if (this.type.equals("song")) {
-            this.searchingBySongType(currUser.getEverySong());
+            this.searchingBySongType(currUser.getEverySong(), currUser);
             currUser.setTypeFoundBySearch(0);
             currUser.setSearchedSong(this.resultsType);
         }

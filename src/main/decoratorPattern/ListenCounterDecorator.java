@@ -1,8 +1,10 @@
 package main.decoratorPattern;
 
 import main.collections.Albums;
+import main.collections.Artists;
 import main.collections.Songs;
 import main.commands.types.*;
+import main.users.Artist;
 import main.users.User;
 
 import java.util.ArrayList;
@@ -30,14 +32,14 @@ public class ListenCounterDecorator {
 //    @Override
     public void listen(Type type, User user) {
 
-        if (type instanceof Song) {
-            if (((Song) type).getAlbum().equalsIgnoreCase("the 50th anniversary collection")
-                    && user.getUsername().equals("jack29")) {
-                int x = 5;
-//                printing the song
-                System.out.println("Song: " + type.getName());
-            }
-        }
+//        if (type instanceof Song) {
+//            if (((Song) type).getAlbum().equalsIgnoreCase("the 50th anniversary collection")
+//                    && user.getUsername().equals("jack29")) {
+//                int x = 5;
+////                printing the song
+//                System.out.println("Song: " + type.getName());
+//            }
+//        }
 
 //                searching the song
         for (Song s : user.getEverySong()) {
@@ -50,6 +52,15 @@ public class ListenCounterDecorator {
 
 
                 s.addListen();
+
+//                addlisten to artist
+                for (Artist a : Artists.getArtists()) {
+                    if (a.getUsername().equals(s.getArtist())) {
+                        a.addListen();
+                        break;
+                    }
+                }
+
 //                adding the listen to the album
                 boolean found = false;
 
