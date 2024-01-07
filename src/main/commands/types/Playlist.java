@@ -10,6 +10,7 @@ public class Playlist {
     private final String user;
     private final ArrayList<Song> songList;
     private final ArrayList<String> songs;
+    protected int numberOfListens = 0;
 
     private String visibility;
     private int followers;

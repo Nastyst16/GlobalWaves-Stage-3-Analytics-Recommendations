@@ -1,8 +1,6 @@
 package main.decoratorPattern;
 
-import main.commands.types.Podcast;
-import main.commands.types.Song;
-import main.commands.types.Type;
+import main.commands.types.*;
 import main.users.User;
 
 import java.util.ArrayList;
@@ -35,29 +33,37 @@ public class ListenCounterDecorator {
         for (Song s : user.getEverySong()) {
             if (s.getName().equals(type.getName())) {
                 s.addListen();
+//                adding the listen to the album
+                for (Album a : user.getEveryAlbum()) {
+                    if (a.getName().equals(s.getAlbum())) {
+                        a.addListen();
+                    }
+                }
                 break;
             }
         }
 
-//                searching the podcast
+////                searching the podcast
+//        for (Podcast p : user.getEveryPodcast()) {
+//            if (p.getName().equals(user.getCurrentType().getName())) {
+//                p.addListen();
+//            }
+//        }
+
+//                searching the episode
         for (Podcast p : user.getEveryPodcast()) {
-            if (p.getName().equals(user.getCurrentType().getName())) {
-                p.addListen();
+            for (Episode e : p.getEpisodesList()) {
+                if (e.getName().equals(user.getCurrentType().getName())) {
+                    e.addListen();
+                }
             }
         }
 
-////                searching the episode
-//                for (Episode e : user) {
-//                    if (e.getName().equals(user.getCurrentType().getName())) {
-//                        e.addListen();
-//                    }
-//                }
-
-        int pula = 5;
 
 
 
 
+        int x = 5;
 
 
 

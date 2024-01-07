@@ -2,14 +2,11 @@ package main.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import main.collections.Albums;
 import main.collections.Songs;
 import main.commands.searchBar.Search;
 import main.commands.searchBar.Select;
-import main.commands.types.Episode;
-import main.commands.types.Podcast;
-import main.commands.types.Song;
-import main.commands.types.Playlist;
-import main.commands.types.Type;
+import main.commands.types.*;
 import main.decoratorPattern.ListenCounterDecorator;
 import main.decoratorPattern.Listenable;
 
@@ -58,6 +55,7 @@ public class User {
 
 //    Stage 3 variables
     private ListenCounterDecorator listenable;
+    private ArrayList<Album> everyAlbum;
 
 
     public User(final String username, final int age, final String city,
@@ -122,6 +120,15 @@ public class User {
 
 //        Stage 3:
         listenable = new ListenCounterDecorator();
+
+//        copy the albums
+        this.everyAlbum = new ArrayList<>();
+        for (Album album : Albums.getAlbums()) {
+            Album copyAlbum = new Album(album.getUser(), album.getName(), album.getReleaseYear(),
+                    album.getDescription(), album.getAlbumSongs());
+
+            this.everyAlbum.add(copyAlbum);
+        }
     }
 
 
@@ -967,4 +974,13 @@ public class User {
     public void setListenable(final ListenCounterDecorator listenable) {
         this.listenable = listenable;
     }
+
+    /**
+     * get the everyAlbum
+     * @return the everyAlbum
+     */
+    public ArrayList<Album> getEveryAlbum() {
+        return everyAlbum;
+    }
+
 }

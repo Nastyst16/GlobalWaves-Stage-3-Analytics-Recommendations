@@ -14,6 +14,17 @@ public class Artist {
     private final ArrayList<Album> albums;
     private final ArrayList<Event> events;
     private final ArrayList<Merch> merchandise;
+    private int numberOfListens = 0;
+
+
+    public Artist(Artist artist) {
+        this.username = artist.username;
+        this.age = artist.age;
+        this.city = artist.city;
+        this.albums = artist.albums;
+        this.events = artist.events;
+        this.merchandise = artist.merchandise;
+    }
 
     public Artist(final String username, final int age, final String city) {
         this.username = username;
@@ -73,4 +84,27 @@ public class Artist {
     public ArrayList<Merch> getMerchandise() {
         return merchandise;
     }
+
+    /**
+     * gets the number of listens of the artist
+     * @return the number of listens of the artist
+     */
+    public int getNumberOfListens() {
+        return numberOfListens;
+    }
+
+    /**
+     * add one listen
+     */
+    public void addListen() {
+        numberOfListens++;
+    }
+
+    /**
+     * adding likes to the artist
+     */
+    public void addNumberOfListens(int newListens) {
+        this.numberOfListens += newListens;
+    }
+
 }

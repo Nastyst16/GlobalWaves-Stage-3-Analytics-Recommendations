@@ -98,6 +98,12 @@ public class AddAlbum implements Command {
         Albums.addAlbum(new Album(this.user, this.name, this.releaseYear,
                 this.description, this.albumSongs));
 
+        for (User u : Users.getUsers()) {
+            u.getEveryAlbum().add(new Album(this.user, this.name, this.releaseYear,
+                    this.description, this.albumSongs));
+        }
+
+
         artist.getAlbums().add(Albums.getAlbums().
                 get(Albums.getAlbums().size() - 1));
         this.setMessage(this.user + " has added new album successfully.");

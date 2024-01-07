@@ -221,7 +221,7 @@ public final class Main {
                 continue;
             }
 
-            if (input.getTimestamp() == 1255) {
+            if (input.getTimestamp() == 5683) {
                 int x = 5;
             }
 

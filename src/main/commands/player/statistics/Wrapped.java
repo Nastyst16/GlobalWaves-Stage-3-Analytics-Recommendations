@@ -1,11 +1,9 @@
 package main.commands.player.statistics;
 
 import main.SearchBar;
+import main.collections.Artists;
 import main.commands.searchBar.Search;
-import main.commands.types.Episode;
-import main.commands.types.Podcast;
-import main.commands.types.Song;
-import main.commands.types.Type;
+import main.commands.types.*;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.users.Artist;
@@ -13,13 +11,14 @@ import main.users.Host;
 import main.users.User;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Wrapped implements Command {
     private final String command;
     private final String user;
     private final int timestamp;
-    private final ArrayList<String> result = new ArrayList<>();
+    private final Map<String, Object> result = new LinkedHashMap<>();
+
 
 
     /**
@@ -47,21 +46,68 @@ public class Wrapped implements Command {
 
 
 //        printing the most 5 listened songs
+        ArrayList<Artist> mostListenedArtists = new ArrayList<>();
         ArrayList<Song> mostListenedSongs = new ArrayList<>();
+        ArrayList<Album> mostListenedAlbums = new ArrayList<>();
         ArrayList<Episode> mostListenedEpisodes = new ArrayList<>();
-        ArrayList<Podcast> mostListenedPodcasts = new ArrayList<>();
+
 
         for (Type t : currUser.getEverySong()) {
             mostListenedSongs.add((Song) t);
         }
 
-//        for (Type t : currUser.getEveryEpisode()) {
-//            mostListenedEpisodes.add((Episode) t);
-//        }
-
-        for (Type t : currUser.getEveryPodcast()) {
-            mostListenedPodcasts.add((Podcast) t);
+        for (Album a : currUser.getEveryAlbum()) {
+            mostListenedAlbums.add(a);
         }
+
+        for (Podcast p : currUser.getEveryPodcast()) {
+            for (Episode e : p.getEpisodesList()) {
+                mostListenedEpisodes.add(e);
+            }
+        }
+
+        for (Artist a : Artists.getArtists()) {
+            mostListenedArtists.add(a);
+        }
+
+//        putting the number of listens for each artist
+        for (Artist a : mostListenedArtists) {
+            for (Song s : mostListenedSongs) {
+                if (s.getArtist().equals(a.getUsername())) {
+                    a.addNumberOfListens(s.getNumberOfListens());
+                }
+            }
+        }
+
+
+
+//        most listened genres based on the songs listened
+        Map<String, Integer> tmpTopGenres = new LinkedHashMap<>();
+        for (Song s : mostListenedSongs) {
+
+            if (s.getName().equals("Ad Break") || s.getNumberOfListens() == 0) {
+                continue;
+            }
+
+            if (tmpTopGenres.containsKey(s.getGenre())) {
+                tmpTopGenres.put(s.getGenre(), tmpTopGenres.get(s.getGenre()) + s.getNumberOfListens());
+            } else {
+                tmpTopGenres.put(s.getGenre(), s.getNumberOfListens());
+            }
+        }
+
+
+//        sorting the artists
+        mostListenedArtists.sort((o1, o2) -> {
+            if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
+                return o1.getUsername().compareTo(o2.getUsername());
+            }
+
+            return o2.getNumberOfListens() - o1.getNumberOfListens();
+        });
+
+//        sorting the genres by number of listens
+        tmpTopGenres = sortMapByValueDesc(tmpTopGenres);
 
 
 
@@ -74,17 +120,17 @@ public class Wrapped implements Command {
             return o2.getNumberOfListens() - o1.getNumberOfListens();
         });
 
-////        sorting the episodes
-//        mostListenedEpisodes.sort((o1, o2) -> {
-//            if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
-//                return o1.getName().compareTo(o2.getName());
-//            }
-//
-//            return o2.getNumberOfListens() - o1.getNumberOfListens();
-//        });
+//        sorting the albums
+        mostListenedAlbums.sort((o1, o2) -> {
+            if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
+                return o1.getName().compareTo(o2.getName());
+            }
 
-//        sorting the podcasts
-        mostListenedPodcasts.sort((o1, o2) -> {
+            return o2.getNumberOfListens() - o1.getNumberOfListens();
+        });
+
+//        sorting the episodes
+        mostListenedEpisodes.sort((o1, o2) -> {
             if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
                 return o1.getName().compareTo(o2.getName());
             }
@@ -94,25 +140,61 @@ public class Wrapped implements Command {
 
 
 
+
+        Map<String, Object> topArtists = new LinkedHashMap<>();
+        Map<String, Object> topGenres = new LinkedHashMap<>();
+        Map<String, Object> topSongs = new LinkedHashMap<>();
+        Map<String, Object> topAlbums = new LinkedHashMap<>();
+        Map<String, Object> topEpisodes = new LinkedHashMap<>();
+
+
         for (int i = 0; i < 5; i++) {
-            if (i < mostListenedSongs.size()) {
-                result.add(mostListenedSongs.get(i).getName());
+            if (i < mostListenedArtists.size() && mostListenedArtists.get(i).getNumberOfListens() != 0) {
+                topArtists.put(mostListenedArtists.get(i).getUsername(), mostListenedArtists.get(i).getNumberOfListens());
+            }
+
+            if (i == 0 && tmpTopGenres.size() != 0) {
+
+                Map.Entry<String, Integer> firstEntry = tmpTopGenres.entrySet().iterator().next();
+
+                topGenres.put(firstEntry.getKey(), firstEntry.getValue());
+            }
+
+            if (i < mostListenedSongs.size() && mostListenedSongs.get(i).getNumberOfListens() != 0) {
+                topSongs.put(mostListenedSongs.get(i).getName(), mostListenedSongs.get(i).getNumberOfListens());
+            }
+
+            if (i < mostListenedAlbums.size() && mostListenedAlbums.get(i).getNumberOfListens() != 0) {
+                topAlbums.put(mostListenedAlbums.get(i).getName(), mostListenedAlbums.get(i).getNumberOfListens());
+            }
+
+            if (i < mostListenedEpisodes.size() && mostListenedEpisodes.get(i).getNumberOfListens() != 0) {
+                topEpisodes.put(mostListenedEpisodes.get(i).getName(), mostListenedEpisodes.get(i).getNumberOfListens());
             }
         }
 
-//        for (int i = 0; i < 5; i++) {
-//            if (i < mostListenedEpisodes.size()) {
-//                result.add(mostListenedEpisodes.get(i).getName());
-//            }
-//        }
-//
-//        for (int i = 0; i < 5; i++) {
-//            if (i < mostListenedPodcasts.size()) {
-//                result.add(mostListenedPodcasts.get(i).getName());
-//            }
-//        }
 
 
+        result.put("topArtists", topArtists);
+        result.put("topGenres", topGenres);
+        result.put("topSongs", topSongs);
+        result.put("topAlbums", topAlbums);
+        result.put("topEpisodes", topEpisodes);
+    }
+
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValueDesc(Map<K, V> map) {
+        List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
+
+        // Sortăm lista descrescător
+        list.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
+
+        // Construim un nou LinkedHashMap bazat pe lista sortată
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Map.Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
     }
 
     private void wrappedArtist(Artist currArtist) {
@@ -149,7 +231,7 @@ public class Wrapped implements Command {
         return timestamp;
     }
 
-    public ArrayList<String> getResult() {
+    public Map<String, Object> getResult() {
         return result;
     }
 
