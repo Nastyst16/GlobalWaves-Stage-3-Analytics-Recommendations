@@ -58,6 +58,7 @@ public class User {
 //    Stage 3 variables
     private ListenCounterDecorator listenable;
     private ArrayList<Album> everyAlbum;
+    private Song searchedSong;
 
 
     public User(final String username, final int age, final String city,
@@ -131,6 +132,7 @@ public class User {
 
             this.everyAlbum.add(copyAlbum);
         }
+
     }
 
 
@@ -253,7 +255,7 @@ public class User {
 
                 currentType = newEpisode;
 
-                user.getListenable().listen(currentType, user);
+//                user.getListenable().listen(currentType, user);
 
                 currentType.setSecondsGone(Math.abs(user.getRemainingTime()));
 
@@ -287,7 +289,7 @@ public class User {
 
                     currentType = user.getCurrentPlaylist().getSongList().get(0);
 
-                    user.getListenable().listen(currentType, user);
+//                    user.getListenable().listen(currentType, user);
 
                     currentType.setSecondsGone(secsGone);
                     user.setRemainingTime(currentType.getDuration() - currentType.getSecondsGone());
@@ -308,7 +310,7 @@ public class User {
                         int firstIndex = user.getShuffledIndices().get(0);
                         currentType = user.getCurrentPlaylist().getSongList().get(firstIndex);
 
-                        user.getListenable().listen(currentType, user);
+//                        user.getListenable().listen(currentType, user);
 
                         currentType.setSecondsGone(Math.abs(user.getRemainingTime()));
                         user.setRemainingTime(currentType.getDuration()
@@ -328,7 +330,7 @@ public class User {
 
                     currentType = newSong;
 
-                    user.getListenable().listen(currentType, user);
+//                    user.getListenable().listen(currentType, user);
 
 //                if repeat current song we won't change the currentType
                 } else if (user.getRepeatStatus() != 2) {
@@ -396,7 +398,7 @@ public class User {
                         getName().equals(user.getSelectedName())) {
                     currentType = user.getCurrentPlaylist().getSongList().get(0);
 
-                    user.getListenable().listen(user.getCurrentType(), user);
+//                    user.getListenable().listen(user.getCurrentType(), user);
 
                     currentType.setSecondsGone(currentType.getDuration()
                             + currentType.getSecondsGone());
@@ -991,5 +993,13 @@ public class User {
 
     public void setSelectedAlbum(String selectedAlbum) {
         this.selectedAlbum = selectedAlbum;
+    }
+
+    public Song getSearchedSong() {
+        return searchedSong;
+    }
+
+    public void setSearchedSong(Song searchedSong) {
+        this.searchedSong = searchedSong;
     }
 }

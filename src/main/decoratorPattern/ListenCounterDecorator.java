@@ -1,6 +1,7 @@
 package main.decoratorPattern;
 
 import main.collections.Albums;
+import main.collections.Songs;
 import main.commands.types.*;
 import main.users.User;
 
@@ -30,30 +31,25 @@ public class ListenCounterDecorator {
     public void listen(Type type, User user) {
 
 
+
 //                searching the song
         for (Song s : user.getEverySong()) {
-            if (s.getName().equals(type.getName())) {
+            if (s.getName().equals(type.getName())
+                && s.getAlbum().equals(((Song)type).getAlbum())) {
 
-                if (user.getCurrentPlaylist() != null)
-                    if (!s.getAlbum().equals(user.getCurrentPlaylist().getName()))
-                        continue;
+//                if (user.getCurrentPlaylist() != null)
+//                    if (!s.getAlbum().equals(user.getCurrentPlaylist().getName()))
+//                        continue;
+
 
                 s.addListen();
 //                adding the listen to the album
                 for (Album a : Albums.getAlbums()) {
 
-                    if (s.getAlbum().equals("Chuck Berry Is On Top")) {
-                        int x = 5;
-                    }
 
                     if (!s.getAlbum().equals(a.getName()))
                         continue;
 
-//                    if (a.getName().equals(s.getAlbum())
-//                        && a.getReleaseYear() == s.getReleaseYear()) {
-//                        a.addListen();
-//                        break;
-//                    }
                     for (Song song : a.getSongList()) {
 
                         if (song.getName().equals(s.getName())) {
@@ -65,6 +61,14 @@ public class ListenCounterDecorator {
                 break;
             }
         }
+
+        for (Song s : Songs.getSongs()) {
+            if (s.getName().equals(type.getName())
+                    && s.getAlbum().equals(((Song)type).getAlbum())) {
+                s.addListen();
+            }
+        }
+
 
 ////                searching the podcast
 //        for (Podcast p : user.getEveryPodcast()) {

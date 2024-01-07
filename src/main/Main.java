@@ -149,9 +149,16 @@ public final class Main {
             executor.setExecutor(commands, input, user, artist, host);
 
 
-            if (input.getTimestamp() == 12427) {
+            if (input.getTimestamp() == 833559) {
                 int x = 5;
             }
+
+            if (user != null)
+            if (user.getCurrentType() != null)
+            if (user.getCurrentType().getName().equalsIgnoreCase("pet sounds")) {
+                int x = 5;
+            }
+
 
             if (input.getCommand().equals("select")) {
                 int x = 5;
@@ -166,9 +173,7 @@ public final class Main {
             switch (command) {
                 case "search":              commands.add(new Search(input));                 break;
                 case "select":              commands.add(new Select(input));                 break;
-                case "load":                commands.add(new Load(input));
-                                            countListen = true;
-                break;
+                case "load":                commands.add(new Load(input));countListen = true;break;
                 case "playPause":           commands.add(new PlayPause(input));              break;
                 case "repeat":              commands.add(new Repeat(input));                 break;
                 case "status":              commands.add(new Status(input));                 break;

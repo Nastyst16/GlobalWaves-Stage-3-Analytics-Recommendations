@@ -6,14 +6,11 @@ import main.collections.Artists;
 import main.collections.Hosts;
 import main.collections.Playlists;
 import main.collections.Podcasts;
+import main.commands.types.*;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.users.User;
-import main.commands.types.Album;
-import main.commands.types.Playlist;
-import main.commands.types.Podcast;
-import main.commands.types.Song;
 import main.users.Artist;
 import main.users.Host;
 
@@ -29,6 +26,8 @@ public class Search implements Command {
 
     private String message;
     private ArrayList<String> results;
+    @JsonIgnore
+    private Song resultsType;
     @JsonIgnore
     private ArrayList<String> resultsAlbum;
     private static final int MAX_SIZE = 5;
@@ -142,6 +141,8 @@ public class Search implements Command {
                     || (operator.equals("=") && song.getReleaseYear() == targetYear))) {
                 result.add(song.getName());
                 resultsAlbum.add(song.getAlbum());
+
+                resultsType = song;
             }
 
 //            maximum size of 5
@@ -286,6 +287,7 @@ public class Search implements Command {
         if (this.type.equals("song")) {
             this.searchingBySongType(currUser.getEverySong());
             currUser.setTypeFoundBySearch(0);
+            currUser.setSearchedSong(this.resultsType);
         }
 
 //                if only type is podcasts:

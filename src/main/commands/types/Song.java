@@ -260,4 +260,11 @@ public class Song implements Type {
 
         return null;
     }
+
+    /**
+     * add number of listeners
+     */
+    public void addNumberOfListeners(int nr) {
+        numberOfListens += nr;
+    }
 }

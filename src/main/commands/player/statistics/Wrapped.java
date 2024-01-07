@@ -55,12 +55,31 @@ public class Wrapped implements Command {
         ArrayList<Episode> mostListenedEpisodes = new ArrayList<>();
 
 
-        for (Type t : currUser.getEverySong()) {
+        for (Song t : currUser.getEverySong()) {
+
+            boolean exists = false;
+//            verifying if a song with the same name exists:
+            for (Song s : mostListenedSongs) {
+
+                if (s.getName().equals(t.getName())) {
+                    s.addNumberOfListeners(t.getNumberOfListens());
+                    exists = true;
+                    break;
+                }
+
+            }
+            if (exists) {
+                continue;
+            }
+
             mostListenedSongs.add((Song) t);
+
         }
 
-        for (Album a : currUser.getEveryAlbum()) {
-            mostListenedAlbums.add(a);
+        for (Artist artist : Artists.getArtists()) {
+            for (Album album : artist.getAlbums()) {
+                mostListenedAlbums.add(album);
+            }
         }
 
         for (Podcast p : currUser.getEveryPodcast()) {
@@ -75,22 +94,20 @@ public class Wrapped implements Command {
 
 //        putting the number of listens for each artist
         for (Artist a : mostListenedArtists) {
-            for (Song s : mostListenedSongs) {
-                if (s.getArtist().equals(a.getUsername())) {
-                    a.addNumberOfListens(s.getNumberOfListens());
-                }
+
+            for (Album album : a.getAlbums()) {
+                a.addNumberOfListens(album.getNumberOfListens());
             }
         }
 
 
-
 //        most listened genres based on the songs listened
         Map<String, Integer> tmpTopGenres = new LinkedHashMap<>();
-        for (Song s : mostListenedSongs) {
-
-            if (s.getName().equals("Ad Break") || s.getNumberOfListens() == 0) {
+        for (Song s : currUser.getEverySong()) {
+            if (s.getName().equalsIgnoreCase("ad break")) {
                 continue;
             }
+
 
             if (tmpTopGenres.containsKey(s.getGenre())) {
                 tmpTopGenres.put(s.getGenre(), tmpTopGenres.get(s.getGenre()) + s.getNumberOfListens());
@@ -100,13 +117,13 @@ public class Wrapped implements Command {
         }
 
 //        most listened albums
-        for (Album a : mostListenedAlbums) {
-            for (Song s : mostListenedSongs) {
-                if (s.getAlbum().equals(a.getName())) {
-                    a.addNumberOfListens(s.getNumberOfListens());
-                }
-            }
-        }
+//        for (Album a : mostListenedAlbums) {
+//            for (Song s : mostListenedSongs) {
+//                if (s.getAlbum().equals(a.getName())) {
+//                    a.addNumberOfListens(s.getNumberOfListens());
+//                }
+//            }
+//        }
 
 
 //        sorting the artists
@@ -167,11 +184,10 @@ public class Wrapped implements Command {
                 topArtists.put(mostListenedArtists.get(i).getUsername(), mostListenedArtists.get(i).getNumberOfListens());
             }
 
-            if (i == 0 && tmpTopGenres.size() != 0) {
+            if (i < tmpTopGenres.size() && tmpTopGenres.size() != 0) {
 
-                Map.Entry<String, Integer> firstEntry = tmpTopGenres.entrySet().iterator().next();
-
-                topGenres.put(firstEntry.getKey(), firstEntry.getValue());
+                topGenres.put((String) tmpTopGenres.keySet().toArray()[i],
+                        tmpTopGenres.get(tmpTopGenres.keySet().toArray()[i]));
             }
 
             if (i < mostListenedSongs.size() && mostListenedSongs.get(i).getNumberOfListens() != 0) {
