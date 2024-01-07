@@ -105,7 +105,7 @@ public class User {
 
 //        copy the songs
         this.everySong = new ArrayList<>();
-        for (Song song : everySong) {
+        for (Song song : Songs.getSongs()) {
             Song copySong = new Song(song.getName(), song.getDuration(), song.getAlbum(),
                     song.getTags(), song.getLyrics(), song.getGenre(),
                     song.getReleaseYear(), song.getArtist());

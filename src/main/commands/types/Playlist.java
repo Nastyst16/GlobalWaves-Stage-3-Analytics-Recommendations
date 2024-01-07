@@ -175,4 +175,20 @@ public class Playlist {
     public void decrementFollowers() {
         this.followers--;
     }
+
+    /**
+     * Gets the number of listeners
+     * @return the number of listeners
+     */
+    public int getNumberOfListeners() {
+        return numberOfListens;
+    }
+
+    /**
+     * Sets the number of listeners
+     * @param numberOfListens the number of listeners
+     */
+    public void addNumberOfListens(final int numberOfListens) {
+        this.numberOfListens += numberOfListens;
+    }
 }

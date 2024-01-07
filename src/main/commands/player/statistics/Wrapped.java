@@ -1,7 +1,10 @@
 package main.commands.player.statistics;
 
 import main.SearchBar;
+import main.collections.Albums;
 import main.collections.Artists;
+import main.collections.Songs;
+import main.collections.Users;
 import main.commands.searchBar.Search;
 import main.commands.types.*;
 import main.inputCommand.Command;
@@ -96,6 +99,15 @@ public class Wrapped implements Command {
             }
         }
 
+//        most listened albums
+        for (Album a : mostListenedAlbums) {
+            for (Song s : mostListenedSongs) {
+                if (s.getAlbum().equals(a.getName())) {
+                    a.addNumberOfListens(s.getNumberOfListens());
+                }
+            }
+        }
+
 
 //        sorting the artists
         mostListenedArtists.sort((o1, o2) -> {
@@ -112,6 +124,8 @@ public class Wrapped implements Command {
 
 
 //        sorting the songs
+        Collections.sort(mostListenedSongs, Comparator.comparing(Song::getName));
+
         mostListenedSongs.sort((o1, o2) -> {
             if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
                 return o1.getName().compareTo(o2.getName());
@@ -199,10 +213,138 @@ public class Wrapped implements Command {
 
     private void wrappedArtist(Artist currArtist) {
 
+        ArrayList<Album> mostListenedAlbums = new ArrayList<>();
+        ArrayList<Song> mostListenedSongs = new ArrayList<>();
+        ArrayList<String> fansWithMostListens = new ArrayList<>();
+        Map<String, Integer> tmpTopFans = new LinkedHashMap<>();
+        int listeners = 0;
+
+        for (Album a : Albums.getAlbums()) {
+            mostListenedAlbums.add(a);
+        }
+
+//        for (Song s : Songs.getSongs()) {
+//            if (s.getArtist().equals(currArtist.getUsername())) {
+//                mostListenedSongs.add(s);
+//            }
+//        }
+
+
+        Map<String, Integer> tmpTopSongs = new LinkedHashMap<>();
+        for (Song s : Songs.getSongs()) {
+            if (s.getArtist().equals(currArtist.getUsername())) {
+                tmpTopSongs.put(s.getName(), 0);
+                mostListenedSongs.add(s);
+            }
+        }
+
+//        putting in tmpTopFans every user
+        for (User u : Users.getUsers()) {
+            tmpTopFans.put(u.getUsername(), 0);
+        }
+
+        for (User u : Users.getUsers()) {
+            boolean listenedByThisUser = false;
+
+
+            for (Song s : u.getEverySong()) {
+                if (s.getArtist().equals(currArtist.getUsername()) && s.getNumberOfListens() != 0) {
+                    tmpTopFans.put(u.getUsername(), tmpTopFans.get(u.getUsername()) + s.getNumberOfListens());
+                    listenedByThisUser = true;
+
+//                    adding the number of listens to the song
+                    tmpTopSongs.put(s.getName(), (int) tmpTopSongs.get(s.getName()) + s.getNumberOfListens());
+                }
+            }
+
+            if (listenedByThisUser) {
+                listeners++;
+            }
+        }
+
+        tmpTopFans = sortMapByValueDesc(tmpTopFans);
+        tmpTopSongs = sortMapByKey(tmpTopSongs);
+        tmpTopSongs = sortMapByValueDesc(tmpTopSongs);
+
+//        sorting the albums
+        mostListenedAlbums.sort((o1, o2) -> {
+            if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
+                return o1.getName().compareTo(o2.getName());
+            }
+
+            return o2.getNumberOfListens() - o1.getNumberOfListens();
+        });
+
+        for (Map.Entry<String, Integer> entry : tmpTopFans.entrySet()) {
+            if (entry.getValue() != 0) {
+                fansWithMostListens.add(entry.getKey());
+            }
+        }
+
+        Map<String, Object> topFans = new LinkedHashMap<>();
+        Map<String, Object> topAlbums = new LinkedHashMap<>();
+
+        for (int i = 0; i < 5; i++) {
+            if (i < fansWithMostListens.size()) {
+                topFans.put(fansWithMostListens.get(i), tmpTopFans.get(fansWithMostListens.get(i)));
+            }
+
+            if (i < mostListenedAlbums.size() && mostListenedAlbums.get(i).getNumberOfListens() != 0) {
+                topAlbums.put(mostListenedAlbums.get(i).getName(), mostListenedAlbums.get(i).getNumberOfListens());
+            }
+        }
+
+//        putting topFans in "fansWithMostListens"
+        fansWithMostListens.clear();
+        for (Map.Entry<String, Object> entry : topFans.entrySet()) {
+            fansWithMostListens.add(entry.getKey());
+        }
+
+
+        Map<String, Object> topSongs = new LinkedHashMap<>();
+//        copying the top 5 songs
+        int i = 0;
+        for (Map.Entry<String, Integer> entry : tmpTopSongs.entrySet()) {
+            if (i == 5) {
+                break;
+            }
+
+            if (entry.getValue() == 0) {
+                i++;
+                continue;
+            }
+
+            topSongs.put(entry.getKey(), entry.getValue());
+            i++;
+        }
+
+
+
+
+        result.put("topAlbums", topAlbums);
+        result.put("topSongs", topSongs);
+        result.put("topFans", fansWithMostListens);
+        result.put("listeners", listeners);
     }
 
     private void wrappedHost(Host currHost) {
 
+    }
+
+    // Method to sort a Map alphabetically by keys
+    public static Map<String, Integer> sortMapByKey(Map<String, Integer> map) {
+        List<Map.Entry<String, Integer>> entryList = new LinkedList<>(map.entrySet());
+
+        // Sort the list alphabetically based on keys
+        entryList.sort(Map.Entry.comparingByKey());
+
+        // Construct a new LinkedHashMap based on the sorted list
+        Map<String, Integer> result = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : entryList) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
     }
 
 

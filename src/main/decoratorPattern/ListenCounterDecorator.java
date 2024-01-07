@@ -1,5 +1,6 @@
 package main.decoratorPattern;
 
+import main.collections.Albums;
 import main.commands.types.*;
 import main.users.User;
 
@@ -34,7 +35,7 @@ public class ListenCounterDecorator {
             if (s.getName().equals(type.getName())) {
                 s.addListen();
 //                adding the listen to the album
-                for (Album a : user.getEveryAlbum()) {
+                for (Album a : Albums.getAlbums()) {
                     if (a.getName().equals(s.getAlbum())) {
                         a.addListen();
                     }

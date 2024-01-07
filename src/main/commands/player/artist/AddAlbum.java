@@ -92,7 +92,15 @@ public class AddAlbum implements Command {
             Songs.addSong(song);
         }
         for (User u : Users.getUsers()) {
-            u.setEverySong(Songs.getSongs());
+//            u.setEverySong(Songs.getSongs());
+
+//            deep copy
+            u.setEverySong(new ArrayList<>());
+            for (Song s : Songs.getSongs()) {
+                u.getEverySong().add(new Song(s.getName(), s.getDuration(),
+                        s.getAlbum(), s.getTags(), s.getAlbum(),
+                        s.getGenre(), s.getReleaseYear(), s.getArtist()));
+            }
         }
 
         Albums.addAlbum(new Album(this.user, this.name, this.releaseYear,
