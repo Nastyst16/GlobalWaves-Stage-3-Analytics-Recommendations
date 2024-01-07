@@ -1,5 +1,7 @@
 package main.inputCommand;
 
+import main.commands.monetization.BuyPremium;
+import main.commands.monetization.CancelPremium;
 import main.commands.pageSystem.ChangePage;
 import main.commands.pageSystem.PrintCurrentPage;
 import main.commands.player.*;
@@ -276,4 +278,14 @@ public interface CommandVisitor {
      * visits the endProgramm command
      */
     void visit(EndProgram endProgram);
+
+    /**
+     * visits the BuyPremium command
+     */
+    void visit(BuyPremium buyPremium);
+
+    /**
+     * vistist the CancelPremium command
+     */
+    void visit(CancelPremium cancelPremium);
 }

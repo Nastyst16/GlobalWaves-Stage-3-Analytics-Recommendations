@@ -59,6 +59,7 @@ public class User {
     private ListenCounterDecorator listenable;
     private ArrayList<Album> everyAlbum;
     private Song searchedSong;
+    private boolean premium = false;
 
 
     public User(final String username, final int age, final String city,
@@ -365,6 +366,17 @@ public class User {
 
     private void loadedSongOrPodcast(final User user, final Type type) {
         Type currentType = type;
+
+        if (type instanceof Song) {
+            if (((Song) type).getAlbum().equals("Out of Sight")
+                    && user.getUsername().equals("jack29")) {
+                int x = 5;
+//                printing the song
+                System.out.println("Song: " + type.getName());
+            }
+        }
+
+
 
         if (user.getTypeLoaded() == 0 || user.getTypeLoaded() == 1) {
 
@@ -1001,5 +1013,13 @@ public class User {
 
     public void setSearchedSong(Song searchedSong) {
         this.searchedSong = searchedSong;
+    }
+
+    public boolean isPremium() {
+        return premium;
+    }
+
+    public void setPremium(boolean premium) {
+        this.premium = premium;
     }
 }

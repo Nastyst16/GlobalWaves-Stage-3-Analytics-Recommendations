@@ -150,4 +150,8 @@ public class Album extends Playlist {
     public void addListen() {
         this.numberOfListens++;
     }
+
+    public void setNumberOfListens(int numberOfListens) {
+        this.numberOfListens = numberOfListens;
+    }
 }

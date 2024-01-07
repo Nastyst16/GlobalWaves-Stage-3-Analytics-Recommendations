@@ -1,6 +1,8 @@
 package main.inputCommand;
 
 import main.SearchBar;
+import main.commands.monetization.BuyPremium;
+import main.commands.monetization.CancelPremium;
 import main.commands.pageSystem.ChangePage;
 import main.commands.pageSystem.PrintCurrentPage;
 import main.commands.player.*;
@@ -387,5 +389,21 @@ public class ConcreteCommandVisitor implements CommandVisitor {
     @Override
     public void visit(final EndProgram endProgram) {
         endProgram.execute();
+    }
+
+    /**
+     * @param buyPremium - the command to be executed
+     */
+    @Override
+    public void visit(final BuyPremium buyPremium) {
+        buyPremium.execute(user);
+    }
+
+    /**
+     * @param cancelPremium - the command to be executed
+     */
+    @Override
+    public void visit(final CancelPremium cancelPremium) {
+        cancelPremium.execute(user);
     }
 }

@@ -15,6 +15,8 @@ import main.collections.Hosts;
 import main.collections.Playlists;
 import main.collections.Podcasts;
 import main.collections.Songs;
+import main.commands.monetization.BuyPremium;
+import main.commands.monetization.CancelPremium;
 import main.commands.pageSystem.ChangePage;
 import main.commands.pageSystem.PrintCurrentPage;
 import main.commands.player.*;
@@ -159,6 +161,10 @@ public final class Main {
                 int x = 5;
             }
 
+            if (input.getTimestamp() == 1132) {
+                int pula = 6;
+            }
+
 
             if (input.getCommand().equals("select")) {
                 int x = 5;
@@ -217,6 +223,10 @@ public final class Main {
 
 //                Stage 3:
                 case "wrapped":             commands.add(new Wrapped(input));                break;
+                case "buyPremium":          commands.add(new BuyPremium(input));             break;
+                case "cancelPremium":       commands.add(new CancelPremium(input));          break;
+
+
 
                 default: break;
             }

@@ -55,6 +55,13 @@ public class Wrapped implements Command {
         ArrayList<Episode> mostListenedEpisodes = new ArrayList<>();
 
 
+//        deep copying the songs
+        for (Song s : currUser.getEverySong()) {
+            mostListenedSongs.add(new Song(s.getName(), s.getDuration(), s.getAlbum(), s.getTags(),
+                    s.getLyrics(), s.getGenre(), s.getReleaseYear(), s.getArtist()));
+        }
+
+
         for (Song t : currUser.getEverySong()) {
 
             boolean exists = false;
@@ -71,20 +78,48 @@ public class Wrapped implements Command {
             if (exists) {
                 continue;
             }
-
-            mostListenedSongs.add((Song) t);
-
         }
 
-        for (Artist artist : Artists.getArtists()) {
-            for (Album album : artist.getAlbums()) {
-                mostListenedAlbums.add(album);
+////        printing most listened songs
+//        if (currUser.getUsername().equals("jack29"))
+//        for (Song s : mostListenedSongs) {
+//
+//            if (s.getArtist().equals("James Brown") && s.getNumberOfListens() != 0)
+//                System.out.println(s.getName() + " " + s.getNumberOfListens());
+//        }
+//        delete the above code
+//        for (Artist a : Artists.getArtists()) {
+//            int x = 5;
+//        }
+
+
+
+        for (Song s : mostListenedSongs) {
+            for (Album a : Albums.getAlbums()) {
+                if (s.getAlbum().equals(a.getName()) && s.getNumberOfListens() != 0) {
+
+                    boolean exists = false;
+
+                    for (Album album : mostListenedAlbums) {
+                        if (album.getName().equals(a.getName())) {
+                            album.addNumberOfListens(s.getNumberOfListens());
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (!exists) {
+                        mostListenedAlbums.add(new Album(a.getName(), a.getName(), a.getReleaseYear(),
+                                a.getDescription(), a.getAlbumSongs()));
+
+                        mostListenedAlbums.get(mostListenedAlbums.size() - 1).addNumberOfListens(s.getNumberOfListens());
+                    }
+                }
             }
         }
 
         for (Podcast p : currUser.getEveryPodcast()) {
             for (Episode e : p.getEpisodesList()) {
-                mostListenedEpisodes.add(e);
+                mostListenedEpisodes.add(new Episode(e.getName(), e.getDuration(), e.getDescription()));
             }
         }
 
@@ -95,8 +130,12 @@ public class Wrapped implements Command {
 //        putting the number of listens for each artist
         for (Artist a : mostListenedArtists) {
 
-            for (Album album : a.getAlbums()) {
-                a.addNumberOfListens(album.getNumberOfListens());
+            for (Song s : currUser.getEverySong()) {
+
+//                if (a.getUsername().equals("James Brown") && s.getNumberOfListens() != 0)
+                if (s.getArtist().equals(a.getUsername())) {
+                    a.addNumberOfListens(s.getNumberOfListens());
+                }
             }
         }
 

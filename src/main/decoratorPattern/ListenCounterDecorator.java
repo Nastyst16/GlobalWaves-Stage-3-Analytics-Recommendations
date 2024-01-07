@@ -30,7 +30,14 @@ public class ListenCounterDecorator {
 //    @Override
     public void listen(Type type, User user) {
 
-
+        if (type instanceof Song) {
+            if (((Song) type).getAlbum().equalsIgnoreCase("the 50th anniversary collection")
+                    && user.getUsername().equals("jack29")) {
+                int x = 5;
+//                printing the song
+                System.out.println("Song: " + type.getName());
+            }
+        }
 
 //                searching the song
         for (Song s : user.getEverySong()) {
@@ -44,6 +51,8 @@ public class ListenCounterDecorator {
 
                 s.addListen();
 //                adding the listen to the album
+                boolean found = false;
+
                 for (Album a : Albums.getAlbums()) {
 
 
@@ -54,9 +63,12 @@ public class ListenCounterDecorator {
 
                         if (song.getName().equals(s.getName())) {
                             a.addListen();
+                            found = true;
                             break;
                         }
                     }
+                    if (found)
+                        break;
                 }
                 break;
             }
