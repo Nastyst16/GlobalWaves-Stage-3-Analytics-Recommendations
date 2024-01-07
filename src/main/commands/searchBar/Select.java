@@ -1,7 +1,9 @@
 package main.commands.searchBar;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import main.collections.Albums;
 import main.collections.Playlists;
+import main.commands.types.Album;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Playlist;
@@ -94,13 +96,30 @@ public class Select implements Command {
 
                 if (currUser.getTypeFoundBySearch() == SONG) {
                     currUser.setTypeSelected(SONG);
+
+                    currUser.setSelectedAlbum(currUser.getCurrentSearch().getResultsAlbum(index - 1));
+
+                    if (currUser.getSelectedName().equalsIgnoreCase("Johnny b. Goode")) {
+                        int x = 5;
+                    }
+
+
+                    for (Album album : Albums.getAlbums()) {
+                        if (album.getName().equals(currUser.getSelectedAlbum())) {
+                            currUser.setSelectedPlaylist(album);
+                            break;
+                        }
+                    }
+
+
                 } else if (currUser.getTypeFoundBySearch() == PODCAST) {
                     currUser.setTypeSelected(PODCAST);
                 } else if (currUser.getTypeFoundBySearch() == PLAYLIST) {
                     currUser.setTypeSelected(PLAYLIST);
 
                     for (Playlist playlist : Playlists.getPlaylists()) {
-                        if (playlist.getName().equals(name)) {
+                        if (playlist.getName().equals(name)
+                            && playlist.getName().equals(currUser.getCurrentSearch().getResultsAlbum(index))) {
                             currUser.setSelectedPlaylist(playlist);
                             break;
                         }
@@ -109,6 +128,12 @@ public class Select implements Command {
 //                    albums
                 } else if (currUser.getTypeFoundBySearch() == ALBUM) {
                     currUser.setTypeSelected(ALBUM);
+                    for (Album album : Albums.getAlbums()) {
+                        if (album.getName().equals(name)) {
+                            currUser.setSelectedPlaylist(album);
+                            break;
+                        }
+                    }
 
 //                    artists
                 } else if (currUser.getTypeFoundBySearch() == ARTIST) {

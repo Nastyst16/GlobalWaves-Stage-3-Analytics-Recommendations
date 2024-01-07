@@ -214,27 +214,22 @@ public class Wrapped implements Command {
     private void wrappedArtist(Artist currArtist) {
 
         ArrayList<Album> mostListenedAlbums = new ArrayList<>();
-        ArrayList<Song> mostListenedSongs = new ArrayList<>();
         ArrayList<String> fansWithMostListens = new ArrayList<>();
         Map<String, Integer> tmpTopFans = new LinkedHashMap<>();
         int listeners = 0;
 
-        for (Album a : Albums.getAlbums()) {
+        for (Album a : currArtist.getAlbums()) {
+
             mostListenedAlbums.add(a);
         }
 
-//        for (Song s : Songs.getSongs()) {
-//            if (s.getArtist().equals(currArtist.getUsername())) {
-//                mostListenedSongs.add(s);
-//            }
-//        }
 
 
         Map<String, Integer> tmpTopSongs = new LinkedHashMap<>();
         for (Song s : Songs.getSongs()) {
             if (s.getArtist().equals(currArtist.getUsername())) {
+
                 tmpTopSongs.put(s.getName(), 0);
-                mostListenedSongs.add(s);
             }
         }
 

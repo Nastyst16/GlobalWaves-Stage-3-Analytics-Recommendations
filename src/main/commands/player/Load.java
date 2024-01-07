@@ -181,8 +181,12 @@ public final class Load implements Command {
      */
     public void loadSong(final User currUser) {
         for (Song song : currUser.getEverySong()) {
-            if (song.getName().equals(currUser.
-                    getCurrentSelect().getSelectedName())) {
+            if (song.getName().equals(currUser.getCurrentSelect().getSelectedName())
+                && song.getAlbum().equals(currUser.getSelectedAlbum())) {
+
+                if (currUser.getSelectedAlbum().equals("Chuck Berry Is On Top")) {
+                    int x = 5;
+                }
 
 //                        deepCopy the song
                 Song songCopy = new Song(song.getName(), song.getDuration(),

@@ -33,11 +33,33 @@ public class ListenCounterDecorator {
 //                searching the song
         for (Song s : user.getEverySong()) {
             if (s.getName().equals(type.getName())) {
+
+                if (user.getCurrentPlaylist() != null)
+                    if (!s.getAlbum().equals(user.getCurrentPlaylist().getName()))
+                        continue;
+
                 s.addListen();
 //                adding the listen to the album
                 for (Album a : Albums.getAlbums()) {
-                    if (a.getName().equals(s.getAlbum())) {
-                        a.addListen();
+
+                    if (s.getAlbum().equals("Chuck Berry Is On Top")) {
+                        int x = 5;
+                    }
+
+                    if (!s.getAlbum().equals(a.getName()))
+                        continue;
+
+//                    if (a.getName().equals(s.getAlbum())
+//                        && a.getReleaseYear() == s.getReleaseYear()) {
+//                        a.addListen();
+//                        break;
+//                    }
+                    for (Song song : a.getSongList()) {
+
+                        if (song.getName().equals(s.getName())) {
+                            a.addListen();
+                            break;
+                        }
                     }
                 }
                 break;

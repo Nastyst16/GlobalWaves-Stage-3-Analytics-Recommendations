@@ -39,6 +39,8 @@ public class User {
     private ArrayList<Integer> originalIndices;
     private ArrayList<Integer> shuffledIndices;
     private String selectedName;
+    @JsonIgnore
+    private String selectedAlbum;
     private int shuffleSeed;
     private Select currentSelect;
     private ArrayList<Playlist> playListList;
@@ -983,4 +985,11 @@ public class User {
         return everyAlbum;
     }
 
+    public String getSelectedAlbum() {
+        return selectedAlbum;
+    }
+
+    public void setSelectedAlbum(String selectedAlbum) {
+        this.selectedAlbum = selectedAlbum;
+    }
 }

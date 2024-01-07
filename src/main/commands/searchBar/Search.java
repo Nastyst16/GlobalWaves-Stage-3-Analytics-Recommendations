@@ -17,9 +17,8 @@ import main.commands.types.Song;
 import main.users.Artist;
 import main.users.Host;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Search implements Command {
     private final String command;
@@ -30,6 +29,8 @@ public class Search implements Command {
 
     private String message;
     private ArrayList<String> results;
+    @JsonIgnore
+    private ArrayList<String> resultsAlbum;
     private static final int MAX_SIZE = 5;
     private static final int PODCAST = 1;
     private static final int PLAYLIST = 2;
@@ -74,6 +75,7 @@ public class Search implements Command {
 
 //        initialize the results array
         this.results = new ArrayList<>();
+        this.resultsAlbum = new ArrayList<>();
     }
 
 
@@ -83,14 +85,32 @@ public class Search implements Command {
      */
     public void searchingBySongType(final ArrayList<Song> songs) {
         String songPrefix = (String) (filters.get("name"));
+        if (songPrefix != null) {
+            songPrefix = songPrefix.toLowerCase();
+        }
+
         String album = (String) (filters.get("album"));
+        if (album != null) {
+            album = album.toLowerCase();
+        }
+
         String lyrics = (String) (filters.get("lyrics"));
 //        converting to lowerCase
         if (lyrics != null) {
             lyrics = lyrics.toLowerCase();
         }
         String genre = (String) (filters.get("genre"));
+        if (genre != null) {
+            genre = genre.toLowerCase();
+        }
+
         List<String> tags = (List<String>) (filters.get("tags"));
+        if (tags != null) {
+            for (int i = 0; i < tags.size(); i++) {
+                tags.set(i, tags.get(i).toLowerCase());
+            }
+        }
+
         String releaseYear = (String) (filters.get("releaseYear"));
         String operator = null;
         int targetYear = 0;
@@ -108,18 +128,20 @@ public class Search implements Command {
 
         for (Song song : songs) {
             String songLyrics = song.getLyrics().toLowerCase();
+
 //            if the song matches the filters, add it to the results
-            if ((songPrefix == null || song.getName().startsWith(songPrefix))
-                    && (album == null || song.getAlbum().equals(album))
-                    && (lyrics == null || songLyrics.contains(lyrics))
+            if ((songPrefix == null || song.getName().toLowerCase().startsWith(songPrefix))
+                    && (album == null || song.getAlbum().toLowerCase().equals(album))
+                    && (lyrics == null || songLyrics.toLowerCase().contains(lyrics))
                     && (genre == null || song.getGenre().equalsIgnoreCase(genre))
                     && (tags == null || song.getTags().containsAll(tags))
-                    && (artist == null || song.getArtist().equals(artist))
+                    && (artist == null || song.getArtist().equalsIgnoreCase(artist))
                     && (releaseYear == null || (operator.equals("<")
                     && song.getReleaseYear() < targetYear)
                     || (operator.equals(">") && song.getReleaseYear() > targetYear)
                     || (operator.equals("=") && song.getReleaseYear() == targetYear))) {
                 result.add(song.getName());
+                resultsAlbum.add(song.getAlbum());
             }
 
 //            maximum size of 5
@@ -191,7 +213,13 @@ public class Search implements Command {
         String description = (String) (filters.get("description"));
 
         for (Album album : albums) {
-            if ((name == null || album.getName().equals(name))
+
+            if (album.getName().equalsIgnoreCase("greatest hits II")) {
+                int x = 5;
+            }
+
+
+            if ((name == null || album.getName().startsWith(name))
                     && (owner == null || album.getUser().equals(owner))
                     && (description == null || album.getDescription().equals(description))) {
                 results.add(album.getName());
@@ -380,4 +408,11 @@ public class Search implements Command {
         return filters;
     }
 
+    public String getResultsAlbum(final int index) {
+        return resultsAlbum.get(index);
+    }
+
+    public void setResultsAlbum(ArrayList<String> resultsAlbum) {
+        this.resultsAlbum = resultsAlbum;
+    }
 }

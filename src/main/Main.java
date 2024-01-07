@@ -17,6 +17,7 @@ import main.collections.Podcasts;
 import main.collections.Songs;
 import main.commands.pageSystem.ChangePage;
 import main.commands.pageSystem.PrintCurrentPage;
+import main.commands.player.*;
 import main.commands.player.admin.AddUser;
 import main.commands.player.admin.DeleteUser;
 import main.commands.player.admin.ShowAlbums;
@@ -37,22 +38,6 @@ import main.commands.types.Episode;
 import main.commands.types.Podcast;
 import main.commands.types.Song;
 import main.commands.types.Type;
-import main.commands.player.AddRemoveInPlaylist;
-import main.commands.player.CreatePlayList;
-import main.commands.player.Like;
-import main.commands.player.Next;
-import main.commands.player.Prev;
-import main.commands.player.PlayPause;
-import main.commands.player.Repeat;
-import main.commands.player.Shuffle;
-import main.commands.player.Status;
-import main.commands.player.Backward;
-import main.commands.player.Forward;
-import main.commands.player.Follow;
-import main.commands.player.SwitchVisibility;
-import main.commands.player.Load;
-import main.commands.player.ShowPlaylists;
-import main.commands.player.ShowPreferredSongs;
 import main.commands.player.user.SwitchConnectionStatus;
 import main.inputCommand.Command;
 import main.inputCommand.ConcreteCommandVisitor;
@@ -124,7 +109,7 @@ public final class Main {
                               final String filePathOutput) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); // ChatGpt
+//        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS); // ChatGpt
 
         LibraryInput library = objectMapper.readValue(new File(LIBRARY_PATH), LibraryInput.class);
 
@@ -162,6 +147,21 @@ public final class Main {
 
 //            creating the commands
             executor.setExecutor(commands, input, user, artist, host);
+
+
+            if (input.getTimestamp() == 12427) {
+                int x = 5;
+            }
+
+            if (input.getCommand().equals("select")) {
+                int x = 5;
+            }
+
+            if (input.getCommand().equals("addAlbum"))
+            if (input.getTimestamp() == 1 && input.getName().equals("Chuck Berry Is On Top")) {
+                int x = 5;
+            }
+
 
             switch (command) {
                 case "search":              commands.add(new Search(input));                 break;
@@ -233,6 +233,8 @@ public final class Main {
 
         }
 
+        commands.add(new EndProgram("endProgram"));
+        commands.get(commands.size() - 1).accept(executor);
 
 //        reseting the collections after every test
         resetCollections();

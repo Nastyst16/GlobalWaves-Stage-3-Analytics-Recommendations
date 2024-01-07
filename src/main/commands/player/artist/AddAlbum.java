@@ -14,6 +14,8 @@ import main.users.Artist;
 import main.users.Host;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class AddAlbum implements Command {
     private final String command;
@@ -94,17 +96,22 @@ public class AddAlbum implements Command {
         for (User u : Users.getUsers()) {
 //            u.setEverySong(Songs.getSongs());
 
+
+
 //            deep copy
-            u.setEverySong(new ArrayList<>());
-            for (Song s : Songs.getSongs()) {
+            for (Song s : albumSongs) {
                 u.getEverySong().add(new Song(s.getName(), s.getDuration(),
                         s.getAlbum(), s.getTags(), s.getAlbum(),
                         s.getGenre(), s.getReleaseYear(), s.getArtist()));
+
             }
         }
 
+        Collections.sort(Albums.getAlbums(), Comparator.comparing(Album::getName).reversed());
+
         Albums.addAlbum(new Album(this.user, this.name, this.releaseYear,
                 this.description, this.albumSongs));
+
 
         for (User u : Users.getUsers()) {
             u.getEveryAlbum().add(new Album(this.user, this.name, this.releaseYear,

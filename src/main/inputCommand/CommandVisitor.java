@@ -2,6 +2,7 @@ package main.inputCommand;
 
 import main.commands.pageSystem.ChangePage;
 import main.commands.pageSystem.PrintCurrentPage;
+import main.commands.player.*;
 import main.commands.player.admin.AddUser;
 import main.commands.player.admin.DeleteUser;
 import main.commands.player.admin.ShowAlbums;
@@ -18,22 +19,6 @@ import main.commands.player.host.RemovePodcast;
 import main.commands.player.statistics.*;
 import main.commands.searchBar.Search;
 import main.commands.searchBar.Select;
-import main.commands.player.AddRemoveInPlaylist;
-import main.commands.player.CreatePlayList;
-import main.commands.player.Like;
-import main.commands.player.Next;
-import main.commands.player.Prev;
-import main.commands.player.PlayPause;
-import main.commands.player.Repeat;
-import main.commands.player.Shuffle;
-import main.commands.player.Status;
-import main.commands.player.Backward;
-import main.commands.player.Forward;
-import main.commands.player.Follow;
-import main.commands.player.SwitchVisibility;
-import main.commands.player.Load;
-import main.commands.player.ShowPlaylists;
-import main.commands.player.ShowPreferredSongs;
 import main.commands.player.user.SwitchConnectionStatus;
 
 public interface CommandVisitor {
@@ -286,4 +271,9 @@ public interface CommandVisitor {
      * visits wrapped command
      */
     void visit(Wrapped wrapped);
+
+    /**
+     * visits the endProgramm command
+     */
+    void visit(EndProgram endProgram);
 }
