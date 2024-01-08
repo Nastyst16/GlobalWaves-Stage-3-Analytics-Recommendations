@@ -138,14 +138,12 @@ public class Search implements Command {
 //            }
 //        }
 
-
-
         for (Song song : songs) {
             String songLyrics = song.getLyrics().toLowerCase();
 
 //            if the song matches the filters, add it to the results
             if ((songPrefix == null || song.getName().toLowerCase().startsWith(songPrefix))
-                    && (album == null || song.getAlbum().toLowerCase().equals(album))
+                    && (album == null || song.getAlbum().toLowerCase().equalsIgnoreCase(album))
                     && (lyrics == null || songLyrics.toLowerCase().contains(lyrics))
                     && (genre == null || song.getGenre().equalsIgnoreCase(genre))
                     && (tags == null || song.getTags().containsAll(tags))

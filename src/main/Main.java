@@ -163,7 +163,7 @@ public final class Main {
                 int x = 5;
             }
 
-            if (input.getTimestamp() == 1132) {
+            if (input.getTimestamp() == 41017) {
                 int pula = 6;
             }
 
