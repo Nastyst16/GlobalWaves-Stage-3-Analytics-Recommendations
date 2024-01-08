@@ -226,21 +226,18 @@ public class Search implements Command {
         String owner = (String) (filters.get("owner"));
         String description = (String) (filters.get("description"));
 
-        for (Album album : albums) {
+        for (Artist a : Artists.getArtists()) {
+            for (Album album : a.getAlbums()) {
 
-            if (album.getName().equalsIgnoreCase("greatest hits II")) {
-                int x = 5;
-            }
+                if ((name == null || album.getName().startsWith(name))
+                        && (owner == null || album.getUser().equals(owner))
+                        && (description == null || album.getDescription().equals(description))) {
+                    results.add(album.getName());
+                }
 
-
-            if ((name == null || album.getName().startsWith(name))
-                    && (owner == null || album.getUser().equals(owner))
-                    && (description == null || album.getDescription().equals(description))) {
-                results.add(album.getName());
-            }
-
-            if (results.size() == MAX_SIZE) {
-                break;
+                if (results.size() == MAX_SIZE) {
+                    break;
+                }
             }
         }
 
