@@ -8,6 +8,7 @@ public class Episode implements Type {
     private String description;
     private int secondsGone;
     private int numberOfListens;
+    private String owner;
 
     /**
      * default constructor
@@ -18,12 +19,14 @@ public class Episode implements Type {
         this.duration = 0;
         this.description = null;
         this.numberOfListens = 0;
+        this.setOwner("");
     }
 
-    public Episode(final String name, final int duration, final String description) {
+    public Episode(final String name, final int duration, final String description, final String owner) {
         this.name = name;
         this.duration = duration;
         this.description = description;
+        this.owner = owner;
     }
 
     /**
@@ -128,5 +131,27 @@ public class Episode implements Type {
     @Override
     public void addListen() {
         numberOfListens++;
+    }
+
+    public void addNumberOfListens(int numberOfListens) {
+        this.numberOfListens += numberOfListens;
+    }
+
+    public void setNumberOfListens(int i) {
+        this.numberOfListens = i;
+    }
+
+    /**
+     * get owner
+     */
+    public String getOwner() {
+        return owner;
+    }
+
+    /**
+     * set owner
+     */
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

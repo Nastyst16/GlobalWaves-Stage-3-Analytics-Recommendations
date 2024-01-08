@@ -1,10 +1,7 @@
 package main.commands.player.statistics;
 
 import main.SearchBar;
-import main.collections.Albums;
-import main.collections.Artists;
-import main.collections.Songs;
-import main.collections.Users;
+import main.collections.*;
 import main.commands.searchBar.Search;
 import main.commands.types.*;
 import main.inputCommand.Command;
@@ -129,7 +126,10 @@ public class Wrapped implements Command {
                     continue;
                 }
 
-                mostListenedEpisodes.add(new Episode(e.getName(), e.getDuration(), e.getDescription()));
+                mostListenedEpisodes.add(new Episode(e.getName(), e.getDuration(),
+                        e.getDescription(), e.getOwner()));
+                mostListenedEpisodes.get(mostListenedEpisodes.size() - 1).
+                        addNumberOfListens(e.getNumberOfListens());
             }
         }
 
@@ -166,14 +166,19 @@ public class Wrapped implements Command {
             }
         }
 
-//        most listened albums
-//        for (Album a : mostListenedAlbums) {
-//            for (Song s : mostListenedSongs) {
-//                if (s.getAlbum().equals(a.getName())) {
-//                    a.addNumberOfListens(s.getNumberOfListens());
-//                }
-//            }
-//        }
+
+
+//        sorting the mostlistenedepisode by number of listens descending
+        mostListenedEpisodes.sort((o1, o2) -> {
+            if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
+                return o1.getName().compareTo(o2.getName());
+            }
+
+            return o2.getNumberOfListens() - o1.getNumberOfListens();
+        });
+
+
+
 
 
 //        sorting the artists
@@ -232,7 +237,6 @@ public class Wrapped implements Command {
             && mostListenedSongs.size() == 0
             && mostListenedAlbums.size() == 0
             && mostListenedEpisodes.size() == 0) {
-//            this.result.put("message", "No data to show for user " + currUser.getUsername() + ".");
 
             result = null;
 
@@ -408,6 +412,65 @@ public class Wrapped implements Command {
 
     private void wrappedHost(Host currHost) {
 
+        ArrayList<Episode> mostListenedEpisodes = new ArrayList<>();
+        int listeners = 0;
+
+
+        ArrayList<Podcast> mostListenedPodcasts = new ArrayList<>();
+        mostListenedPodcasts = Podcasts.getPodcasts();
+
+
+        boolean found = false;
+
+//        deep copying the episodes
+        for (User u : Users.getUsers()) {
+
+            boolean listener = false;
+
+            for (Episode e : u.getLisenedEpisodes().keySet()) {
+                if (e.getOwner().equals(currHost.getUsername())) {
+
+
+                    listener = true;
+                    found = false;
+//                    adding the number of listens in the array
+//                    if already exists in the array just update it
+                    for (Episode episode : mostListenedEpisodes) {
+                        if (episode.getName().equals(e.getName())) {
+                            episode.addNumberOfListens(u.getLisenedEpisodes().get(e));
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        mostListenedEpisodes.add(new Episode(e.getName(), e.getDuration(),
+                                e.getDescription(), e.getOwner()));
+                        mostListenedEpisodes.get(mostListenedEpisodes.size() - 1).
+                                addNumberOfListens(u.getLisenedEpisodes().get(e));
+                    }
+
+                }
+
+
+            }
+
+            if (listener) {
+                listeners++;
+                listener = false;
+            }
+
+        }
+
+        Map<String, Object> topEpisodes = new LinkedHashMap<>();
+        for (int i = 0; i < 5; i++) {
+            if (i < mostListenedEpisodes.size() && mostListenedEpisodes.get(i).getNumberOfListens() != 0) {
+                topEpisodes.put(mostListenedEpisodes.get(i).getName(), mostListenedEpisodes.get(i).getNumberOfListens());
+            }
+        }
+
+        result.put("topEpisodes", topEpisodes);
+        result.put("listeners", listeners);
     }
 
     // Method to sort a Map alphabetically by keys

@@ -71,6 +71,11 @@ public final class AddPodcast implements Command {
             }
         }
 
+        if (host.getUsername().equals("Guy Raz")) {
+            int pula = 5;
+        }
+
+
 //        adding the podcast
         Podcasts.addPodcast(new Podcast(this.name, this.user, this.episodes));
         host.getHostPodcasts().add(new Podcast(this.name, this.user, this.episodes));
@@ -79,7 +84,8 @@ public final class AddPodcast implements Command {
 
             ArrayList<Episode> episodesCopy = new ArrayList<>();
             for (Episode e : this.episodes) {
-                episodesCopy.add(new Episode(e.getName(), e.getDuration(), e.getDescription()));
+                episodesCopy.add(new Episode(e.getName(), e.getDuration(),
+                        e.getDescription(), e.getOwner()));
             }
 
             u.getEveryPodcast().add(new Podcast(this.name, this.user, episodesCopy));

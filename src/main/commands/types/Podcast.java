@@ -173,4 +173,11 @@ public final class Podcast implements Type {
     public void addListen() {
         numberOfListens++;
     }
+
+    /**
+     * setter for number of listens
+     */
+    public void setNrOfListens(final int numberOfListens) {
+        this.numberOfListens = numberOfListens;
+    }
 }

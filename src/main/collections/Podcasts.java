@@ -30,6 +30,7 @@ public final class Podcasts {
             ArrayList<Episode> episodes = new ArrayList<>();
             for (EpisodeInput episodeInput : podcastInput.getEpisodes()) {
                 episodes.add(new Episode(episodeInput));
+                episodes.get(episodes.size() - 1).setOwner(podcastInput.getOwner());
             }
             Podcasts.addPodcast(new Podcast(podcastInput.getName(),
                     podcastInput.getOwner(), episodes));

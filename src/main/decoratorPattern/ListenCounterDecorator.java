@@ -8,6 +8,7 @@ import main.users.Artist;
 import main.users.User;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class ListenCounterDecorator {
     private final ArrayList<Type> types;
@@ -93,23 +94,33 @@ public class ListenCounterDecorator {
         }
 
 
-////                searching the podcast
-//        for (Podcast p : user.getEveryPodcast()) {
-//            if (p.getName().equals(user.getCurrentType().getName())) {
-//                p.addListen();
-//            }
-//        }
-
-//                searching the episode
-        for (Podcast p : user.getEveryPodcast()) {
-            for (Episode e : p.getEpisodesList()) {
-                if (e.getName().equals(user.getCurrentType().getName())) {
-                    e.addListen();
-                }
-            }
+        if (user.getUsername().equals("alice22") && user.getPodcastsPlayed() != null) {
+            int x = 5;
         }
 
 
+////                searching the podcast
+        for (Podcast p : user.getPodcastsPlayed()) {
+
+            boolean found = false;
+
+            for (Episode e : p.getEpisodesList()) {
+                if (e.getName().equals(type.getName())) {
+                    e.addListen();
+                    p.addListen();
+
+                    LinkedHashMap<Episode, Integer> map = new LinkedHashMap<>();
+                    map.put(e, 1);
+
+                    user.addLisenedEpisode(map);
+
+                    found = true;
+                    break;
+                }
+            }
+            if (found)
+                break;
+        }
 
 
 
@@ -117,21 +128,6 @@ public class ListenCounterDecorator {
 
 
 
-
-
-
-
-
-
-
-//        for (Type t : types) {
-//            if (t.getName().equals(type.getName())) {
-//                t.addListen();
-//            }
-//        }
-//
-////        if we didn't find the type, we add it
-//        addType(type);
     }
 
     public ArrayList<Type> getTypes() {

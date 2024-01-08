@@ -12,6 +12,7 @@ import main.decoratorPattern.Listenable;
 import main.notificationsObserver.Observer;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class User implements Observer {
@@ -64,6 +65,7 @@ public class User implements Observer {
     private boolean premium = false;
     private ArrayList<Map<String, String>> notifications;
     private ArrayList<Merch> boughtMerchandise;
+    private LinkedHashMap<Episode, Integer> lisenedEpisodes;
 
 
     public User(final String username, final int age, final String city,
@@ -102,7 +104,7 @@ public class User implements Observer {
             ArrayList<Episode> episodes = new ArrayList<>();
             for (Episode episode : podcast.getEpisodesList()) {
                 Episode copyEpisode = new Episode(episode.getName(), episode.getDuration(),
-                        episode.getDescription());
+                        episode.getDescription(), episode.getOwner());
 
                 episodes.add(copyEpisode);
             }
@@ -140,6 +142,7 @@ public class User implements Observer {
 
         this.notifications = new ArrayList<>();
         this.boughtMerchandise = new ArrayList<>();
+        this.lisenedEpisodes = new LinkedHashMap<>();
     }
 
 
@@ -262,7 +265,7 @@ public class User implements Observer {
 
                 currentType = newEpisode;
 
-//                user.getListenable().listen(currentType, user);
+                user.getListenable().listen(currentType, user);
 
                 currentType.setSecondsGone(Math.abs(user.getRemainingTime()));
 
@@ -296,7 +299,7 @@ public class User implements Observer {
 
                     currentType = user.getCurrentPlaylist().getSongList().get(0);
 
-//                    user.getListenable().listen(currentType, user);
+                    user.getListenable().listen(currentType, user);
 
                     currentType.setSecondsGone(secsGone);
                     user.setRemainingTime(currentType.getDuration() - currentType.getSecondsGone());
@@ -317,7 +320,7 @@ public class User implements Observer {
                         int firstIndex = user.getShuffledIndices().get(0);
                         currentType = user.getCurrentPlaylist().getSongList().get(firstIndex);
 
-//                        user.getListenable().listen(currentType, user);
+                        user.getListenable().listen(currentType, user);
 
                         currentType.setSecondsGone(Math.abs(user.getRemainingTime()));
                         user.setRemainingTime(currentType.getDuration()
@@ -337,7 +340,7 @@ public class User implements Observer {
 
                     currentType = newSong;
 
-//                    user.getListenable().listen(currentType, user);
+                    user.getListenable().listen(currentType, user);
 
 //                if repeat current song we won't change the currentType
                 } else if (user.getRepeatStatus() != 2) {
@@ -416,7 +419,7 @@ public class User implements Observer {
                         getName().equals(user.getSelectedName())) {
                     currentType = user.getCurrentPlaylist().getSongList().get(0);
 
-//                    user.getListenable().listen(user.getCurrentType(), user);
+                    user.getListenable().listen(user.getCurrentType(), user);
 
                     currentType.setSecondsGone(currentType.getDuration()
                             + currentType.getSecondsGone());
@@ -1060,5 +1063,37 @@ public class User implements Observer {
      */
     public void addBoughtMerchandise(final Merch merch) {
         this.boughtMerchandise.add(merch);
+    }
+
+    /**
+     * get the listened episodes
+     */
+    public LinkedHashMap<Episode, Integer> getLisenedEpisodes() {
+        return lisenedEpisodes;
+    }
+
+    /**
+     * add a listened episode
+     */
+    public void addLisenedEpisode(LinkedHashMap<Episode, Integer> listenedEpisode) {
+
+//        if already exists update the number
+        for (Map.Entry<Episode, Integer> entry : listenedEpisode.entrySet()) {
+            Episode episode = entry.getKey();
+            Integer number = entry.getValue();
+
+            if (this.lisenedEpisodes.containsKey(episode)) {
+                this.lisenedEpisodes.put(episode, this.lisenedEpisodes.get(episode) + number);
+            } else {
+                this.lisenedEpisodes.put(episode, number);
+            }
+        }
+    }
+
+    /**
+     * set the listened episodes
+     */
+    public void setLisenedEpisodes(final LinkedHashMap<Episode, Integer> lisenedEpisodes) {
+        this.lisenedEpisodes = lisenedEpisodes;
     }
 }
