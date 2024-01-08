@@ -50,8 +50,15 @@ public final class ChangePage implements Command {
             return;
         }
 
-        currUser.addPreviousPage(currUser.getCurrentPage(), currUser.getCurrentRecommendation());
+        currUser.addPreviousPage(currUser.getCurrentPage());
+        currUser.addPreviousPage(currUser.getCurrentRecommendation());
+        currUser.addPreviousPage(currUser.getRecommendedPlaylist());
+        currUser.addPreviousPage(currUser.getRecommendedSongs());
+        currUser.addPreviousPage(currUser.getSelectedPageOwner());
+
         currUser.setRecommendedPlaylist(null);
+        currUser.setRecommendedSongs(null);
+        currUser.setCurrentRecommendation(null);
 
         if (this.getNextPage().equals("Home") || this.getNextPage().equals("LikedContent")) {
 

@@ -14,6 +14,7 @@ import main.notificationsObserver.Observer;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class User implements Observer {
     private String username;
@@ -67,10 +68,10 @@ public class User implements Observer {
     private LinkedHashMap<Episode, Integer> lisenedEpisodes;
     private Playlist recommendedPlaylist = null;
     private Song recommendedSongs = null;
-    private LinkedHashMap<String, Object> previousPages = new LinkedHashMap<>();
+    private Stack<Object> previousPages = new Stack<>();
     private String currentPage;
     private Object currentRecommendation;
-    private LinkedHashMap<String, Object> nextPages = new LinkedHashMap<>();
+    private Stack<Object> nextPages = new Stack<>();
 
 
     public User(final String username, final int age, final String city,
@@ -1135,30 +1136,38 @@ public class User implements Observer {
     /**
      * get the previous pages
      */
-    public LinkedHashMap<String, Object> getPreviousPages() {
+    public Stack<Object> getPreviousPages() {
         return previousPages;
     }
 
     /**
-     * adds a previous page
+     * add a previous page
      */
-    public void addPreviousPage(String page, Object object) {
-        this.previousPages.put(page, object);
+    public void addPreviousPage(Object previousPage) {
+        this.previousPages.push(previousPage);
     }
 
     /**
-     * get the next pages
+     * pop a previous page
      */
-    public LinkedHashMap<String, Object> getNextPages() {
-        return nextPages;
+    public Object popPreviousPage() {
+        return this.previousPages.pop();
     }
 
     /**
-     * adds a next page
+     * add a next page
      */
-    public void addNextPage(String page, Object object) {
-        this.nextPages.put(page, object);
+    public void addNextPage(Object nextPage) {
+        this.nextPages.push(nextPage);
     }
+
+    /**
+     * pop a next page
+     */
+    public Object popNextPage() {
+        return this.nextPages.pop();
+    }
+
 
     /**
      * get the current recommendation
@@ -1173,4 +1182,12 @@ public class User implements Observer {
     public void setCurrentRecommendation(Object currentRecommendation) {
         this.currentRecommendation = currentRecommendation;
     }
+
+    /**
+     * get the next pages
+     */
+    public Stack<Object> getNextPages() {
+        return nextPages;
+    }
+
 }

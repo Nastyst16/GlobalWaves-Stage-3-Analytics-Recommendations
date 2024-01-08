@@ -236,7 +236,8 @@ public final class Main {
                 case "seeMerch":            commands.add(new SeeMerch(input));               break;
                 case "updateRecommendations": commands.add(new UpdateRecom(input));          break;
                 case "previousPage":        commands.add(new PreviousNextPage(input));       break;
-                case "loadRecommendations":  commands.add(new LoadRecomm(input));             break;
+                case "loadRecommendations": commands.add(new LoadRecomm(input));             break;
+                case "nextPage":            commands.add(new PreviousNextPage(input));       break;
 
                 default: break;
             }

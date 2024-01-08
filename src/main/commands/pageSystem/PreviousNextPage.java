@@ -1,6 +1,8 @@
 package main.commands.pageSystem;
 
 import main.SearchBar;
+import main.commands.types.Playlist;
+import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.users.User;
@@ -18,7 +20,7 @@ public class PreviousNextPage implements Command {
     public void execute(final User currUser) {
         if (this.command.equals("previousPage")) {
             this.setPreviousPage(currUser);
-        } else if (this.command.equals("previousPage")) {
+        } else if (this.command.equals("nextPage")) {
             this.setNextPage(currUser);
         }
     }
@@ -34,10 +36,22 @@ public class PreviousNextPage implements Command {
             return;
         }
 
-        currUser.addPreviousPage(currUser.getCurrentPage(), currUser.getCurrentRecommendation());
-        currUser.setCurrentPage(currUser.getNextPages().lastEntry().getKey());
-        currUser.setCurrentRecommendation(currUser.getNextPages().lastEntry().getValue());
-        currUser.getNextPages().remove(currUser.getCurrentPage());
+        currUser.addPreviousPage(currUser.getCurrentPage());
+        currUser.addPreviousPage(currUser.getCurrentRecommendation());
+        currUser.addPreviousPage(currUser.getRecommendedPlaylist());
+        currUser.addPreviousPage(currUser.getRecommendedSongs());
+        currUser.addPreviousPage(currUser.getSelectedPageOwner());
+
+        currUser.setSelectedPageOwner((String) currUser.popNextPage());
+        currUser.setRecommendedSongs((Song) currUser.popNextPage());
+        currUser.setRecommendedPlaylist((Playlist) currUser.popNextPage());
+        currUser.setCurrentRecommendation(currUser.popNextPage());
+        currUser.setCurrentPage((String) currUser.popNextPage());
+
+
+//        currUser.setCurrentPage(currUser.getNextPages().lastEntry().getKey());
+//        currUser.setCurrentRecommendation(currUser.getNextPages().lastEntry().getValue());
+//        currUser.getNextPages().remove(currUser.getCurrentPage());
 
         this.setMessage("The user " + this.user + " has navigated successfully to the next page.");
     }
@@ -69,10 +83,22 @@ public class PreviousNextPage implements Command {
             return;
         }
 
-        currUser.addNextPage(currUser.getCurrentPage(), currUser.getCurrentRecommendation());
-        currUser.setCurrentPage(currUser.getPreviousPages().lastEntry().getKey());
-        currUser.setCurrentRecommendation(currUser.getPreviousPages().lastEntry().getValue());
-        currUser.getPreviousPages().remove(currUser.getCurrentPage());
+        currUser.addNextPage(currUser.getCurrentPage());
+        currUser.addNextPage(currUser.getCurrentRecommendation());
+        currUser.addNextPage(currUser.getRecommendedPlaylist());
+        currUser.addNextPage(currUser.getRecommendedSongs());
+        currUser.addNextPage(currUser.getSelectedPageOwner());
+
+        currUser.setSelectedPageOwner((String) currUser.popPreviousPage());
+        currUser.setRecommendedSongs((Song) currUser.popPreviousPage());
+        currUser.setRecommendedPlaylist((Playlist) currUser.popPreviousPage());
+        currUser.setCurrentRecommendation(currUser.popPreviousPage());
+        currUser.setCurrentPage((String) currUser.popPreviousPage());
+
+
+//        currUser.setCurrentPage(currUser.getPreviousPages().lastEntry().getKey());
+//        currUser.setCurrentRecommendation(currUser.getPreviousPages().lastEntry().getValue());
+//        currUser.getPreviousPages().remove(currUser.getCurrentPage());
 
         this.setMessage("The user " + this.user + " has navigated successfully to the previous page.");
     }

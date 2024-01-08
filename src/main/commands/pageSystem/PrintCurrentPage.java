@@ -37,6 +37,16 @@ public final class PrintCurrentPage implements Command {
     }
 
     /**
+     * constructor for the PrintCurrentPage command
+     * @param input the input
+     */
+    public PrintCurrentPage(final SearchBar input) {
+        this.user = input.getUsername();
+        this.command = input.getCommand();
+        this.timestamp = input.getTimestamp();
+    }
+
+    /**
      * sets the message to be printed for the current page
      *
      * @param currUser the current user
@@ -288,12 +298,6 @@ public final class PrintCurrentPage implements Command {
                 + "Announcements:\n\t[" + announcementsByName + "]";
     }
 
-
-    public PrintCurrentPage(final SearchBar input) {
-        this.user = input.getUsername();
-        this.command = input.getCommand();
-        this.timestamp = input.getTimestamp();
-    }
 
     /**
      * accepts the visitor for the visitor pattern
