@@ -49,8 +49,6 @@ public class EndProgram implements Command {
 
     private void setMonetizedArtists() {
 
-        int ranking = 0;
-
         for (Artist artist : sortedArtistsByNumberOfListens) {
 
 //            if the artist has some merchandise bought
@@ -72,7 +70,6 @@ public class EndProgram implements Command {
 
             double songRevenue = 0;
             double merchRevenue = 0;
-            ranking++;
             String mostProfitableSong = "N/A";
 
             for (Merch merch : artist.getMerchandise()) {
@@ -84,11 +81,43 @@ public class EndProgram implements Command {
 
             artistsMonetization.put("merchRevenue", merchRevenue);
             artistsMonetization.put("songRevenue", songRevenue);
-            artistsMonetization.put("ranking", ranking);
+            artistsMonetization.put("ranking", 0);
             artistsMonetization.put("mostProfitableSong", mostProfitableSong);
 
             result.put(artist.getUsername(), artistsMonetization);
         }
+
+//        making a sum of merch revenue and song revenue and sort descending
+        ArrayList<Map.Entry<String, Object>> sortedArtistsByRevenue = new ArrayList<>(result.entrySet());
+        Collections.sort(sortedArtistsByRevenue, new Comparator<Map.Entry<String, Object>>() {
+            @Override
+            public int compare(final Map.Entry<String, Object> o1, final Map.Entry<String, Object> o2) {
+                LinkedHashMap<String, Object> artist1 = (LinkedHashMap<String, Object>) o1.getValue();
+                LinkedHashMap<String, Object> artist2 = (LinkedHashMap<String, Object>) o2.getValue();
+
+                double revenue1 = (double) artist1.get("merchRevenue") + (double) artist1.get("songRevenue");
+                double revenue2 = (double) artist2.get("merchRevenue") + (double) artist2.get("songRevenue");
+
+                return Double.compare(revenue2, revenue1);
+            }
+        });
+
+        LinkedHashMap<String, Object> sortedArtistsByRevenueLinkedHashMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Object> entry : sortedArtistsByRevenue) {
+            sortedArtistsByRevenueLinkedHashMap.put(entry.getKey(), entry.getValue());
+        }
+
+        this.result.clear();
+        this.result.putAll(sortedArtistsByRevenueLinkedHashMap);
+
+//        setting the ranking
+        int ranking = 0;
+        for (Map.Entry<String, Object> entry : this.result.entrySet()) {
+            ranking++;
+            LinkedHashMap<String, Object> artist = (LinkedHashMap<String, Object>) entry.getValue();
+            artist.put("ranking", ranking);
+        }
+
     }
 
     /**
