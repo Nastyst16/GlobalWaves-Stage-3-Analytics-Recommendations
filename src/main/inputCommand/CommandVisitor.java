@@ -1,6 +1,7 @@
 package main.inputCommand;
 
 import main.commands.GetNotifications;
+import main.commands.UpdateRecom;
 import main.commands.Subscribe;
 import main.commands.monetization.BuyMerch;
 import main.commands.monetization.BuyPremium;
@@ -23,9 +24,9 @@ import main.commands.player.host.AddPodcast;
 import main.commands.player.host.RemoveAnnouncement;
 import main.commands.player.host.RemovePodcast;
 import main.commands.player.statistics.*;
+import main.commands.player.user.SwapOnlineOfline;
 import main.commands.searchBar.Search;
 import main.commands.searchBar.Select;
-import main.commands.player.user.SwitchConnectionStatus;
 
 public interface CommandVisitor {
 //    visit methods for all commands
@@ -181,11 +182,11 @@ public interface CommandVisitor {
     void visit(ChangePage changePage);
 
     /**
-     * Visits the SwitchConnectionStatus command.
+     * Visits the SwapOnlineOfline command.
      *
-     * @param switchConnectionStatus The SwitchConnectionStatus command to visit.
+     * @param swapOnlineOfline The SwapOnlineOfline command to visit.
      */
-    void visit(SwitchConnectionStatus switchConnectionStatus);
+    void visit(SwapOnlineOfline swapOnlineOfline);
 
     /**
      * Visits the GetOnlineUsers command.
@@ -357,4 +358,9 @@ public interface CommandVisitor {
      * visits the seemerch command
      */
     void visit(SeeMerch seeMerch);
+
+    /**
+     * visits the updateRecom command
+     */
+    void visit(UpdateRecom updateRecom);
 }

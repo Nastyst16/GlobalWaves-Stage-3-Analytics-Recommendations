@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Playlist {
 
-    private final String name;
-    private final String user;
+    private String name;
+    private String user;
     private final ArrayList<Song> songList;
     private final ArrayList<String> songs;
     protected int numberOfListens = 0;
@@ -15,6 +15,18 @@ public class Playlist {
     private String visibility;
     private int followers;
 
+    /**
+     * default constructor
+     */
+    public Playlist() {
+        this.name = null;
+        this.user = null;
+        this.visibility = null;
+        this.followers = 0;
+
+        this.songs = new ArrayList<>();
+        this.songList = new ArrayList<>();
+    }
 
     /**
      * Playlist constructor
@@ -190,5 +202,27 @@ public class Playlist {
      */
     public void addNumberOfListens(final int numberOfListens) {
         this.numberOfListens += numberOfListens;
+    }
+
+    /**
+     * add song
+     */
+    public void addSong(final Song song) {
+        songList.add(song);
+        songs.add(song.getName());
+    }
+
+    /**
+     * set name
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    /**
+     * set user
+     */
+    public void setUser(final String user) {
+        this.user = user;
     }
 }

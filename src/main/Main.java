@@ -5,7 +5,6 @@ import checker.CheckerConstants;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import fileio.input.LibraryInput;
 import main.collections.Users;
@@ -16,6 +15,7 @@ import main.collections.Playlists;
 import main.collections.Podcasts;
 import main.collections.Songs;
 import main.commands.GetNotifications;
+import main.commands.UpdateRecom;
 import main.commands.Subscribe;
 import main.commands.monetization.BuyMerch;
 import main.commands.monetization.BuyPremium;
@@ -40,11 +40,8 @@ import main.commands.player.host.RemovePodcast;
 import main.commands.player.statistics.*;
 import main.commands.searchBar.Search;
 import main.commands.searchBar.Select;
-import main.commands.types.Episode;
-import main.commands.types.Podcast;
-import main.commands.types.Song;
 import main.commands.types.Type;
-import main.commands.player.user.SwitchConnectionStatus;
+import main.commands.player.user.SwapOnlineOfline;
 import main.inputCommand.Command;
 import main.inputCommand.ConcreteCommandVisitor;
 import main.users.Artist;
@@ -207,8 +204,7 @@ public final class Main {
                 case "getTop5Songs":        commands.add(new GetTop5Songs(input));           break;
 
 //                Stage 2:
-                case "switchConnectionStatus":
-                                            commands.add(new SwitchConnectionStatus(input)); break;
+                case "switchConnectionStatus": commands.add(new SwapOnlineOfline(input));    break;
                 case "getOnlineUsers":      commands.add(new GetOnlineUsers(input));         break;
                 case "changePage":          commands.add(new ChangePage(input));             break;
                 case "addUser":             commands.add(new AddUser(input));                break;
@@ -237,7 +233,7 @@ public final class Main {
                 case "getNotifications":    commands.add(new GetNotifications(input));       break;
                 case "buyMerch":            commands.add(new BuyMerch(input));               break;
                 case "seeMerch":            commands.add(new SeeMerch(input));               break;
-
+                case "updateRecommendations": commands.add(new UpdateRecom(input));          break;
 
                 default: break;
             }

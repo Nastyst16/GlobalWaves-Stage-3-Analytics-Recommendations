@@ -2,6 +2,7 @@ package main.inputCommand;
 
 import main.SearchBar;
 import main.commands.GetNotifications;
+import main.commands.UpdateRecom;
 import main.commands.Subscribe;
 import main.commands.monetization.BuyMerch;
 import main.commands.monetization.BuyPremium;
@@ -26,7 +27,7 @@ import main.commands.player.host.RemovePodcast;
 import main.commands.player.statistics.*;
 import main.commands.searchBar.Search;
 import main.commands.searchBar.Select;
-import main.commands.player.user.SwitchConnectionStatus;
+import main.commands.player.user.SwapOnlineOfline;
 import main.users.Artist;
 import main.users.Host;
 import main.users.User;
@@ -228,11 +229,11 @@ public class ConcreteCommandVisitor implements CommandVisitor {
     }
 
     /**
-     * @param switchConnectionStatus - the command to be executed
+     * @param swapOnlineOfline - the command to be executed
      */
     @Override
-    public void visit(final SwitchConnectionStatus switchConnectionStatus) {
-        switchConnectionStatus.execute(user, artist, host);
+    public void visit(final SwapOnlineOfline swapOnlineOfline) {
+        swapOnlineOfline.execute(user, artist, host);
     }
 
     /**
@@ -449,5 +450,13 @@ public class ConcreteCommandVisitor implements CommandVisitor {
     @Override
     public void visit(final SeeMerch seeMerch) {
         seeMerch.execute(user);
+    }
+
+    /**
+     * @param updateRecom - the command to be executed
+     */
+    @Override
+    public void visit(final UpdateRecom updateRecom) {
+        updateRecom.execute(user, artist, host);
     }
 }
