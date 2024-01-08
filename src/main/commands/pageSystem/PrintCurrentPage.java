@@ -66,14 +66,17 @@ public final class PrintCurrentPage implements Command {
 //          if the current page is LikedContent
         } else if (currUser.getCurrentPage().equals("LikedContent")) {
             printLikedContent(currUser);
+            return;
 
 //          if the current page is Artist
         } else if (currUser.getCurrentPage().equals("Artist")) {
             printArtist(currUser);
+            return;
 
 //          if the current page is Host
         } else if (currUser.getCurrentPage().equals("Host")) {
             printHost(currUser);
+            return;
         }
 
         if (currUser.getRecommendedPlaylist() == null && currUser.getCurrentRecommendation() == null) {

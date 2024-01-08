@@ -32,7 +32,7 @@ public class PreviousNextPage implements Command {
         }
 
         if (currUser.getNextPages().isEmpty()) {
-            this.setMessage(this.user + " has no next pages.");
+            this.setMessage("There are no pages left to go forward.");
             return;
         }
 
