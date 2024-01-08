@@ -17,8 +17,10 @@ import main.collections.Podcasts;
 import main.collections.Songs;
 import main.commands.GetNotifications;
 import main.commands.Subscribe;
+import main.commands.monetization.BuyMerch;
 import main.commands.monetization.BuyPremium;
 import main.commands.monetization.CancelPremium;
+import main.commands.monetization.SeeMerch;
 import main.commands.pageSystem.ChangePage;
 import main.commands.pageSystem.PrintCurrentPage;
 import main.commands.player.*;
@@ -233,7 +235,8 @@ public final class Main {
                 case "cancelPremium":       commands.add(new CancelPremium(input));          break;
                 case "subscribe":           commands.add(new Subscribe(input));              break;
                 case "getNotifications":    commands.add(new GetNotifications(input));       break;
-
+                case "buyMerch":            commands.add(new BuyMerch(input));               break;
+                case "seeMerch":            commands.add(new SeeMerch(input));               break;
 
 
                 default: break;

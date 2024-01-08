@@ -2,8 +2,10 @@ package main.inputCommand;
 
 import main.commands.GetNotifications;
 import main.commands.Subscribe;
+import main.commands.monetization.BuyMerch;
 import main.commands.monetization.BuyPremium;
 import main.commands.monetization.CancelPremium;
+import main.commands.monetization.SeeMerch;
 import main.commands.pageSystem.ChangePage;
 import main.commands.pageSystem.PrintCurrentPage;
 import main.commands.player.*;
@@ -349,6 +351,10 @@ public interface CommandVisitor {
     /**
      * visits the buymerch command
      */
-    void visit(main.commands.monetization.BuyMerch buyMerch);
+    void visit(BuyMerch buyMerch);
 
+    /**
+     * visits the seemerch command
+     */
+    void visit(SeeMerch seeMerch);
 }

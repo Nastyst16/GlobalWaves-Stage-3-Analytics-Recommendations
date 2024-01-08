@@ -63,6 +63,7 @@ public class User implements Observer {
     private Song searchedSong;
     private boolean premium = false;
     private ArrayList<Map<String, String>> notifications;
+    private ArrayList<Merch> boughtMerchandise;
 
 
     public User(final String username, final int age, final String city,
@@ -138,6 +139,7 @@ public class User implements Observer {
         }
 
         this.notifications = new ArrayList<>();
+        this.boughtMerchandise = new ArrayList<>();
     }
 
 
@@ -1044,5 +1046,19 @@ public class User implements Observer {
     @Override
     public void update(Map<String, String> notification) {
         this.addNotification(notification);
+    }
+
+    /**
+     * get the bought merchandise
+     */
+    public ArrayList<Merch> getBoughtMerchandise() {
+        return boughtMerchandise;
+    }
+
+    /**
+     * add a bought merchandise
+     */
+    public void addBoughtMerchandise(final Merch merch) {
+        this.boughtMerchandise.add(merch);
     }
 }

@@ -6,6 +6,7 @@ import main.commands.Subscribe;
 import main.commands.monetization.BuyMerch;
 import main.commands.monetization.BuyPremium;
 import main.commands.monetization.CancelPremium;
+import main.commands.monetization.SeeMerch;
 import main.commands.pageSystem.ChangePage;
 import main.commands.pageSystem.PrintCurrentPage;
 import main.commands.player.*;
@@ -440,5 +441,13 @@ public class ConcreteCommandVisitor implements CommandVisitor {
     @Override
     public void visit(final BuyMerch buyMerch) {
         buyMerch.execute(user);
+    }
+
+    /**
+     * @param seeMerch - the command to be executed
+     */
+    @Override
+    public void visit(final SeeMerch seeMerch) {
+        seeMerch.execute(user);
     }
 }

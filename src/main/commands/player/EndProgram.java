@@ -2,47 +2,78 @@ package main.commands.player;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.collections.Artists;
+import main.commands.types.Merch;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.users.Artist;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 public class EndProgram implements Command {
     private final String command;
     private final LinkedHashMap<String, Object> result = new LinkedHashMap<>();
     @JsonIgnore
-    private final LinkedHashMap<String, Object> artistsMonetization = new LinkedHashMap<>();
+    private LinkedHashMap<String, Object> artistsMonetization;
+    @JsonIgnore
+    private ArrayList<Artist> sortedArtistsByNumberOfListens = new ArrayList<>();
 
     /**
      * executes the command.
      */
     public void execute() {
+
+        //
+        for (Artist artist : Artists.getArtists()) {
+            sortedArtistsByNumberOfListens.add(artist);
+        }
+        Collections.sort(sortedArtistsByNumberOfListens, new Comparator<Artist>() {
+            @Override
+            public int compare(final Artist o1, final Artist o2) {
+                return o2.getNumberOfListens() - o1.getNumberOfListens();
+            }
+        });
+
         this.setMonetizedArtists();
     }
 
+
     private void setMonetizedArtists() {
+
+        int ranking = 0;
+
         for (Artist artist : Artists.getArtists()) {
 
+//            if the artist has some merchandise bought
+            boolean soldMerch = false;
+            for (Merch merch : artist.getMerchandise()) {
+                if (merch.getNumberSold() != 0) {
+                    soldMerch = true;
+                    break;
+                }
+            }
+
 //            if the artist was not listened to, then the artist is not monetized
-            if (artist.getNumberOfListens() == 0) {
+            if (artist.getNumberOfListens() == 0 && !soldMerch) {
                 continue;
             }
 
 
+            this.artistsMonetization = new LinkedHashMap<>();
+
             double songRevenue = 0;
             double merchRevenue = 0;
-            int ranking = 1;
+            ranking++;
             String mostProfitableSong = "N/A";
 
+            for (Merch merch : artist.getMerchandise()) {
+                merchRevenue += merch.getNumberSold() * merch.getPrice();
+            }
 
 
 
 
-
-            artistsMonetization.put("songRevenue", songRevenue);
             artistsMonetization.put("merchRevenue", merchRevenue);
+            artistsMonetization.put("songRevenue", songRevenue);
             artistsMonetization.put("ranking", ranking);
             artistsMonetization.put("mostProfitableSong", mostProfitableSong);
 

@@ -4,7 +4,8 @@ public class Merch {
     private final String user;
     private final String name;
     private final String description;
-    private final int price;
+    private final double price;
+    private int numberSold;
 
 
     public Merch(final String user, final String name,
@@ -43,7 +44,21 @@ public class Merch {
      * get the price of the merch
      * @return the price of the merch
      */
-    public int getPrice() {
+    public double getPrice() {
         return price;
+    }
+
+    /**
+     * get the number of sold merch
+     */
+    public int getNumberSold() {
+        return numberSold;
+    }
+
+    /**
+     * add a merch to the number of sold merch
+     */
+    public void addSold() {
+        this.numberSold++;
     }
 }
