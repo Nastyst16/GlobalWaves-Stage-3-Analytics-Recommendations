@@ -72,16 +72,10 @@ public final class PrintCurrentPage implements Command {
             recomendedPlaylist.append("\n\nSong recommendations:\n\t");
 
             if (currUser.getRecommendedSongs() != null) {
-                for (Song song : currUser.getRecommendedSongs()) {
-                    recomendedPlaylist.append(song.getName())
-                            .append(" - ")
-                            .append(song.getArtist());
-
-                    if (currUser.getRecommendedSongs().indexOf(song)
-                            != currUser.getRecommendedSongs().size() - 1) {
-                        recomendedPlaylist.append(", ");
-                    }
-                }
+                Song song = currUser.getRecommendedSongs();
+                recomendedPlaylist.append(song.getName())
+                        .append(" - ")
+                        .append(song.getArtist());
             } else {
                 recomendedPlaylist.append("[]");
             }
@@ -164,16 +158,10 @@ public final class PrintCurrentPage implements Command {
             recomendedPlaylist.append("\n\nSong recommendations:\n\t");
 
             if (currUser.getRecommendedSongs() != null) {
-                for (Song song : currUser.getRecommendedSongs()) {
-                    recomendedPlaylist.append(song.getName())
-                            .append(" - ")
-                            .append(song.getArtist());
-
-                    if (currUser.getRecommendedSongs().indexOf(song)
-                            != currUser.getRecommendedSongs().size() - 1) {
-                        recomendedPlaylist.append(", ");
-                    }
-                }
+                Song song = currUser.getRecommendedSongs();
+                recomendedPlaylist.append(song.getName())
+                        .append(" - ")
+                        .append(song.getArtist());
             } else {
                 recomendedPlaylist.append("[]");
             }

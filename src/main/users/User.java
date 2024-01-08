@@ -66,7 +66,7 @@ public class User implements Observer {
     private ArrayList<Merch> boughtMerchandise;
     private LinkedHashMap<Episode, Integer> lisenedEpisodes;
     private Playlist recommendedPlaylist = null;
-    private ArrayList<Song> recommendedSongs = null;
+    private Song recommendedSongs = null;
     private LinkedHashMap<String, Object> previousPages = new LinkedHashMap<>();
     private String currentPage;
     private Object currentRecommendation;
@@ -1117,16 +1117,18 @@ public class User implements Observer {
     }
 
     /**
-     * get recommended songs
+     * get recommended song
      */
-    public ArrayList<Song> getRecommendedSongs() {
+    public Song getRecommendedSongs() {
         return recommendedSongs;
     }
 
+
     /**
-     * set recommended songs
+     * set recommended song
+     * @param recommendedSongs
      */
-    public void setRecommendedSongs(ArrayList<Song> recommendedSongs) {
+    public void setRecommendedSongs(Song recommendedSongs) {
         this.recommendedSongs = recommendedSongs;
     }
 

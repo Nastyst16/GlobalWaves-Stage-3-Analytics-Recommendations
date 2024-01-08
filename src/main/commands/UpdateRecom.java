@@ -55,13 +55,156 @@ public class UpdateRecom implements Command {
         String recommendationType = this.getRecommendationType();
 
         if (recommendationType.equals("random_song")) {
-//            this.setRandomSong(user);
+            this.setRandomSong(user);
         } else if (recommendationType.equals("random_playlist")) {
-//            this.setRandomPlaylist(user);
+            this.setRandomPlaylist(user);
         } else if (recommendationType.equals("fans_playlist")) {
             this.setFansPlaylist(user);
         }
 
+    }
+
+    /**
+     * Method that sets a random playlist as recommendation
+     */
+    public void setRandomPlaylist(User user) {
+        Playlist recommendationPlaylist = new Playlist();
+
+        ArrayList<Song> everySongFromLikedSongsPlaylistsFollowedPlaylists = new ArrayList<>();
+//        adding every song from the liked songs
+        for (Song s : user.getLikedSongs()) {
+            everySongFromLikedSongsPlaylistsFollowedPlaylists.add(s);
+        }
+
+//        adding every song from the playlists
+        for (Playlist p : user.getPlayListList()) {
+            for (Song s : p.getSongList()) {
+//                if the song already exists in the list
+                if (everySongFromLikedSongsPlaylistsFollowedPlaylists.contains(s)) {
+                    continue;
+                }
+                everySongFromLikedSongsPlaylistsFollowedPlaylists.add(s);
+            }
+        }
+
+//        adding every song from the followed playlists
+        for (Playlist p : user.getFollowedPlaylists()) {
+            for (Song s : p.getSongList()) {
+//                if the song already exists in the list
+                if (everySongFromLikedSongsPlaylistsFollowedPlaylists.contains(s)) {
+                    continue;
+                }
+                everySongFromLikedSongsPlaylistsFollowedPlaylists.add(s);
+            }
+        }
+
+        Map<String, Integer> userGenres = new HashMap<>();
+
+        for (Song s : everySongFromLikedSongsPlaylistsFollowedPlaylists) {
+            if (userGenres.containsKey(s.getGenre())) {
+                userGenres.put(s.getGenre(), userGenres.get(s.getGenre()) + 1);
+            } else {
+                userGenres.put(s.getGenre(), 1);
+            }
+        }
+
+        if (userGenres.size() == 0) {
+            this.setMessage("The user has no songs in his liked songs, playlists or followed playlists.");
+            return;
+        }
+
+//        sorting every song based on the total number of likes
+        ArrayList<Song> everySongSortedByLikes = new ArrayList<>(Songs.getSongs());
+
+        for (User u : Users.getUsers()) {
+            for (Song s : u.getLikedSongs()) {
+                int songIndex = everySongSortedByLikes.indexOf(s);
+                everySongSortedByLikes.get(songIndex).setNumberOfLikes
+                        (everySongSortedByLikes.get(songIndex).getNumberOfLikes() + 1);
+            }
+        }
+
+
+
+//        sorting the songs descending based on the number of likes
+        everySongSortedByLikes.sort((o1, o2) -> {
+            if (o1.getNumberOfLikes() == o2.getNumberOfLikes()) {
+                return o1.getName().compareTo(o2.getName());
+            }
+            return o2.getNumberOfLikes() - o1.getNumberOfLikes();
+        });
+
+
+//        removing the songs with 0 likes
+        everySongSortedByLikes.removeIf(s -> s.getNumberOfLikes() == 0);
+
+//        putting in recommendedPlaylist the first 5 songs from first genre
+//        the first 3 songs from the second genre
+//        the first 2 songs from the third genre
+//        if there are not enough songs we don't add them
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        for (Song s : everySongSortedByLikes) {
+            if (i >= 5 && j >= 3 && k >= 2) {
+                break;
+            }
+            if (userGenres.containsKey(s.getGenre())) {
+                if (userGenres.get(s.getGenre()) >= 5 && i < 5) {
+                    recommendationPlaylist.addSong(s);
+                    i++;
+                } else if (userGenres.get(s.getGenre()) >= 3 && j < 3) {
+                    recommendationPlaylist.addSong(s);
+                    j++;
+                } else if (userGenres.get(s.getGenre()) >= 2 && k < 2) {
+                    recommendationPlaylist.addSong(s);
+                    k++;
+                }
+            }
+        }
+
+
+        int debug = 56;
+
+    }
+
+    /**
+     * Method that sets a random song as recommendation
+     */
+    public void setRandomSong(User user) {
+
+        if (user.getCurrentType().getSecondsGone() < 30) {
+            this.setMessage("The user has to listen to the current song for at least 30 seconds.");
+            return;
+        }
+
+        int seed = user.getCurrentType().getSecondsGone();
+
+        Random random = new Random(seed);
+
+        String currentGenre = ((Song) user.getCurrentType()).getGenre();
+
+        ArrayList<Song> songs = new ArrayList<>();
+        for (Song s : Songs.getSongs()) {
+            if (s.getGenre().equals(currentGenre)) {
+                songs.add(s);
+            }
+        }
+
+//        if there are no songs with the same genre
+        if (songs.size() == 0) {
+            this.setMessage("There are no songs with the same genre as the current song.");
+            return;
+        }
+
+//        picking the song based on the seed
+        int index = random.nextInt(songs.size());
+        Song randomSong = songs.get(index);
+
+        user.setRecommendedSongs(randomSong);
+
+        this.setMessage("The recommendations for user " + user.getUsername()
+                + " have been updated successfully.");
     }
 
     /**
