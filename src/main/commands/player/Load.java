@@ -54,6 +54,26 @@ public final class Load implements Command {
         this.message = "You can't load an empty audio collection!";
     }
 
+    /**
+     * Constructor
+     */
+    public Load(Song song) {
+        this.command = "load";
+        this.user = "user";
+        this.timestamp = 0;
+        this.message = "You can't load an empty audio collection!";
+    }
+
+    /**
+     * Constructor
+     */
+    public Load(Playlist playlist) {
+        this.command = "load";
+        this.user = "user";
+        this.timestamp = 0;
+        this.message = "You can't load an empty audio collection!";
+    }
+
     /** load command method
      *
      * @param currUser current user

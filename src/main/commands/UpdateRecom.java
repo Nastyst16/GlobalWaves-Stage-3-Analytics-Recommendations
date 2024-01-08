@@ -163,9 +163,16 @@ public class UpdateRecom implements Command {
             }
         }
 
+        recommendationPlaylist.setName(this.user + "'s recommendations");
+        recommendationPlaylist.setUser(this.user);
+
+        user.setRecommendedPlaylist(recommendationPlaylist);
+        user.setCurrentRecommendation(recommendationPlaylist);
 
         int debug = 56;
 
+        this.setMessage("The recommendations for user " + user.getUsername()
+                + " have been updated successfully.");
     }
 
     /**
@@ -202,6 +209,7 @@ public class UpdateRecom implements Command {
         Song randomSong = songs.get(index);
 
         user.setRecommendedSongs(randomSong);
+        user.setCurrentRecommendation(randomSong);
 
         this.setMessage("The recommendations for user " + user.getUsername()
                 + " have been updated successfully.");

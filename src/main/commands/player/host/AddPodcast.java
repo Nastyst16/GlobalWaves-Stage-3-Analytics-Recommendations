@@ -71,13 +71,15 @@ public final class AddPodcast implements Command {
             }
         }
 
-        if (host.getUsername().equals("Guy Raz")) {
-            int pula = 5;
+        String owner = host.getUsername();
+        for (Episode e : this.episodes) {
+            e.setOwner(owner);
         }
 
 
 //        adding the podcast
         Podcasts.addPodcast(new Podcast(this.name, this.user, this.episodes));
+
         host.getHostPodcasts().add(new Podcast(this.name, this.user, this.episodes));
 
         for (User u : Users.getUsers()) {

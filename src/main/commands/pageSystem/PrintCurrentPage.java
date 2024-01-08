@@ -66,22 +66,36 @@ public final class PrintCurrentPage implements Command {
             printHost(currUser);
         }
 
+        if (currUser.getRecommendedPlaylist() == null && currUser.getCurrentRecommendation() == null) {
+            return;
+        }
+
+
+
         StringBuilder recomendedPlaylist = new StringBuilder();
 
-        if (currUser.getRecommendedPlaylist() != null) {
+        if (currUser.getRecommendedPlaylist() != null || currUser.getRecommendedSongs() != null) {
             recomendedPlaylist.append("\n\nSong recommendations:\n\t");
 
             if (currUser.getRecommendedSongs() != null) {
                 Song song = currUser.getRecommendedSongs();
-                recomendedPlaylist.append(song.getName())
-                        .append(" - ")
-                        .append(song.getArtist());
+                recomendedPlaylist.append("[")
+                        .append(song.getName())
+                        .append("]");
             } else {
                 recomendedPlaylist.append("[]");
             }
-            recomendedPlaylist.append("\n\nPlaylists recommendations:\n\t[")
-                    .append(currUser.getRecommendedPlaylist().getName())
-                    .append("]");
+            recomendedPlaylist.append("\n\nPlaylists recommendations:\n\t[");
+
+            if (currUser.getRecommendedPlaylist() != null) {
+                recomendedPlaylist.append(currUser.getRecommendedPlaylist().getName())
+                        .append("]");
+            } else {
+                recomendedPlaylist.append("]");
+            }
+
+
+
 
 
             if (!recomendedPlaylist.isEmpty()) {
@@ -160,8 +174,7 @@ public final class PrintCurrentPage implements Command {
             if (currUser.getRecommendedSongs() != null) {
                 Song song = currUser.getRecommendedSongs();
                 recomendedPlaylist.append(song.getName())
-                        .append(" - ")
-                        .append(song.getArtist());
+                        .append("]");
             } else {
                 recomendedPlaylist.append("[]");
             }

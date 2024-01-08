@@ -26,6 +26,16 @@ public class EndProgram implements Command {
         for (Artist artist : Artists.getArtists()) {
             sortedArtistsByNumberOfListens.add(artist);
         }
+
+//        sorting alphabetically
+        Collections.sort(sortedArtistsByNumberOfListens, new Comparator<Artist>() {
+            @Override
+            public int compare(final Artist o1, final Artist o2) {
+                return o1.getUsername().compareTo(o2.getUsername());
+            }
+        });
+
+
         Collections.sort(sortedArtistsByNumberOfListens, new Comparator<Artist>() {
             @Override
             public int compare(final Artist o1, final Artist o2) {
@@ -41,7 +51,7 @@ public class EndProgram implements Command {
 
         int ranking = 0;
 
-        for (Artist artist : Artists.getArtists()) {
+        for (Artist artist : sortedArtistsByNumberOfListens) {
 
 //            if the artist has some merchandise bought
             boolean soldMerch = false;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.collections.Albums;
 import main.collections.Playlists;
 import main.commands.types.Album;
+import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Playlist;
@@ -54,6 +55,24 @@ public class Select implements Command {
         this.timestamp = input.getTimestamp();
         this.itemNumber = input.getItemNumber();
         this.message = "Please conduct a search before making a selection.";
+    }
+
+    /**
+     * constructor for Select command.
+     */
+    public Select(Object currentRecommendation) {
+        this.command = "select";
+        this.user = "";
+        this.timestamp = 0;
+
+        if (currentRecommendation instanceof Song) {
+            this.selectedName = ((Song) currentRecommendation).getName();
+        } else {
+            this.selectedName = ((Playlist) currentRecommendation).getName();
+        }
+
+        this.itemNumber = 1;
+        this.message = "Successfully selected " + this.selectedName + ".";
     }
 
     /**

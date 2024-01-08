@@ -5,7 +5,7 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.users.User;
 
-public class PreviousPage implements Command {
+public class PreviousNextPage implements Command {
     private final String command;
     private final String user;
     private final int timestamp;
@@ -16,14 +16,37 @@ public class PreviousPage implements Command {
      * calls the setPreviousPage method
      */
     public void execute(final User currUser) {
-        this.setPreviousPage(currUser);
+        if (this.command.equals("previousPage")) {
+            this.setPreviousPage(currUser);
+        } else if (this.command.equals("previousPage")) {
+            this.setNextPage(currUser);
+        }
+    }
+
+    private void setNextPage(User currUser) {
+        if (currUser == null) {
+            this.setMessage(this.user + " doesn't exist.");
+            return;
+        }
+
+        if (currUser.getNextPages().isEmpty()) {
+            this.setMessage(this.user + " has no next pages.");
+            return;
+        }
+
+        currUser.addPreviousPage(currUser.getCurrentPage(), currUser.getCurrentRecommendation());
+        currUser.setCurrentPage(currUser.getNextPages().lastEntry().getKey());
+        currUser.setCurrentRecommendation(currUser.getNextPages().lastEntry().getValue());
+        currUser.getNextPages().remove(currUser.getCurrentPage());
+
+        this.setMessage("The user " + this.user + " has navigated successfully to the next page.");
     }
 
     /**
      * constructor for the ChangePage command
      * @param input the input from the user
      */
-    public PreviousPage(final SearchBar input) {
+    public PreviousNextPage(final SearchBar input) {
         this.command = input.getCommand();
         this.user = input.getUsername();
         this.timestamp = input.getTimestamp();

@@ -8,7 +8,7 @@ import main.commands.monetization.BuyPremium;
 import main.commands.monetization.CancelPremium;
 import main.commands.monetization.SeeMerch;
 import main.commands.pageSystem.ChangePage;
-import main.commands.pageSystem.PreviousPage;
+import main.commands.pageSystem.PreviousNextPage;
 import main.commands.pageSystem.PrintCurrentPage;
 import main.commands.player.*;
 import main.commands.player.admin.AddUser;
@@ -366,7 +366,13 @@ public interface CommandVisitor {
     void visit(UpdateRecom updateRecom);
 
     /**
-     * visits the PreviousPage command
+     * visits the PreviousNextPage command
      */
-    void visit(PreviousPage previousPage);
+    void visit(PreviousNextPage previousNextPage);
+
+    /**
+     * visits the loadrecommendations command
+     */
+    void visit(LoadRecomm loadRecomm);
+
 }

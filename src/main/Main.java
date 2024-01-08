@@ -22,7 +22,7 @@ import main.commands.monetization.BuyPremium;
 import main.commands.monetization.CancelPremium;
 import main.commands.monetization.SeeMerch;
 import main.commands.pageSystem.ChangePage;
-import main.commands.pageSystem.PreviousPage;
+import main.commands.pageSystem.PreviousNextPage;
 import main.commands.pageSystem.PrintCurrentPage;
 import main.commands.player.*;
 import main.commands.player.admin.AddUser;
@@ -167,7 +167,7 @@ public final class Main {
                 int pula = 6;
             }
 
-            if (input.getTimestamp() == 242) {
+            if (input.getTimestamp() == 75) {
                 int pula = 6;
             }
 
@@ -235,7 +235,8 @@ public final class Main {
                 case "buyMerch":            commands.add(new BuyMerch(input));               break;
                 case "seeMerch":            commands.add(new SeeMerch(input));               break;
                 case "updateRecommendations": commands.add(new UpdateRecom(input));          break;
-                case "previousPage":        commands.add(new PreviousPage(input));           break;
+                case "previousPage":        commands.add(new PreviousNextPage(input));       break;
+                case "loadRecommendations":  commands.add(new LoadRecomm(input));             break;
 
                 default: break;
             }
