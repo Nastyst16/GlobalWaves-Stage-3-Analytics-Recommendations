@@ -28,16 +28,25 @@ public class Subscribe implements Command {
      */
     public void setSubscribe(User user) {
 
+        if (user == null) {
+            this.message = "The username " + this.user + " doesn't exist.";
+            return;
+        }
+
+        if (user.getSelectedPageOwner().equals("")
+            || user.getSelectedPageOwner().equals("Home")) {
+            this.message = "To subscribe you need to be on the page of an artist or host.";
+        }
+
         for (Artist a : Artists.getArtists()) {
             if (a.getUsername().equals(user.getSelectedPageOwner())) {
-                if (a.getSubscribers().contains(user)) {
+                if (a.getNotificationService().containsObserver(user)) {
                     this.message = this.user + " unsubscribed from " + user.getSelectedPageOwner() + " successfully.";
+                    a.getNotificationService().removeObserver(user);
                     return;
                 }
             }
         }
-
-
 
         if (user.getSelectedPageOwner().equals("")) {
             this.message = "User " + this.user + " has subscribed to you.";
@@ -45,7 +54,7 @@ public class Subscribe implements Command {
             this.message = this.user + " subscribed to " + user.getSelectedPageOwner() + " successfully.";
             for (Artist a : Artists.getArtists()) {
                 if (a.getUsername().equals(user.getSelectedPageOwner())) {
-                    a.addSubscriber(user);
+                    a.getNotificationService().addObserver(user);
                     break;
                 }
             }

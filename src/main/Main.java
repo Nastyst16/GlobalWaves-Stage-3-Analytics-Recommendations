@@ -15,6 +15,7 @@ import main.collections.Hosts;
 import main.collections.Playlists;
 import main.collections.Podcasts;
 import main.collections.Songs;
+import main.commands.GetNotifications;
 import main.commands.Subscribe;
 import main.commands.monetization.BuyPremium;
 import main.commands.monetization.CancelPremium;
@@ -231,6 +232,7 @@ public final class Main {
                 case "buyPremium":          commands.add(new BuyPremium(input));             break;
                 case "cancelPremium":       commands.add(new CancelPremium(input));          break;
                 case "subscribe":           commands.add(new Subscribe(input));              break;
+                case "getNotifications":    commands.add(new GetNotifications(input));       break;
 
 
 

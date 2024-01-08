@@ -147,6 +147,9 @@ public class AddAlbum implements Command {
         artist.getAlbums().add(Albums.getAlbums().
                 get(Albums.getAlbums().size() - 1));
         this.setMessage(this.user + " has added new album successfully.");
+
+        artist.getNotificationService().notifyUsers("New Album",
+                "New Album from " + this.user + ".");
     }
 
     /**

@@ -9,10 +9,12 @@ import main.commands.searchBar.Select;
 import main.commands.types.*;
 import main.decoratorPattern.ListenCounterDecorator;
 import main.decoratorPattern.Listenable;
+import main.notificationsObserver.Observer;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-public class User {
+public class User implements Observer {
     private String username;
     private final int age;
     private final String city;
@@ -60,6 +62,8 @@ public class User {
     private ArrayList<Album> everyAlbum;
     private Song searchedSong;
     private boolean premium = false;
+    private ArrayList<Map<String, String>> notifications;
+
 
     public User(final String username, final int age, final String city,
                 final ArrayList<Song> everySong, final ArrayList<Podcast> everyPodcast) {
@@ -133,6 +137,7 @@ public class User {
             this.everyAlbum.add(copyAlbum);
         }
 
+        this.notifications = new ArrayList<>();
     }
 
 
@@ -1020,5 +1025,24 @@ public class User {
 
     public void setPremium(boolean premium) {
         this.premium = premium;
+    }
+
+    /**
+     * add notification
+     */
+    public void addNotification(final Map<String, String> notification) {
+        this.notifications.add(notification);
+    }
+
+    /**
+     * get notifications
+     */
+    public ArrayList<Map<String, String>> getNotifications() {
+        return notifications;
+    }
+
+    @Override
+    public void update(Map<String, String> notification) {
+        this.addNotification(notification);
     }
 }

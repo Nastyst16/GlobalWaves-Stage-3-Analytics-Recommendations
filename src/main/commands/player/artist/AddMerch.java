@@ -71,6 +71,9 @@ public final class AddMerch implements Command {
 
         artist.getMerchandise().add(new Merch(this.user, this.name, this.description, this.price));
         this.setMessage(this.user + " has added new merchandise successfully.");
+
+        artist.getNotificationService().notifyUsers("New Merchandise",
+                "New Merchandise from " + this.user + ".");
     }
 
     /**

@@ -3,6 +3,8 @@ package main.users;
 import main.commands.types.Album;
 import main.commands.types.Event;
 import main.commands.types.Merch;
+import main.notificationsObserver.NotificationService;
+import main.notificationsObserver.Observer;
 
 import java.util.ArrayList;
 
@@ -15,8 +17,8 @@ public class Artist {
     private final ArrayList<Event> events;
     private final ArrayList<Merch> merchandise;
     private int numberOfListens = 0;
-    private ArrayList<User> subscribers = new ArrayList<>();
-
+//    private ArrayList<User> subscribers = new ArrayList<>();
+    private final NotificationService notificationService = new NotificationService();
 
     public Artist(Artist artist) {
         this.username = artist.username;
@@ -109,23 +111,9 @@ public class Artist {
     }
 
     /**
-     * gets the subscribers of the artist
+     * gets the notificationservice of the artist
      */
-    public ArrayList<User> getSubscribers() {
-        return subscribers;
-    }
-
-    /**
-     * adds a subscriber to the artist
-     */
-    public void addSubscriber(User user) {
-        subscribers.add(user);
-    }
-
-    /**
-     * removes a subscriber from the artist
-     */
-    public void removeSubscriber(User user) {
-        subscribers.remove(user);
+    public NotificationService getNotificationService() {
+        return notificationService;
     }
 }

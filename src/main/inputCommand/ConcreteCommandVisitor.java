@@ -1,7 +1,9 @@
 package main.inputCommand;
 
 import main.SearchBar;
+import main.commands.GetNotifications;
 import main.commands.Subscribe;
+import main.commands.monetization.BuyMerch;
 import main.commands.monetization.BuyPremium;
 import main.commands.monetization.CancelPremium;
 import main.commands.pageSystem.ChangePage;
@@ -422,5 +424,21 @@ public class ConcreteCommandVisitor implements CommandVisitor {
     @Override
     public void visit(final Subscribe subscribe) {
         subscribe.execute(user);
+    }
+
+    /**
+     * @param getNotifications - the command to be executed
+     */
+    @Override
+    public void visit(final GetNotifications getNotifications) {
+        getNotifications.execute(user);
+    }
+
+    /**
+     * @param buyMerch - the command to be executed
+     */
+    @Override
+    public void visit(final BuyMerch buyMerch) {
+        buyMerch.execute(user);
     }
 }

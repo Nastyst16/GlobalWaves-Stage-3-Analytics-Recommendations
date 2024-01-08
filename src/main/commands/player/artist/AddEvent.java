@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
+import main.notificationsObserver.NotificationService;
 import main.users.User;
 import main.commands.types.Event;
 import main.users.Artist;
@@ -67,6 +68,12 @@ public final class AddEvent implements Command {
         artist.getEvents().add(new Event(this.user, this.timestamp,
                 this.name, this.description, this.date));
         this.setMessage(this.user + " has added new event successfully.");
+
+//        for every subscribed user
+
+
+        artist.getNotificationService().notifyUsers("New Event",
+                "New Event from " + this.user + ".");
     }
 
 

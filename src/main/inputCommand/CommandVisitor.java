@@ -1,5 +1,6 @@
 package main.inputCommand;
 
+import main.commands.GetNotifications;
 import main.commands.Subscribe;
 import main.commands.monetization.BuyPremium;
 import main.commands.monetization.CancelPremium;
@@ -339,5 +340,15 @@ public interface CommandVisitor {
      * visits the subscribe command
      */
     void visit(Subscribe subscribe);
+
+    /**
+     * visits the getnotification command
+     */
+    void visit(GetNotifications getNotifications);
+
+    /**
+     * visits the buymerch command
+     */
+    void visit(main.commands.monetization.BuyMerch buyMerch);
 
 }
