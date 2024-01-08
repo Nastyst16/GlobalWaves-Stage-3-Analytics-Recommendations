@@ -158,7 +158,13 @@ public class UpdateRecom implements Command {
         recommendationPlaylist.setUser(user.getUsername());
         recommendationPlaylist.setName(currentSongArtist.getUsername() + " Fan Club recommendations");
 
-        int debug = 0;
+        user.setRecommendedPlaylist(recommendationPlaylist);
+//        user.setRecommendedSongs(user.getLikedSongs());
+
+        this.setMessage("The recommendations for user " + user.getUsername()
+                + " have been updated successfully.");
+
+        user.setCurrentRecommendation(recommendationPlaylist);
     }
 
     public static LinkedHashMap<User, Integer> sortMapByValuesDescending(LinkedHashMap<User, Integer> inputMap) {

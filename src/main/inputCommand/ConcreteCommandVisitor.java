@@ -9,6 +9,7 @@ import main.commands.monetization.BuyPremium;
 import main.commands.monetization.CancelPremium;
 import main.commands.monetization.SeeMerch;
 import main.commands.pageSystem.ChangePage;
+import main.commands.pageSystem.PreviousPage;
 import main.commands.pageSystem.PrintCurrentPage;
 import main.commands.player.*;
 import main.commands.player.admin.AddUser;
@@ -458,5 +459,13 @@ public class ConcreteCommandVisitor implements CommandVisitor {
     @Override
     public void visit(final UpdateRecom updateRecom) {
         updateRecom.execute(user, artist, host);
+    }
+
+    /**
+     * @param previousPage - the command to be executed
+     */
+    @Override
+    public void visit(final PreviousPage previousPage) {
+        previousPage.execute(user);
     }
 }

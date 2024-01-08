@@ -1,6 +1,8 @@
 package main.commands.pageSystem;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import main.commands.types.Episode;
+import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
@@ -48,10 +50,26 @@ public final class ChangePage implements Command {
             return;
         }
 
+        currUser.addPreviousPage(currUser.getCurrentPage(), currUser.getCurrentRecommendation());
+        currUser.setRecommendedPlaylist(null);
+
         if (this.getNextPage().equals("Home") || this.getNextPage().equals("LikedContent")) {
 
             currUser.setCurrentPage(this.getNextPage());
             currUser.setSelectedPageOwner("");
+            this.setMessage(this.user + " accessed " + this.getNextPage() + " successfully.");
+        }
+
+        if (this.getNextPage().equals("Artist") || this.getNextPage().equals("Host")) {
+
+            currUser.setCurrentPage(this.getNextPage());
+
+            if (this.getNextPage().equals("Artist")) {
+                currUser.setSelectedPageOwner(((Song) currUser.getCurrentType()).getArtist());
+            } else {
+                currUser.setSelectedPageOwner(((Episode) currUser.getCurrentType()).getOwner());
+            }
+
             this.setMessage(this.user + " accessed " + this.getNextPage() + " successfully.");
         }
     }

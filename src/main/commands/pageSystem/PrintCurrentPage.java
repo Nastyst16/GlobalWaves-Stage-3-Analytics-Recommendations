@@ -65,6 +65,35 @@ public final class PrintCurrentPage implements Command {
         } else if (currUser.getCurrentPage().equals("Host")) {
             printHost(currUser);
         }
+
+        StringBuilder recomendedPlaylist = new StringBuilder();
+
+        if (currUser.getRecommendedPlaylist() != null) {
+            recomendedPlaylist.append("\n\nSong recommendations:\n\t");
+
+            if (currUser.getRecommendedSongs() != null) {
+                for (Song song : currUser.getRecommendedSongs()) {
+                    recomendedPlaylist.append(song.getName())
+                            .append(" - ")
+                            .append(song.getArtist());
+
+                    if (currUser.getRecommendedSongs().indexOf(song)
+                            != currUser.getRecommendedSongs().size() - 1) {
+                        recomendedPlaylist.append(", ");
+                    }
+                }
+            } else {
+                recomendedPlaylist.append("[]");
+            }
+            recomendedPlaylist.append("\n\nPlaylists recommendations:\n\t[")
+                    .append(currUser.getRecommendedPlaylist().getName())
+                    .append("]");
+
+
+            if (!recomendedPlaylist.isEmpty()) {
+                this.message += recomendedPlaylist;
+            }
+        }
     }
 
     /**
@@ -129,8 +158,35 @@ public final class PrintCurrentPage implements Command {
             }
         }
 
+        StringBuilder recomendedPlaylist = new StringBuilder();
+
+        if (currUser.getRecommendedPlaylist() != null) {
+            recomendedPlaylist.append("\n\nSong recommendations:\n\t");
+
+            if (currUser.getRecommendedSongs() != null) {
+                for (Song song : currUser.getRecommendedSongs()) {
+                    recomendedPlaylist.append(song.getName())
+                            .append(" - ")
+                            .append(song.getArtist());
+
+                    if (currUser.getRecommendedSongs().indexOf(song)
+                            != currUser.getRecommendedSongs().size() - 1) {
+                        recomendedPlaylist.append(", ");
+                    }
+                }
+            } else {
+                recomendedPlaylist.append("[]");
+            }
+            recomendedPlaylist.append("\n\nPlaylist recommendations:\n\t")
+                    .append(currUser.getRecommendedPlaylist().getName());
+        }
+
+
+
         this.message = "Liked songs:\n\t[" + likedSongs + "]\n\n"
                 + "Followed playlists:\n\t[" + followedPlaylists + "]";
+
+
     }
 
     /**

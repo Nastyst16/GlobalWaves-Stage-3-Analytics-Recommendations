@@ -10,6 +10,7 @@ public class Playlist {
     private String user;
     private final ArrayList<Song> songList;
     private final ArrayList<String> songs;
+    @JsonIgnore
     protected int numberOfListens = 0;
 
     private String visibility;
@@ -186,14 +187,6 @@ public class Playlist {
      */
     public void decrementFollowers() {
         this.followers--;
-    }
-
-    /**
-     * Gets the number of listeners
-     * @return the number of listeners
-     */
-    public int getNumberOfListeners() {
-        return numberOfListens;
     }
 
     /**

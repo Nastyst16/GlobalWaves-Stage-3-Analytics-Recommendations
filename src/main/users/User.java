@@ -54,7 +54,6 @@ public class User implements Observer {
     private Playlist selectedPlaylist;
 
 //    Stage 2 variables
-    private String currentPage;
     private boolean online;
     private String selectedPageOwner;
 
@@ -66,6 +65,12 @@ public class User implements Observer {
     private ArrayList<Map<String, String>> notifications;
     private ArrayList<Merch> boughtMerchandise;
     private LinkedHashMap<Episode, Integer> lisenedEpisodes;
+    private Playlist recommendedPlaylist = null;
+    private ArrayList<Song> recommendedSongs = null;
+    private LinkedHashMap<String, Object> previousPages = new LinkedHashMap<>();
+    private String currentPage;
+    private Object currentRecommendation;
+    private LinkedHashMap<String, Object> nextPages = new LinkedHashMap<>();
 
 
     public User(final String username, final int age, final String city,
@@ -1095,5 +1100,75 @@ public class User implements Observer {
      */
     public void setLisenedEpisodes(final LinkedHashMap<Episode, Integer> lisenedEpisodes) {
         this.lisenedEpisodes = lisenedEpisodes;
+    }
+
+    /**
+     * get recommended playlist
+     */
+    public Playlist getRecommendedPlaylist() {
+        return recommendedPlaylist;
+    }
+
+    /**
+     * set recommended playlist
+     */
+    public void setRecommendedPlaylist(Playlist recommendedPlaylist) {
+        this.recommendedPlaylist = recommendedPlaylist;
+    }
+
+    /**
+     * get recommended songs
+     */
+    public ArrayList<Song> getRecommendedSongs() {
+        return recommendedSongs;
+    }
+
+    /**
+     * set recommended songs
+     */
+    public void setRecommendedSongs(ArrayList<Song> recommendedSongs) {
+        this.recommendedSongs = recommendedSongs;
+    }
+
+    /**
+     * get the previous pages
+     */
+    public LinkedHashMap<String, Object> getPreviousPages() {
+        return previousPages;
+    }
+
+    /**
+     * adds a previous page
+     */
+    public void addPreviousPage(String page, Object object) {
+        this.previousPages.put(page, object);
+    }
+
+    /**
+     * get the next pages
+     */
+    public LinkedHashMap<String, Object> getNextPages() {
+        return nextPages;
+    }
+
+    /**
+     * adds a next page
+     */
+    public void addNextPage(String page, Object object) {
+        this.nextPages.put(page, object);
+    }
+
+    /**
+     * get the current recommendation
+     */
+    public Object getCurrentRecommendation() {
+        return currentRecommendation;
+    }
+
+    /**
+     * set the current recommendation
+     */
+    public void setCurrentRecommendation(Object currentRecommendation) {
+        this.currentRecommendation = currentRecommendation;
     }
 }
