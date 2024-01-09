@@ -3,7 +3,12 @@ package main.decoratorPattern;
 import main.collections.Albums;
 import main.collections.Artists;
 import main.collections.Songs;
-import main.commands.types.*;
+import main.commands.types.Song;
+import main.commands.types.Type;
+import main.commands.types.Episode;
+import main.commands.types.Podcast;
+import main.commands.types.Album;
+
 import main.users.Artist;
 import main.users.User;
 
@@ -17,40 +22,15 @@ public class ListenCounterDecorator {
         this.types = new ArrayList<>();
     }
 
-    private void addType(Type type) {
-
-//        adding the type only if it doesn't exist
-        for (Type t : types) {
-            if (t.getName().equals(type.getName())) {
-                return;
-            }
-        }
-        types.add(type);
-        type.addListen();
-    }
-
-
-//    @Override
-    public void listen(Type type, User user) {
-
-//        if (type instanceof Song) {
-//            if (((Song) type).getAlbum().equalsIgnoreCase("the 50th anniversary collection")
-//                    && user.getUsername().equals("jack29")) {
-//                int x = 5;
-////                printing the song
-//                System.out.println("Song: " + type.getName());
-//            }
-//        }
+    /**
+     * this method adds a listen to the current Type
+     */
+    public void listen(final Type type, final User user) {
 
 //                searching the song
         for (Song s : user.getEverySong()) {
             if (s.getName().equals(type.getName())
-                && s.getAlbum().equals(((Song)type).getAlbum())) {
-
-//                if (user.getCurrentPlaylist() != null)
-//                    if (!s.getAlbum().equals(user.getCurrentPlaylist().getName()))
-//                        continue;
-
+                && s.getAlbum().equals(((Song) type).getAlbum())) {
 
                 s.addListen();
 
@@ -68,8 +48,9 @@ public class ListenCounterDecorator {
                 for (Album a : Albums.getAlbums()) {
 
 
-                    if (!s.getAlbum().equals(a.getName()))
+                    if (!s.getAlbum().equals(a.getName())) {
                         continue;
+                    }
 
                     for (Song song : a.getSongList()) {
 
@@ -79,8 +60,9 @@ public class ListenCounterDecorator {
                             break;
                         }
                     }
-                    if (found)
+                    if (found) {
                         break;
+                    }
                 }
                 break;
             }
@@ -88,16 +70,10 @@ public class ListenCounterDecorator {
 
         for (Song s : Songs.getSongs()) {
             if (s.getName().equals(type.getName())
-                    && s.getAlbum().equals(((Song)type).getAlbum())) {
+                    && s.getAlbum().equals(((Song) type).getAlbum())) {
                 s.addListen();
             }
         }
-
-
-        if (user.getUsername().equals("alice22") && user.getPodcastsPlayed() != null) {
-            int x = 5;
-        }
-
 
 ////                searching the podcast
         for (Podcast p : user.getPodcastsPlayed()) {
@@ -118,21 +94,16 @@ public class ListenCounterDecorator {
                     break;
                 }
             }
-            if (found)
+            if (found) {
                 break;
+            }
         }
-
-
-
-        int x = 5;
-
-
-
     }
 
+    /**
+     * this method returns the types
+     */
     public ArrayList<Type> getTypes() {
         return types;
     }
-
-
 }

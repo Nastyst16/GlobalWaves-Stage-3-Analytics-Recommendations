@@ -1,12 +1,9 @@
 package main.commands.player.admin;
 
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.commands.types.Album;
 import main.users.Artist;
-import main.users.Host;
-import main.users.User;
 
 import java.util.ArrayList;
 

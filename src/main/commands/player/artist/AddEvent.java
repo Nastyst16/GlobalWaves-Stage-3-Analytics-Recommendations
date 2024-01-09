@@ -2,9 +2,7 @@ package main.commands.player.artist;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
-import main.notificationsObserver.NotificationService;
 import main.users.User;
 import main.commands.types.Event;
 import main.users.Artist;

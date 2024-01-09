@@ -2,15 +2,12 @@ package main.commands.player.statistics;
 
 import main.SearchBar;
 import main.collections.*;
-import main.commands.searchBar.Search;
 import main.commands.types.*;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.users.Artist;
 import main.users.Host;
 import main.users.User;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import static net.sf.saxon.query.QueryResult.serialize;

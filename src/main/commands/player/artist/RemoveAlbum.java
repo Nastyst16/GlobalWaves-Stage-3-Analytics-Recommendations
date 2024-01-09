@@ -5,7 +5,6 @@ import main.collections.Albums;
 import main.collections.Songs;
 import main.collections.Users;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.users.User;
 import main.commands.types.Album;

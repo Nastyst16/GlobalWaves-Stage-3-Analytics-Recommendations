@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.collections.*;
 import main.commands.types.*;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.users.User;
 import main.users.Artist;
 import main.users.Host;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Search implements Command {
@@ -111,23 +109,6 @@ public class Search implements Command {
         String artist = (String) (filters.get("artist"));
 
         ArrayList<String> result = new ArrayList<>();
-
-////        shallow copy of the user's songs
-//        ArrayList<Song> userSongsCopy = new ArrayList<>();
-//        for (Song song : currUser.getEverySong()) {
-//            userSongsCopy.add(song);
-//        }
-//
-////        sorting the songs on the criteria: the albums that contains "th" in their name
-////        will be last
-//        for (int i = 0; i < userSongsCopy.size(); ++i) {
-//            for (int j = i + 1; j < userSongsCopy.size(); ++j) {
-//                if (userSongsCopy.get(i).getAlbum().contains("th ")
-//                        && !userSongsCopy.get(j).getAlbum().contains("th ")) {
-//                    Collections.swap(userSongsCopy, i, j);
-//                }
-//            }
-//        }
 
         for (Song song : songs) {
             String songLyrics = song.getLyrics().toLowerCase();
@@ -413,9 +394,5 @@ public class Search implements Command {
 
     public String getResultsAlbum(final int index) {
         return resultsAlbum.get(index);
-    }
-
-    public void setResultsAlbum(ArrayList<String> resultsAlbum) {
-        this.resultsAlbum = resultsAlbum;
     }
 }

@@ -7,7 +7,6 @@ import main.collections.Hosts;
 import main.collections.Songs;
 import main.collections.Podcasts;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.users.User;
 import main.users.Artist;

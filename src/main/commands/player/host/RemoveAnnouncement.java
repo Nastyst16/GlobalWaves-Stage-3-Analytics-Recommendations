@@ -2,11 +2,8 @@ package main.commands.player.host;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
-import main.users.Artist;
 import main.users.Host;
-import main.users.User;
 
 public final class RemoveAnnouncement implements Command {
     private final String command;

@@ -6,9 +6,14 @@ import main.collections.Albums;
 import main.collections.Songs;
 import main.commands.searchBar.Search;
 import main.commands.searchBar.Select;
-import main.commands.types.*;
+import main.commands.types.Type;
+import main.commands.types.Song;
+import main.commands.types.Podcast;
+import main.commands.types.Episode;
+import main.commands.types.Album;
+import main.commands.types.Playlist;
+import main.commands.types.Merch;
 import main.decoratorPattern.ListenCounterDecorator;
-import main.decoratorPattern.Listenable;
 import main.notificationsObserver.Observer;
 
 import java.util.ArrayList;
@@ -270,13 +275,9 @@ public class User implements Observer {
                 Episode newEpisode = user.getCurrentPodcast().getEpisodesList().get(indexEpisode);
 
                 currentType = newEpisode;
-
                 user.getListenable().listen(currentType, user);
-
                 currentType.setSecondsGone(Math.abs(user.getRemainingTime()));
-
                 user.setRemainingTime(currentType.getDuration() - currentType.getSecondsGone());
-
             }
         }
 
@@ -291,7 +292,6 @@ public class User implements Observer {
 
 //                if it is the last song in playlist
                 if (lastSong.getName().equals(currentType.getName()) && !user.isShuffle()) {
-
                     if (user.getRepeatStatus() == 0) {
                         this.setNull(user);
                         return;
@@ -343,9 +343,7 @@ public class User implements Observer {
                     nextShuffledIndex = user.getShuffledIndices().get(nextShuffledIndex);
 
                     newSong = user.getCurrentPlaylist().getSongList().get(nextShuffledIndex);
-
                     currentType = newSong;
-
                     user.getListenable().listen(currentType, user);
 
 //                if repeat current song we won't change the currentType
@@ -378,20 +376,11 @@ public class User implements Observer {
         user.setCurrentType(currentType);
     }
 
-
+    /**
+     * if the type loaded is a song or a podcast
+     */
     private void loadedSongOrPodcast(final User user, final Type type) {
         Type currentType = type;
-
-//        if (type instanceof Song) {
-//            if (((Song) type).getAlbum().equals("Out of Sight")
-//                    && user.getUsername().equals("jack29")) {
-//                int x = 5;
-////                printing the song
-//                System.out.println("Song: " + type.getName());
-//            }
-//        }
-
-
 
         if (user.getTypeLoaded() == 0 || user.getTypeLoaded() == 1) {
 
@@ -433,7 +422,6 @@ public class User implements Observer {
             }
         }
     }
-
 
     private void setNull(final User user) {
         user.setCurrentType(null);
@@ -1026,7 +1014,7 @@ public class User implements Observer {
     /**
      * sets the searched song
      */
-    public void setSearchedSong(Song searchedSong) {
+    public void setSearchedSong(final Song searchedSong) {
         this.searchedSong = searchedSong;
     }
 
@@ -1041,7 +1029,7 @@ public class User implements Observer {
      * set the premium status
      * @param premium
      */
-    public void setPremium(boolean premium) {
+    public void setPremium(final boolean premium) {
         this.premium = premium;
     }
 
@@ -1059,6 +1047,9 @@ public class User implements Observer {
         return notifications;
     }
 
+    /**
+     * add notification
+     */
     @Override
     public void update(final Map<String, String> notification) {
         this.addNotification(notification);

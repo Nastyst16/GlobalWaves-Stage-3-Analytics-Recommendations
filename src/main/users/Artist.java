@@ -4,7 +4,6 @@ import main.commands.types.Album;
 import main.commands.types.Event;
 import main.commands.types.Merch;
 import main.notificationsObserver.NotificationService;
-import main.notificationsObserver.Observer;
 
 import java.util.ArrayList;
 
@@ -17,11 +16,10 @@ public class Artist {
     private final ArrayList<Event> events;
     private final ArrayList<Merch> merchandise;
     private int numberOfListens = 0;
-//    private ArrayList<User> subscribers = new ArrayList<>();
     private final NotificationService notificationService = new NotificationService();
     private double songRevenue = 0;
 
-    public Artist(Artist artist) {
+    public Artist(final Artist artist) {
         this.username = artist.username;
         this.age = artist.age;
         this.city = artist.city;
@@ -107,7 +105,7 @@ public class Artist {
     /**
      * adding likes to the artist
      */
-    public void addNumberOfListens(int newListens) {
+    public void addNumberOfListens(final int newListens) {
         this.numberOfListens += newListens;
     }
 
@@ -128,7 +126,7 @@ public class Artist {
     /**
      * adds revenue to the artist
      */
-    public void addSongRevenue(double revenue) {
+    public void addSongRevenue(final double revenue) {
         this.songRevenue += revenue;
     }
 }

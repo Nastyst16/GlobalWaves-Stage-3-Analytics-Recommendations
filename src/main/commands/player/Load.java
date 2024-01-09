@@ -2,7 +2,6 @@ package main.commands.player;
 
 import main.collections.Playlists;
 import main.collections.Podcasts;
-import main.inputCommand.CommandVisitor;
 import main.inputCommand.Command;
 import main.SearchBar;
 import main.commands.types.Playlist;
@@ -10,8 +9,6 @@ import main.commands.types.Podcast;
 import main.commands.types.Song;
 import main.commands.types.Album;
 import main.commands.types.Episode;
-import main.users.Artist;
-import main.users.Host;
 import main.users.User;
 import java.util.ArrayList;
 

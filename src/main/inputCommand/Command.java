@@ -1,10 +1,8 @@
 package main.inputCommand;
 
-import main.SearchBar;
-import main.users.Artist;
-import main.users.Host;
-import main.users.User;
-
 public interface Command {
+    /**
+     * executes the command
+     */
     void execute(Object... params);
 }

@@ -1,8 +1,5 @@
 package main.commands.types;
 
-import main.collections.Artists;
-import main.users.Artist;
-
 import java.util.List;
 
 public class Song implements Type {
@@ -249,22 +246,9 @@ public class Song implements Type {
     }
 
     /**
-     * getting the artist based on the name
-     */
-    public Artist getArtistObject() {
-        for (Artist artist : Artists.getArtists()) {
-            if (artist.getUsername().equals(this.artist)) {
-                return artist;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * add number of listeners
      */
-    public void addNumberOfListeners(int nr) {
+    public void addNumberOfListeners(final int nr) {
         numberOfListens += nr;
     }
 }

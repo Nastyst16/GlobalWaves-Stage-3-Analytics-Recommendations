@@ -191,10 +191,10 @@ public class Playlist {
 
     /**
      * Sets the number of listeners
-     * @param numberOfListens the number of listeners
+     * @param nOListens the number of listeners
      */
-    public void addNumberOfListens(final int numberOfListens) {
-        this.numberOfListens += numberOfListens;
+    public void addNumberOfListens(final int nOListens) {
+        this.numberOfListens += nOListens;
     }
 
     /**

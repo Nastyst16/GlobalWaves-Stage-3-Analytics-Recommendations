@@ -3,7 +3,6 @@ package main.commands.pageSystem;
 import main.collections.Artists;
 import main.collections.Hosts;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.users.User;
 import main.commands.types.Song;

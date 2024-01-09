@@ -2,9 +2,6 @@ package main.commands.monetization;
 
 import main.SearchBar;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
-import main.users.Artist;
-import main.users.Host;
 import main.users.User;
 
 public class BuyPremium implements Command {

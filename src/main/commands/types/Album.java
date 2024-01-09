@@ -1,7 +1,6 @@
 package main.commands.types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import main.decoratorPattern.Listenable;
 
 import java.util.ArrayList;
 
@@ -138,20 +137,9 @@ public class Album extends Playlist {
     }
 
     /**
-     * add like to the album
-     */
-    public void addLike() {
-        this.numberOfLikes++;
-    }
-
-    /**
      * listen the album
      */
     public void addListen() {
         this.numberOfListens++;
-    }
-
-    public void setNumberOfListens(int numberOfListens) {
-        this.numberOfListens = numberOfListens;
     }
 }

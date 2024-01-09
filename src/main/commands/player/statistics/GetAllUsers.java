@@ -4,7 +4,6 @@ import main.collections.Artists;
 import main.collections.Hosts;
 import main.collections.Users;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.users.User;
 import main.users.Artist;

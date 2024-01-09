@@ -2,7 +2,6 @@ package main.commands.player.host;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.users.User;
 import main.commands.types.Announcement;

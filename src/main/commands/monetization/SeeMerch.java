@@ -3,9 +3,6 @@ package main.commands.monetization;
 import main.SearchBar;
 import main.commands.types.Merch;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
-import main.users.Artist;
-import main.users.Host;
 import main.users.User;
 
 import java.util.ArrayList;

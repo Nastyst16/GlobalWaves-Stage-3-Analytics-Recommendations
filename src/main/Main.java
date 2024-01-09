@@ -16,11 +16,11 @@ import main.collections.Hosts;
 import main.collections.Playlists;
 import main.collections.Podcasts;
 import main.collections.Songs;
-import main.commands.player.*;
-import main.commands.player.statistics.*;
+import main.commands.player.EndProgram;
+import main.commands.player.statistics.Wrapped;
+import main.commands.player.statistics.WrappedMessage;
 import main.commands.types.Type;
 import main.inputCommand.Command;
-//import main.inputCommand.ConcreteCommandVisitor;
 import main.users.Artist;
 import main.users.Host;
 import main.users.User;
@@ -122,17 +122,18 @@ public final class Main {
             Factory factory = new CommandFactory();
             commands.add(factory.createCommand(command, input));
 
-            if (index == commands.size() || command.equals("adBreak"))
+            if (index == commands.size() || command.equals("adBreak")) {
                 continue;
+            }
 
             // executing the command
             commands.get(index).execute(input, user, artist, host);
 
             if (commands.get(index) instanceof Wrapped) {
-                if (((Wrapped)commands.get(index)).getResult() == null) {
+                if (((Wrapped) commands.get(index)).getResult() == null) {
                     commands.remove(index);
                     commands.add(new WrappedMessage(input));
-                    commands.get(index).execute(input , user, artist, host);
+                    commands.get(index).execute(input, user, artist, host);
                 }
             }
         }

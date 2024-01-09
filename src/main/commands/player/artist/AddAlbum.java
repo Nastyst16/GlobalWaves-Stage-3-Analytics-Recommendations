@@ -5,7 +5,6 @@ import main.collections.Albums;
 import main.collections.Songs;
 import main.collections.Users;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.users.User;
 import main.commands.types.Song;
@@ -14,8 +13,6 @@ import main.users.Artist;
 import main.users.Host;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class AddAlbum implements Command {
     private final String command;

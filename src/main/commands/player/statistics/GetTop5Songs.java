@@ -2,12 +2,8 @@ package main.commands.player.statistics;
 
 import main.collections.Songs;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.commands.types.Song;
 import main.SearchBar;
-import main.users.Artist;
-import main.users.Host;
-import main.users.User;
 
 import java.util.ArrayList;
 import java.util.Collections;

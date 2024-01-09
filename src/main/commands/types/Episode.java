@@ -22,7 +22,8 @@ public class Episode implements Type {
         this.setOwner("");
     }
 
-    public Episode(final String name, final int duration, final String description, final String owner) {
+    public Episode(final String name, final int duration,
+                   final String description, final String owner) {
         this.name = name;
         this.duration = duration;
         this.description = description;
@@ -133,11 +134,18 @@ public class Episode implements Type {
         numberOfListens++;
     }
 
-    public void addNumberOfListens(int numberOfListens) {
-        this.numberOfListens += numberOfListens;
+    /**
+     * add number of listens
+     * @param nOfListens number of listens
+     */
+    public void addNumberOfListens(final int nOfListens) {
+        this.numberOfListens += nOfListens;
     }
 
-    public void setNumberOfListens(int i) {
+    /**
+     * set number of listens
+     */
+    public void setNumberOfListens(final int i) {
         this.numberOfListens = i;
     }
 
@@ -151,7 +159,7 @@ public class Episode implements Type {
     /**
      * set owner
      */
-    public void setOwner(String owner) {
+    public void setOwner(final String owner) {
         this.owner = owner;
     }
 }

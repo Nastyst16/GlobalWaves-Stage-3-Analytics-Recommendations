@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.commands.types.Episode;
 import main.commands.types.Song;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
-import main.users.Artist;
-import main.users.Host;
 import main.users.User;
 
 public final class ChangePage implements Command {

@@ -8,7 +8,6 @@ import main.collections.Songs;
 import main.collections.Albums;
 import main.collections.Podcasts;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.users.User;
 import main.commands.types.Album;
@@ -20,7 +19,6 @@ import main.users.Host;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
 
 public final class DeleteUser implements Command {
     private final String command;

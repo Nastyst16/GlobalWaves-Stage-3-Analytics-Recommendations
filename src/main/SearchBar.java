@@ -319,11 +319,17 @@ public class SearchBar {
         this.episodes = episodes;
     }
 
+    /**
+     * sets recommendation type
+     */
     public String getRecommendationType() {
         return recommendationType;
     }
 
-    public void setRecommendationType(String recommendationType) {
+    /**
+     * sets recommendation type
+     */
+    public void setRecommendationType(final String recommendationType) {
         this.recommendationType = recommendationType;
     }
 }

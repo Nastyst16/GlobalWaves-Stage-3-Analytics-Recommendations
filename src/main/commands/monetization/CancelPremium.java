@@ -4,9 +4,7 @@ import main.SearchBar;
 import main.collections.Artists;
 import main.commands.types.Song;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.users.Artist;
-import main.users.Host;
 import main.users.User;
 
 public class CancelPremium implements Command {

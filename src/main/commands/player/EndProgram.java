@@ -1,15 +1,12 @@
 package main.commands.player;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import main.SearchBar;
 import main.collections.Artists;
 import main.collections.Users;
 import main.commands.types.Merch;
 import main.commands.types.Song;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.users.Artist;
-import main.users.Host;
 import main.users.User;
 
 import java.util.*;

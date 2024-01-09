@@ -1,13 +1,9 @@
 package main.commands;
 
-import lombok.Getter;
-import lombok.Setter;
 import main.SearchBar;
 import main.collections.Artists;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.users.Artist;
-import main.users.Host;
 import main.users.User;
 
 public class Subscribe implements Command {
@@ -20,42 +16,44 @@ public class Subscribe implements Command {
     /**
      * executes the Subscribe command
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
         this.setSubscribe((User) params[1]);
     }
 
     /**
      * sets the message of the Subscribe command
      */
-    public void setSubscribe(User user) {
+    public void setSubscribe(final User currUser) {
 
-        if (user == null) {
+        if (currUser == null) {
             this.message = "The username " + this.user + " doesn't exist.";
             return;
         }
 
-        if (user.getSelectedPageOwner().equals("")
-            || user.getSelectedPageOwner().equals("Home")) {
+        if (currUser.getSelectedPageOwner().equals("")
+            || currUser.getSelectedPageOwner().equals("Home")) {
             this.message = "To subscribe you need to be on the page of an artist or host.";
         }
 
         for (Artist a : Artists.getArtists()) {
-            if (a.getUsername().equals(user.getSelectedPageOwner())) {
-                if (a.getNotificationService().containsObserver(user)) {
-                    this.message = this.user + " unsubscribed from " + user.getSelectedPageOwner() + " successfully.";
-                    a.getNotificationService().removeObserver(user);
+            if (a.getUsername().equals(currUser.getSelectedPageOwner())) {
+                if (a.getNotificationService().containsObserver(currUser)) {
+                    this.message = this.user + " unsubscribed from "
+                            + currUser.getSelectedPageOwner() + " successfully.";
+                    a.getNotificationService().removeObserver(currUser);
                     return;
                 }
             }
         }
 
-        if (user.getSelectedPageOwner().equals("")) {
+        if (currUser.getSelectedPageOwner().equals("")) {
             this.message = "User " + this.user + " has subscribed to you.";
         } else {
-            this.message = this.user + " subscribed to " + user.getSelectedPageOwner() + " successfully.";
+            this.message = this.user + " subscribed to "
+                    + currUser.getSelectedPageOwner() + " successfully.";
             for (Artist a : Artists.getArtists()) {
-                if (a.getUsername().equals(user.getSelectedPageOwner())) {
-                    a.getNotificationService().addObserver(user);
+                if (a.getUsername().equals(currUser.getSelectedPageOwner())) {
+                    a.getNotificationService().addObserver(currUser);
                     break;
                 }
             }

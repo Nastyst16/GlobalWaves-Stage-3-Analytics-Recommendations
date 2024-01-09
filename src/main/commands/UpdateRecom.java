@@ -8,12 +8,17 @@ import main.collections.Users;
 import main.commands.types.Playlist;
 import main.commands.types.Song;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.users.Artist;
 import main.users.Host;
 import main.users.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class UpdateRecom implements Command {
@@ -23,6 +28,10 @@ public class UpdateRecom implements Command {
     @JsonIgnore
     private final String recommendationType;
     private String message;
+    private static final int MAX_TOP = 5;
+    private static final int TOP_3 = 3;
+    private static final int SECONDS = 30;
+    private static final int HOST_PARAM = 3;
 
     public UpdateRecom(final SearchBar input) {
         this.command = input.getCommand();
@@ -37,7 +46,7 @@ public class UpdateRecom implements Command {
     public void execute(final Object... params) {
         User currUser = (User) params[1];
         Artist currArtist = (Artist) params[2];
-        Host currHost = (Host) params[3];
+        Host currHost = (Host) params[HOST_PARAM];
 
         if (currUser == null) {
             this.setMessage(currUser.getUsername() + " does not exist!");
@@ -47,13 +56,13 @@ public class UpdateRecom implements Command {
             this.setMessage(this.user + " is not a normal user.");
         }
 
-        String recommendationType = this.getRecommendationType();
+        String recommType = this.getRecommendationType();
 
-        if (recommendationType.equals("random_song")) {
+        if (recommType.equals("random_song")) {
             this.setRandomSong(currUser);
-        } else if (recommendationType.equals("random_playlist")) {
+        } else if (recommType.equals("random_playlist")) {
             this.setRandomPlaylist(currUser);
-        } else if (recommendationType.equals("fans_playlist")) {
+        } else if (recommType.equals("fans_playlist")) {
             this.setFansPlaylist(currUser);
         }
 
@@ -62,17 +71,17 @@ public class UpdateRecom implements Command {
     /**
      * Method that sets a random playlist as recommendation
      */
-    public void setRandomPlaylist(User user) {
+    public void setRandomPlaylist(final User currUser) {
         Playlist recommendationPlaylist = new Playlist();
 
         ArrayList<Song> everySongFromLikedSongsPlaylistsFollowedPlaylists = new ArrayList<>();
 //        adding every song from the liked songs
-        for (Song s : user.getLikedSongs()) {
+        for (Song s : currUser.getLikedSongs()) {
             everySongFromLikedSongsPlaylistsFollowedPlaylists.add(s);
         }
 
 //        adding every song from the playlists
-        for (Playlist p : user.getPlayListList()) {
+        for (Playlist p : currUser.getPlayListList()) {
             for (Song s : p.getSongList()) {
 //                if the song already exists in the list
                 if (everySongFromLikedSongsPlaylistsFollowedPlaylists.contains(s)) {
@@ -83,7 +92,7 @@ public class UpdateRecom implements Command {
         }
 
 //        adding every song from the followed playlists
-        for (Playlist p : user.getFollowedPlaylists()) {
+        for (Playlist p : currUser.getFollowedPlaylists()) {
             for (Song s : p.getSongList()) {
 //                if the song already exists in the list
                 if (everySongFromLikedSongsPlaylistsFollowedPlaylists.contains(s)) {
@@ -103,23 +112,16 @@ public class UpdateRecom implements Command {
             }
         }
 
-        if (userGenres.size() == 0) {
-            this.setMessage("The user has no songs in his liked songs, playlists or followed playlists.");
-            return;
-        }
-
 //        sorting every song based on the total number of likes
         ArrayList<Song> everySongSortedByLikes = new ArrayList<>(Songs.getSongs());
 
         for (User u : Users.getUsers()) {
             for (Song s : u.getLikedSongs()) {
                 int songIndex = everySongSortedByLikes.indexOf(s);
-                everySongSortedByLikes.get(songIndex).setNumberOfLikes
-                        (everySongSortedByLikes.get(songIndex).getNumberOfLikes() + 1);
+                everySongSortedByLikes.get(songIndex).setNumberOfLikes(everySongSortedByLikes.
+                        get(songIndex).getNumberOfLikes() + 1);
             }
         }
-
-
 
 //        sorting the songs descending based on the number of likes
         everySongSortedByLikes.sort((o1, o2) -> {
@@ -141,14 +143,14 @@ public class UpdateRecom implements Command {
         int j = 0;
         int k = 0;
         for (Song s : everySongSortedByLikes) {
-            if (i >= 5 && j >= 3 && k >= 2) {
+            if (i >= MAX_TOP && j >= TOP_3 && k >= 2) {
                 break;
             }
             if (userGenres.containsKey(s.getGenre())) {
-                if (userGenres.get(s.getGenre()) >= 5 && i < 5) {
+                if (userGenres.get(s.getGenre()) >= MAX_TOP && i < MAX_TOP) {
                     recommendationPlaylist.addSong(s);
                     i++;
-                } else if (userGenres.get(s.getGenre()) >= 3 && j < 3) {
+                } else if (userGenres.get(s.getGenre()) >= TOP_3 && j < TOP_3) {
                     recommendationPlaylist.addSong(s);
                     j++;
                 } else if (userGenres.get(s.getGenre()) >= 2 && k < 2) {
@@ -161,30 +163,28 @@ public class UpdateRecom implements Command {
         recommendationPlaylist.setName(this.user + "'s recommendations");
         recommendationPlaylist.setUser(this.user);
 
-        user.setRecommendedPlaylist(recommendationPlaylist);
-        user.setCurrentRecommendation(recommendationPlaylist);
+        currUser.setRecommendedPlaylist(recommendationPlaylist);
+        currUser.setCurrentRecommendation(recommendationPlaylist);
 
-        int debug = 56;
-
-        this.setMessage("The recommendations for user " + user.getUsername()
+        this.setMessage("The recommendations for user " + currUser.getUsername()
                 + " have been updated successfully.");
     }
 
     /**
      * Method that sets a random song as recommendation
      */
-    public void setRandomSong(User user) {
+    public void setRandomSong(final User currUser) {
 
-        if (user.getCurrentType().getSecondsGone() < 30) {
+        if (currUser.getCurrentType().getSecondsGone() < SECONDS) {
             this.setMessage("The user has to listen to the current song for at least 30 seconds.");
             return;
         }
 
-        int seed = user.getCurrentType().getSecondsGone();
+        int seed = currUser.getCurrentType().getSecondsGone();
 
         Random random = new Random(seed);
 
-        String currentGenre = ((Song) user.getCurrentType()).getGenre();
+        String currentGenre = ((Song) currUser.getCurrentType()).getGenre();
 
         ArrayList<Song> songs = new ArrayList<>();
         for (Song s : Songs.getSongs()) {
@@ -203,17 +203,17 @@ public class UpdateRecom implements Command {
         int index = random.nextInt(songs.size());
         Song randomSong = songs.get(index);
 
-        user.setRecommendedSongs(randomSong);
-        user.setCurrentRecommendation(randomSong);
+        currUser.setRecommendedSongs(randomSong);
+        currUser.setCurrentRecommendation(randomSong);
 
-        this.setMessage("The recommendations for user " + user.getUsername()
+        this.setMessage("The recommendations for user " + currUser.getUsername()
                 + " have been updated successfully.");
     }
 
     /**
      * Method that sets a random song as recommendation
      */
-    public void setFansPlaylist(User user) {
+    public void setFansPlaylist(final User currUser) {
         Playlist recommendationPlaylist = new Playlist();
 
         LinkedHashMap<User, Integer> top5FansCurrentSongArtist = new LinkedHashMap<>();
@@ -221,7 +221,7 @@ public class UpdateRecom implements Command {
         Artist currentSongArtist = null;
 //        searching for the artist of the current song
         for (Artist a : Artists.getArtists()) {
-            if (a.getUsername().equals(((Song) user.getCurrentType()).getArtist())) {
+            if (a.getUsername().equals(((Song) currUser.getCurrentType()).getArtist())) {
                 currentSongArtist = a;
                 break;
             }
@@ -247,17 +247,15 @@ public class UpdateRecom implements Command {
         top5FansCurrentSongArtist = sortMapByValuesDescending(top5FansCurrentSongArtist);
 
 //        keeping only the first 5 users and removing the rest
-        if (top5FansCurrentSongArtist.size() > 5) {
+        if (top5FansCurrentSongArtist.size() > MAX_TOP) {
             int i = 0;
             for (Map.Entry<User, Integer> entry : top5FansCurrentSongArtist.entrySet()) {
-                if (i >= 5) {
+                if (i >= MAX_TOP) {
                     top5FansCurrentSongArtist.remove(entry.getKey());
                 }
                 i++;
             }
         }
-
-
 
         ArrayList<Song> everySong = Songs.getSongs();
 //        sorting descending everySong based on the number of likes
@@ -267,7 +265,6 @@ public class UpdateRecom implements Command {
             }
             return o2.getNumberOfLikes() - o1.getNumberOfLikes();
         });
-
 
         ArrayList<ArrayList<Song>> top5SongsEveryUser = new ArrayList<>();
 
@@ -280,7 +277,7 @@ public class UpdateRecom implements Command {
                     break;
                 }
 
-                if (i >= 5) {
+                if (i >= MAX_TOP) {
                     break;
                 }
                 if (s.getArtist().equals(currentSongArtist.getUsername())) {
@@ -301,19 +298,24 @@ public class UpdateRecom implements Command {
             }
         }
 
-        recommendationPlaylist.setUser(user.getUsername());
-        recommendationPlaylist.setName(currentSongArtist.getUsername() + " Fan Club recommendations");
+        recommendationPlaylist.setUser(currUser.getUsername());
+        recommendationPlaylist.setName(currentSongArtist.getUsername()
+                + " Fan Club recommendations");
 
-        user.setRecommendedPlaylist(recommendationPlaylist);
-//        user.setRecommendedSongs(user.getLikedSongs());
+        currUser.setRecommendedPlaylist(recommendationPlaylist);
 
-        this.setMessage("The recommendations for user " + user.getUsername()
+        this.setMessage("The recommendations for user " + currUser.getUsername()
                 + " have been updated successfully.");
 
-        user.setCurrentRecommendation(recommendationPlaylist);
+        currUser.setCurrentRecommendation(recommendationPlaylist);
     }
 
-    public static LinkedHashMap<User, Integer> sortMapByValuesDescending(LinkedHashMap<User, Integer> inputMap) {
+    /**
+     * Method that sorts a map by values descending
+     */
+    public static LinkedHashMap<User, Integer> sortMapByValuesDescending(final LinkedHashMap<User,
+            Integer> inputMap) {
+
         List<Map.Entry<User, Integer>> sortedList = inputMap.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))

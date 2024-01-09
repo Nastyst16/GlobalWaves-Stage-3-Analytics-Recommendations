@@ -2,10 +2,7 @@ package main.commands.player.statistics;
 
 import main.collections.Users;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.SearchBar;
-import main.users.Artist;
-import main.users.Host;
 import main.users.User;
 
 import java.util.ArrayList;

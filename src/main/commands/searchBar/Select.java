@@ -6,11 +6,8 @@ import main.collections.Playlists;
 import main.commands.types.Album;
 import main.commands.types.Song;
 import main.inputCommand.Command;
-import main.inputCommand.CommandVisitor;
 import main.commands.types.Playlist;
 import main.SearchBar;
-import main.users.Artist;
-import main.users.Host;
 import main.users.User;
 
 import java.util.ArrayList;
@@ -34,7 +31,7 @@ public class Select implements Command {
     /**
      * Execute.
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
         this.setSelect((User) params[1]);
     }
 
@@ -53,7 +50,7 @@ public class Select implements Command {
     /**
      * constructor for Select command.
      */
-    public Select(Object currentRecommendation) {
+    public Select(final Object currentRecommendation) {
         this.command = "select";
         this.user = "";
         this.timestamp = 0;
@@ -109,12 +106,8 @@ public class Select implements Command {
                 if (currUser.getTypeFoundBySearch() == SONG) {
                     currUser.setTypeSelected(SONG);
 
-                    currUser.setSelectedAlbum(currUser.getCurrentSearch().getResultsAlbum(index - 1));
-
-                    if (currUser.getSelectedName().equalsIgnoreCase("Johnny b. Goode")) {
-                        int x = 5;
-                    }
-
+                    currUser.setSelectedAlbum(currUser.getCurrentSearch().
+                            getResultsAlbum(index - 1));
 
                     for (Album album : Albums.getAlbums()) {
                         if (album.getName().equals(currUser.getSelectedAlbum())) {
@@ -131,7 +124,9 @@ public class Select implements Command {
 
                     for (Playlist playlist : Playlists.getPlaylists()) {
                         if (playlist.getName().equals(name)
-                            && playlist.getName().equals(currUser.getCurrentSearch().getResultsAlbum(index))) {
+                            && playlist.getName().equals(currUser.getCurrentSearch().
+                                getResultsAlbum(index))) {
+
                             currUser.setSelectedPlaylist(playlist);
                             break;
                         }
