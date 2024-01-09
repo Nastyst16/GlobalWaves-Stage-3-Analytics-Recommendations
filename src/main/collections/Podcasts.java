@@ -9,6 +9,7 @@ import main.commands.types.Podcast;
 import java.util.ArrayList;
 
 public final class Podcasts {
+    private static final Podcasts INSTANCE = new Podcasts();
     private static final ArrayList<Podcast> EVERYPODCAST = new ArrayList<>();
 
     /**
@@ -16,6 +17,13 @@ public final class Podcasts {
      */
     private Podcasts() {
 
+    }
+
+    /**
+     * get the instance of the class.
+     */
+    public static Podcasts getInstance() {
+        return INSTANCE;
     }
 
     /**

@@ -19,6 +19,7 @@ public class Artist {
     private int numberOfListens = 0;
 //    private ArrayList<User> subscribers = new ArrayList<>();
     private final NotificationService notificationService = new NotificationService();
+    private double songRevenue = 0;
 
     public Artist(Artist artist) {
         this.username = artist.username;
@@ -115,5 +116,19 @@ public class Artist {
      */
     public NotificationService getNotificationService() {
         return notificationService;
+    }
+
+    /**
+     * gets the song revenue of the artist
+     */
+    public double getSongRevenue() {
+        return songRevenue;
+    }
+
+    /**
+     * adds revenue to the artist
+     */
+    public void addSongRevenue(double revenue) {
+        this.songRevenue += revenue;
     }
 }

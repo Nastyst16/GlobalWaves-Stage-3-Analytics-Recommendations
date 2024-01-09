@@ -66,7 +66,7 @@ public final class RemoveAlbum implements Command {
 
 //        verifying if a users currently listens to the album
         for (User currentUser : Users.getUsers()) {
-            if (currentUser.getCurrentType() != null) {
+            if (currentUser.getCurrentType() != null && currentUser.getCurrentPlaylist() != null) {
                 if (currentUser.getCurrentPlaylist().getName().equals(this.name)) {
                     this.setMessage(this.user + " can't delete this album.");
                     return;

@@ -7,6 +7,7 @@ import main.users.User;
 import java.util.ArrayList;
 
 public final class Users {
+    private static final Users INSTANCE = new Users();
     private static final ArrayList<User> USERS = new ArrayList<>();
 
     /**
@@ -14,6 +15,13 @@ public final class Users {
      */
     private Users() {
 
+    }
+
+    /**
+     * gets the instance of the class
+     */
+    public static Users getInstance() {
+        return INSTANCE;
     }
 
     /**

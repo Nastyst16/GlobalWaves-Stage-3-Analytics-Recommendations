@@ -5,13 +5,21 @@ import main.commands.types.Playlist;
 import java.util.ArrayList;
 
 public final class Playlists {
-    public static final ArrayList<Playlist> PLAYLISTS = new ArrayList<>();
+    private static final Playlists INSTANCE = new Playlists();
+    private static final ArrayList<Playlist> PLAYLISTS = new ArrayList<>();
 
     /**
      * default constructor for the Playlists class
      */
     private Playlists() {
 
+    }
+
+    /**
+     * method that returns the instance of the class
+     */
+    public static Playlists getInstance() {
+        return INSTANCE;
     }
 
     /**

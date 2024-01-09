@@ -5,12 +5,20 @@ import main.users.Host;
 import java.util.ArrayList;
 
 public final class Hosts {
+    private static final Hosts INSTANCE = new Hosts();
     private static final ArrayList<Host> HOSTS = new ArrayList<>();
 
     /**
      * Default constructor.
      */
     private Hosts() {
+    }
+
+    /**
+     * Gets the instance of the class.
+     */
+    public static Hosts getInstance() {
+        return INSTANCE;
     }
 
     /**

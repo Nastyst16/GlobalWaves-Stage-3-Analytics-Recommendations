@@ -5,7 +5,8 @@ import main.users.Artist;
 import java.util.ArrayList;
 
 public final class Artists {
-    private static final ArrayList<Artist> ARTISTS = new ArrayList<>();
+    private static final Artists INSTANCE = new Artists();
+    private static final ArrayList<Artist> artists = new ArrayList<>();
 
     /**
      * Default constructor.
@@ -14,10 +15,14 @@ public final class Artists {
     }
 
     /**
+     * Gets the instance of the class.
+     */
+
+    /**
      * Resets the list of artists.
      */
     public static void reset() {
-        ARTISTS.clear();
+        artists.clear();
     }
 
     /**
@@ -25,7 +30,7 @@ public final class Artists {
      * @param artist the artist to be added
      */
     public static void addArtist(final Artist artist) {
-        ARTISTS.add(artist);
+        artists.add(artist);
     }
 
     /**
@@ -33,7 +38,7 @@ public final class Artists {
      * @return the list of artists
      */
     public static ArrayList<Artist> getArtists() {
-        return ARTISTS;
+        return artists;
     }
 
     /**
@@ -42,7 +47,7 @@ public final class Artists {
      * @return the artist
      */
     public static Artist getArtist(final String username) {
-        for (Artist artist : ARTISTS) {
+        for (Artist artist : artists) {
             if (artist.getUsername().equals(username)) {
                 return artist;
             }

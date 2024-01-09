@@ -2,10 +2,13 @@ package main.commands.player;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.collections.Artists;
+import main.collections.Users;
 import main.commands.types.Merch;
+import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.users.Artist;
+import main.users.User;
 
 import java.util.*;
 
@@ -45,8 +48,42 @@ public class EndProgram implements Command {
             }
         });
 
-
+        this.calculateMonetizationBasedOnCurrPremiumUsers();
         this.setMonetizedArtists();
+    }
+
+    private void calculateMonetizationBasedOnCurrPremiumUsers() {
+
+        for (User user : Users.getUsers()) {
+
+            if (!user.isPremium()) {
+                continue;
+            }
+
+//              total songs listened
+            double totalSongsListened = 0;
+            for (Song s : user.getEverySong()) {
+                if (s.getNumberOfListens() != 0) {
+                    totalSongsListened += 1;
+                }
+            }
+
+            double songsListenedOfThisArtist = 0;
+            for (Artist artist : Artists.getArtists()) {
+                songsListenedOfThisArtist = 0;
+
+                for (Song s : user.getEverySong()) {
+                    if (s.getNumberOfListens() != 0 && s.getArtist().equals(artist.getUsername())) {
+                        songsListenedOfThisArtist += 1;
+                    }
+                }
+
+                if (songsListenedOfThisArtist != 0) {
+                    double revenue = 1000000 * songsListenedOfThisArtist / totalSongsListened;
+                    artist.addSongRevenue(revenue);
+                }
+            }
+        }
     }
 
 
@@ -71,7 +108,6 @@ public class EndProgram implements Command {
 
             this.artistsMonetization = new LinkedHashMap<>();
 
-            double songRevenue = 0;
             double merchRevenue = 0;
             String mostProfitableSong = "N/A";
 
@@ -80,10 +116,8 @@ public class EndProgram implements Command {
             }
 
 
-
-
             artistsMonetization.put("merchRevenue", merchRevenue);
-            artistsMonetization.put("songRevenue", songRevenue);
+            artistsMonetization.put("songRevenue", artist.getSongRevenue());
             artistsMonetization.put("ranking", 0);
             artistsMonetization.put("mostProfitableSong", mostProfitableSong);
 

@@ -7,13 +7,21 @@ import main.commands.types.Song;
 import java.util.ArrayList;
 
 public final class Songs {
-    private static final ArrayList<Song> EVERYSONG = new ArrayList<>();
+    private static final Songs INSTANCE = new Songs();
+    private static final ArrayList<Song> everySong = new ArrayList<>();
 
     /**
      * default constructor
      */
     private Songs() {
 
+    }
+
+    /**
+     * get the instance of the class
+     */
+    public static Songs getInstance() {
+        return INSTANCE;
     }
 
     /**
@@ -35,7 +43,7 @@ public final class Songs {
      * reset the songs after every test
      */
     public static void reset() {
-        EVERYSONG.clear();
+        everySong.clear();
     }
 
     /**
@@ -43,7 +51,7 @@ public final class Songs {
      * @param song the song to be added
      */
     public static void addSong(final Song song) {
-        EVERYSONG.add(song);
+        everySong.add(song);
     }
 
     /**
@@ -51,7 +59,7 @@ public final class Songs {
      * @return the list of songs
      */
     public static ArrayList<Song> getSongs() {
-        return EVERYSONG;
+        return everySong;
     }
 
     /**
@@ -59,6 +67,6 @@ public final class Songs {
      * @param song the song to be removed
      */
     public static void removeSong(final Song song) {
-        EVERYSONG.remove(song);
+        everySong.remove(song);
     }
 }

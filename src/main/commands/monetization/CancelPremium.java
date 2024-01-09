@@ -1,8 +1,11 @@
 package main.commands.monetization;
 
 import main.SearchBar;
+import main.collections.Artists;
+import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
+import main.users.Artist;
 import main.users.User;
 
 public class CancelPremium implements Command {
@@ -23,12 +26,44 @@ public class CancelPremium implements Command {
 
         if (user.isPremium()) {
             this.setMessage(this.user + " cancelled the subscription successfully.");
+            this.setMonetization(user);
             user.setPremium(false);
         } else {
             this.setMessage(this.user + " is not a premium user.");
         }
 
     }
+
+    /**
+     * sets the monetization
+     */
+    private void setMonetization(User user) {
+
+//        total songs listened
+        double totalSongsListened = 0;
+        for (Song s : user.getEverySong()) {
+            if (s.getNumberOfListens() != 0) {
+                totalSongsListened += 1;
+            }
+        }
+
+        double songsListenedOfThisArtist = 0;
+        for (Artist artist : Artists.getArtists()) {
+            songsListenedOfThisArtist = 0;
+
+            for (Song s : user.getEverySong()) {
+                if (s.getNumberOfListens() != 0 && s.getArtist().equals(artist.getUsername())) {
+                    songsListenedOfThisArtist += 1;
+                }
+            }
+
+            if (songsListenedOfThisArtist != 0) {
+                double revenue = 1000000 * songsListenedOfThisArtist / totalSongsListened;
+                artist.addSongRevenue(revenue);
+            }
+        }
+    }
+
 
     /**
      * accepts a visitor

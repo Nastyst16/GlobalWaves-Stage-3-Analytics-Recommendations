@@ -35,7 +35,12 @@ public class WrappedMessage implements Command {
      * setting wrapped
      */
     private void setWrappedMessage(User currUser, Artist currArtist, Host currHost) {
-        this.setMessage("No data to show for user " + currUser.getUsername() + ".");
+        if (currUser != null)
+            this.setMessage("No data to show for user " + currUser.getUsername() + ".");
+        else if (currArtist != null)
+            this.setMessage("No data to show for artist " + currArtist.getUsername() + ".");
+        else if (currHost != null)
+            this.setMessage("No data to show for host " + currHost.getUsername() + ".");
     }
 
 

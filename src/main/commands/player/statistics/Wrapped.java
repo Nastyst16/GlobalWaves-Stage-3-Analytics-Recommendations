@@ -333,12 +333,33 @@ public class Wrapped implements Command {
         Map<String, Integer> tmpTopFans = new LinkedHashMap<>();
         int listeners = 0;
 
-        for (Album a : currArtist.getAlbums()) {
+//        for (Album a : currArtist.getAlbums()) {
+//
+//            mostListenedAlbums.add(a);
+//        }
 
-            mostListenedAlbums.add(a);
+        for (Album a : Albums.getAlbums()) {
+            if (a.getUser().equals(currArtist.getUsername())) {
+
+//                deep copying the album
+                mostListenedAlbums.add(new Album(a.getName(), a.getName(), a.getReleaseYear(), a.getDescription(),
+                        a.getAlbumSongs()));
+                mostListenedAlbums.get(mostListenedAlbums.size() - 1).addNumberOfListens(0);
+            }
         }
 
-
+        for (User u : Users.getUsers()) {
+            for (Song s : u.getEverySong()) {
+                if (s.getArtist().equals(currArtist.getUsername())) {
+                    for (Album a : mostListenedAlbums) {
+                        if (a.getName().equals(s.getAlbum())) {
+                            a.addNumberOfListens(s.getNumberOfListens());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
         Map<String, Integer> tmpTopSongs = new LinkedHashMap<>();
         for (Song s : Songs.getSongs()) {
@@ -428,6 +449,16 @@ public class Wrapped implements Command {
             i++;
         }
 
+
+        if (topAlbums.size() == 0
+            && topFans.size() == 0
+            && topSongs.size() == 0
+            && listeners == 0) {
+
+            result = null;
+
+            return;
+        }
 
 
 
