@@ -95,27 +95,46 @@ public class Wrapped implements Command {
 //        }
 
 
+        for (Artist artist : Artists.getArtists()) {
+            for (Album a : artist.getAlbums()) {
 
-        for (Song s : mostListenedSongs) {
-            for (Album a : Albums.getAlbums()) {
-                if (s.getAlbum().equals(a.getName()) && s.getNumberOfListens() != 0) {
+                if (a.getName().equals("Greatest Hits")) {
+                    int debug =5;
+                }
 
-                    boolean exists = false;
+//                checking if the user listened to this album
+//                and calculating the number of listens for this user
+                boolean listenedToThisAlbum = false;
+                int numberOfListens = 0;
 
-                    for (Album album : mostListenedAlbums) {
-                        if (album.getName().equals(a.getName())) {
-                            album.addNumberOfListens(s.getNumberOfListens());
-                            exists = true;
-                            break;
-                        }
-                    }
-                    if (!exists) {
-                        mostListenedAlbums.add(new Album(a.getName(), a.getName(), a.getReleaseYear(),
-                                a.getDescription(), a.getAlbumSongs()));
-
-                        mostListenedAlbums.get(mostListenedAlbums.size() - 1).addNumberOfListens(s.getNumberOfListens());
+                for (Song s : currUser.getEverySong()) {
+                    if (s.getAlbum().equals(a.getName())) {
+                        listenedToThisAlbum = true;
+                        numberOfListens += s.getNumberOfListens();
                     }
                 }
+
+                if (!listenedToThisAlbum) {
+                    continue;
+                }
+
+
+//                if there is an album with the same name just add the listens
+                boolean exists = false;
+                for (Album album : mostListenedAlbums) {
+                    if (album.getName().equals(a.getName())) {
+//                        album.addNumberOfListens(numberOfListens);
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (!exists) {
+                    mostListenedAlbums.add(new Album(a.getName(), a.getName(), a.getReleaseYear(), a.getDescription(),
+                            a.getAlbumSongs()));
+                    mostListenedAlbums.get(mostListenedAlbums.size() - 1).addNumberOfListens(numberOfListens);
+                }
+
             }
         }
 
@@ -228,6 +247,14 @@ public class Wrapped implements Command {
         for (int i = 0; i < mostListenedArtists.size(); i++) {
             if (mostListenedArtists.get(i).getNumberOfListens() == 0) {
                 mostListenedArtists.remove(i);
+                i--;
+            }
+        }
+
+//        removing the albums with 0 listens
+        for (int i = 0; i < mostListenedAlbums.size(); i++) {
+            if (mostListenedAlbums.get(i).getNumberOfListens() == 0) {
+                mostListenedAlbums.remove(i);
                 i--;
             }
         }

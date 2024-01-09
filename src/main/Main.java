@@ -167,7 +167,7 @@ public final class Main {
                 int pula = 6;
             }
 
-            if (input.getTimestamp() == 145) {
+            if (input.getTimestamp() == 110) {
                 int pula = 6;
             }
 

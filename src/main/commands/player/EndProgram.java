@@ -27,6 +27,16 @@ public class EndProgram implements Command {
             sortedArtistsByNumberOfListens.add(artist);
         }
 
+
+//        sorting by number of listens, if there are 0 listeners don't do anything
+        Collections.sort(sortedArtistsByNumberOfListens, new Comparator<Artist>() {
+            @Override
+            public int compare(final Artist o1, final Artist o2) {
+                return Integer.compare(o2.getNumberOfListens(), o1.getNumberOfListens());
+            }
+        });
+
+
 //        sorting alphabetically
         Collections.sort(sortedArtistsByNumberOfListens, new Comparator<Artist>() {
             @Override
@@ -35,13 +45,6 @@ public class EndProgram implements Command {
             }
         });
 
-
-        Collections.sort(sortedArtistsByNumberOfListens, new Comparator<Artist>() {
-            @Override
-            public int compare(final Artist o1, final Artist o2) {
-                return o2.getNumberOfListens() - o1.getNumberOfListens();
-            }
-        });
 
         this.setMonetizedArtists();
     }
