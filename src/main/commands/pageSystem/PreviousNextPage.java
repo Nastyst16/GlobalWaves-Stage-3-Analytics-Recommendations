@@ -5,6 +5,8 @@ import main.commands.types.Playlist;
 import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public class PreviousNextPage implements Command {
@@ -17,7 +19,9 @@ public class PreviousNextPage implements Command {
      * execute the command and change the page
      * calls the setPreviousPage method
      */
-    public void execute(final User currUser) {
+    public void execute(final Object... params) {
+        User currUser = (User) params[1];
+
         if (this.command.equals("previousPage")) {
             this.setPreviousPage(currUser);
         } else if (this.command.equals("nextPage")) {
@@ -101,15 +105,6 @@ public class PreviousNextPage implements Command {
 //        currUser.getPreviousPages().remove(currUser.getCurrentPage());
 
         this.setMessage("The user " + this.user + " has navigated successfully to the previous page.");
-    }
-
-    /**
-     * Accepts a visitor to perform some action on the current command.
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

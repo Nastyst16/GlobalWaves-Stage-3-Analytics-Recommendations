@@ -4,6 +4,8 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Type;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public final class Prev implements Command {
@@ -15,18 +17,9 @@ public final class Prev implements Command {
     /**
      * Executes the command
      */
-    public void execute(final User currUser) {
+    public void execute(final Object... params) {
 
-        this.setPrev(currUser);
-    }
-
-    /**
-     * Accepts the visitor for the command
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
+        this.setPrev((User) params[1]);
     }
 
     /**

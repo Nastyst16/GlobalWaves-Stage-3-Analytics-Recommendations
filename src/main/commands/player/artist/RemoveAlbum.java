@@ -27,8 +27,8 @@ public final class RemoveAlbum implements Command {
     /**
      * executes the RemoveAlbum command
      */
-    public void execute(final User currUser, final Artist artist, final Host host) {
-        this.setRemoveAlbum(currUser, artist, host);
+    public void execute(final Object... params) {
+        this.setRemoveAlbum((User) params[1], (Artist) params[2], (Host) params[3]);
     }
 
     /**
@@ -130,15 +130,6 @@ public final class RemoveAlbum implements Command {
         this.user = input.getUsername();
         this.timestamp = input.getTimestamp();
         this.name = input.getName();
-    }
-
-    /**
-     * accepts a visitor for the command
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

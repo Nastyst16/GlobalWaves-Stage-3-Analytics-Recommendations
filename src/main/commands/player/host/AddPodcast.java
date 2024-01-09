@@ -27,12 +27,9 @@ public final class AddPodcast implements Command {
 
     /**
      * execute method for visitor pattern
-     * @param currUser the current user
-     * @param artist the artist
-     * @param host the host
      */
-    public void execute(final User currUser, final Artist artist, final Host host) {
-        addPodcast(currUser, artist, host);
+    public void execute(final Object... params) {
+        addPodcast((User) params[1], (Artist) params[2], (Host) params[3]);
     }
 
     /**
@@ -99,15 +96,6 @@ public final class AddPodcast implements Command {
         }
 
         this.setMessage(this.user + " has added new podcast successfully.");
-    }
-
-    /**
-     * accept method for visitor pattern
-     * @param visitor the command visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

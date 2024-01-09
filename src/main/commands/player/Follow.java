@@ -5,6 +5,8 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Playlist;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 import java.util.ArrayList;
 
@@ -16,19 +18,9 @@ public final class Follow implements Command {
 
     /**
      * Executes the command to follow or unfollow a playlist
-     * @param currUser the current user
      */
-    public void execute(final User currUser) {
-        this.setFollow(currUser);
-    }
-
-    /**
-     * Accept method for the visitor
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
+    public void execute(final Object... params) {
+        this.setFollow((User) params[1]);
     }
 
     /**

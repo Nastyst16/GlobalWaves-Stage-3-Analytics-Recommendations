@@ -3,6 +3,8 @@ package main.commands.monetization;
 import main.SearchBar;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public class BuyPremium implements Command {
@@ -15,8 +17,8 @@ public class BuyPremium implements Command {
     /**
      * executes the command
      */
-    public void execute(User user) {
-        this.buyPremium(user);
+    public void execute(final Object... params) {
+        this.buyPremium((User) params[1]);
     }
 
     private void buyPremium(User user) {
@@ -27,15 +29,6 @@ public class BuyPremium implements Command {
             user.setPremium(true);
         }
     }
-
-    /**
-     * accepts a visitor
-     */
-    @Override
-    public void accept(CommandVisitor visitor) {
-        visitor.visit(this);
-    }
-
 
     /**
      * constructor

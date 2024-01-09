@@ -20,6 +20,7 @@ import main.users.Host;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 public final class DeleteUser implements Command {
     private final String command;
@@ -31,7 +32,7 @@ public final class DeleteUser implements Command {
      * method that executes the DeleteUser command
      * and calls the setDeleteUser method
      */
-    public void execute() {
+    public void execute(Object... params) {
         this.setDeleteUser();
     }
 
@@ -239,14 +240,6 @@ public final class DeleteUser implements Command {
         }
 
         this.setMessage(this.user + " was successfully deleted.");
-    }
-
-    /**
-     * Method that accepts a visitor
-     * @param visitor the visitor
-     */
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

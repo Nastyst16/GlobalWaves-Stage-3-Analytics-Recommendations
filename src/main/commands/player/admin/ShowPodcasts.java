@@ -4,7 +4,9 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.commands.types.Podcast;
+import main.users.Artist;
 import main.users.Host;
+import main.users.User;
 
 import java.util.ArrayList;
 
@@ -17,10 +19,9 @@ public final class ShowPodcasts implements Command {
     /**
      * executes the command and sets the result
      * calls the setHost method
-     * @param host the host that will be set
      */
-    public void execute(final Host host) {
-        this.setHost(host);
+    public void execute(Object... params) {
+        this.setHost((Host) params[3]);
     }
 
     /**
@@ -44,14 +45,6 @@ public final class ShowPodcasts implements Command {
         this.timestamp = input.getTimestamp();
 
         this.result = new ArrayList<>();
-    }
-
-    /**
-     * accepts a visitor and calls the visit method
-     * @param commandVisitor the visitor
-     */
-    public void accept(final CommandVisitor commandVisitor) {
-        commandVisitor.visit(this);
     }
 
     /**

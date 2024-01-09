@@ -3,6 +3,8 @@ package main.commands;
 import main.SearchBar;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 import java.util.ArrayList;
@@ -24,8 +26,8 @@ public class GetNotifications implements Command {
     /**
      * executes the GetNotifications command
      */
-    public void execute(User user) {
-        this.setNotifications(user);
+    public void execute(Object... params) {
+        this.setNotifications((User) params[1]);
     }
 
     /**
@@ -42,14 +44,6 @@ public class GetNotifications implements Command {
             notifications.add(notification);
         }
         user.getNotifications().clear();
-    }
-
-    /**
-     * accepts the command
-     * @return
-     */
-    public void accept(CommandVisitor commandVisitor) {
-        commandVisitor.visit(this);
     }
 
     public String getCommand() {

@@ -6,6 +6,8 @@ import main.commands.types.Playlist;
 import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public class LoadRecomm implements Command {
@@ -17,8 +19,9 @@ public class LoadRecomm implements Command {
     /**
      * execute the command and change the page
      */
-    public void execute(User user) {
-        this.setLoadRecomm(user);
+    public void execute(final Object... params) {
+        this.setLoadRecomm((SearchBar) params[0], (User) params[1],
+                (Artist) params[2], (Host) params[3]);
     }
 
     /**
@@ -34,7 +37,8 @@ public class LoadRecomm implements Command {
     /**
      * sets the load recommendation
      */
-    public void setLoadRecomm(User user) {
+    public void setLoadRecomm(final SearchBar input, User user,
+                              Artist artist, Host host) {
         if (user == null) {
             this.setMessage(this.user + " doesn't exist.");
             return;
@@ -50,23 +54,15 @@ public class LoadRecomm implements Command {
 
         if (user.getCurrentRecommendation() instanceof Song) {
             Load load = new Load((Song) user.getCurrentRecommendation());
-            load.execute(user);
+            load.execute(input, user, artist, host);
         } else {
             Load load = new Load((Playlist) user.getCurrentRecommendation());
-            load.execute(user);
+            load.execute(input, user, artist, host);
         }
 
         user.getListenable().listen(user.getCurrentType(), user);
 
         this.setMessage("Playback loaded successfully.");
-    }
-
-    /**
-     * accepts a visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

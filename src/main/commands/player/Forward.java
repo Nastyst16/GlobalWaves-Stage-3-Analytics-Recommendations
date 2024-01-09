@@ -3,6 +3,8 @@ package main.commands.player;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public final class Forward implements Command {
@@ -15,18 +17,10 @@ public final class Forward implements Command {
     /**
      * Executes the command
      */
-    public void execute(final User currUser) {
+    public void execute(final Object... params) {
+        User currUser = (User) params[1];
 
         this.setForward(currUser);
-    }
-
-    /**
-     * Accept method for the visitor
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

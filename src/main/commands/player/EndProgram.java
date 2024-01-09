@@ -1,6 +1,7 @@
 package main.commands.player;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import main.SearchBar;
 import main.collections.Artists;
 import main.collections.Users;
 import main.commands.types.Merch;
@@ -8,6 +9,7 @@ import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 import java.util.*;
@@ -23,7 +25,7 @@ public class EndProgram implements Command {
     /**
      * executes the command.
      */
-    public void execute() {
+    public void execute(final Object... params) {
 
         //
         for (Artist artist : Artists.getArtists()) {
@@ -163,14 +165,6 @@ public class EndProgram implements Command {
      */
     public EndProgram(final String input) {
         this.command = input;
-    }
-
-    /**
-     * accepts a visitor.
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     public String getCommand() {

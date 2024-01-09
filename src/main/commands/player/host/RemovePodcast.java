@@ -21,12 +21,9 @@ public final class RemovePodcast implements Command {
 
     /**
      * execute method for visitor pattern
-     * @param currUser the current user
-     * @param artist the artist
-     * @param host the host
      */
-    public void execute(final User currUser, final Artist artist, final Host host) {
-        this.setRemovePodcast(currUser, artist, host);
+    public void execute(Object... params) {
+        this.setRemovePodcast((User) params[1], (Artist) params[2], (Host) params[3]);
     }
 
     /**
@@ -116,14 +113,6 @@ public final class RemovePodcast implements Command {
         this.user = input.getUsername();
         this.timestamp = input.getTimestamp();
         this.name = input.getName();
-    }
-
-    /**
-     * accept method for visitor pattern
-     * @param visitor the visitor
-     */
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

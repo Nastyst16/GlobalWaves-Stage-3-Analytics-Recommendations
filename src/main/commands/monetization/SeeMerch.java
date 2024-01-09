@@ -4,6 +4,8 @@ import main.SearchBar;
 import main.commands.types.Merch;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 import java.util.ArrayList;
@@ -17,8 +19,8 @@ public class SeeMerch implements Command {
     /**
      * executes the command
      */
-    public void execute(User user) {
-        this.seeMerch(user);
+    public void execute(Object... params) {
+        this.seeMerch((User) params[1]);
     }
 
     /**
@@ -46,16 +48,6 @@ public class SeeMerch implements Command {
         this.timestamp = input.getTimestamp();
 
         this.result = new ArrayList<>();
-    }
-
-
-    /**
-     * Method that accepts a visitor.
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

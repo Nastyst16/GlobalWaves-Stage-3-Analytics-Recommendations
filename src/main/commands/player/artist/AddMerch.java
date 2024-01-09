@@ -24,8 +24,8 @@ public final class AddMerch implements Command {
     /**
      * executes the command AddMerch
      */
-    public void execute(final User currUser, final Artist artist, final Host host) {
-        this.setMerch(currUser, artist, host);
+    public void execute(final Object... params) {
+        this.setMerch((User) params[1], (Artist) params[2], (Host) params[3]);
     }
 
     /**
@@ -74,15 +74,6 @@ public final class AddMerch implements Command {
 
         artist.getNotificationService().notifyUsers("New Merchandise",
                 "New Merchandise from " + this.user + ".");
-    }
-
-    /**
-     * accepts the visitor for the command
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

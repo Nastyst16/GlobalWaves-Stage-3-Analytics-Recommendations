@@ -32,34 +32,29 @@ public class UpdateRecom implements Command {
     }
 
     /**
-     * Method that accepts a visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    /**
      * Method that executes the command
      */
-    public void execute(User user, Artist artist, Host host) {
+    public void execute(final Object... params) {
+        User currUser = (User) params[1];
+        Artist currArtist = (Artist) params[2];
+        Host currHost = (Host) params[3];
 
-        if (user == null) {
-            this.setMessage(user.getUsername() + " does not exist!");
+        if (currUser == null) {
+            this.setMessage(currUser.getUsername() + " does not exist!");
         }
 
-        if (artist != null || host != null) {
+        if (currArtist != null || currHost != null) {
             this.setMessage(this.user + " is not a normal user.");
         }
 
         String recommendationType = this.getRecommendationType();
 
         if (recommendationType.equals("random_song")) {
-            this.setRandomSong(user);
+            this.setRandomSong(currUser);
         } else if (recommendationType.equals("random_playlist")) {
-            this.setRandomPlaylist(user);
+            this.setRandomPlaylist(currUser);
         } else if (recommendationType.equals("fans_playlist")) {
-            this.setFansPlaylist(user);
+            this.setFansPlaylist(currUser);
         }
 
     }

@@ -26,7 +26,7 @@ public final class AddUser implements Command {
      * execute method for AddUser command,
      * calls the addUser method and adds the user to the list of users
      */
-    public void execute() {
+    public void execute(final Object... params) {
         this.addUser();
     }
 
@@ -41,15 +41,6 @@ public final class AddUser implements Command {
         this.type = input.getType();
         this.age = input.getAge();
         this.city = input.getCity();
-    }
-
-    /**
-     * accept method for AddUser command
-     * @param visitor the visitor that will process the command
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

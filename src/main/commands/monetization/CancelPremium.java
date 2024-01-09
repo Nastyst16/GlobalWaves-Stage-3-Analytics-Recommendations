@@ -6,6 +6,7 @@ import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public class CancelPremium implements Command {
@@ -18,8 +19,8 @@ public class CancelPremium implements Command {
     /**
      * executes the command
      */
-    public void execute(User user) {
-        this.buyPremium(user);
+    public void execute(Object... params) {
+        this.buyPremium((User) params[1]);
     }
 
     private void buyPremium(User user) {
@@ -62,15 +63,6 @@ public class CancelPremium implements Command {
                 artist.addSongRevenue(revenue);
             }
         }
-    }
-
-
-    /**
-     * accepts a visitor
-     */
-    @Override
-    public void accept(CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
 

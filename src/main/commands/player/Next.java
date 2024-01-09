@@ -4,6 +4,8 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Type;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public final class Next implements Command {
@@ -15,22 +17,13 @@ public final class Next implements Command {
 
     /**
      * execute method for the next command
-     * @param currUser the current user
      */
-    public void execute(final User currUser) {
+    public void execute(final Object... params) {
+        User currUser = (User) params[1];
 
         currUser.setNext(true);
         this.setNext(currUser);
         currUser.setNext(false);
-    }
-
-    /**
-     * accept method for the next command
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

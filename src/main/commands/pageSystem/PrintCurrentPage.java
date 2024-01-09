@@ -32,7 +32,9 @@ public final class PrintCurrentPage implements Command {
      * executes the command
      * calls the setPrintCurrPage method
      */
-    public void execute(final User currUser) {
+    public void execute(Object... params) {
+        User currUser = (User) params[1];
+
         this.setPrintCurrPage(currUser);
     }
 
@@ -299,16 +301,6 @@ public final class PrintCurrentPage implements Command {
 
         this.message = "Podcasts:\n\t[" + podcastsByName + "\n]\n\n"
                 + "Announcements:\n\t[" + announcementsByName + "]";
-    }
-
-
-    /**
-     * accepts the visitor for the visitor pattern
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

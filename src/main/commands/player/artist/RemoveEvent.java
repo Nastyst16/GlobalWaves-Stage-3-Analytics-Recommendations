@@ -19,13 +19,9 @@ public final class RemoveEvent implements Command {
 
     /**
      * executes the RemoveEvent command
-     * @param currUser the user that executes the command
-     * @param artist the artist that executes the command
-     * @param host the host that executes the command
      */
-    public void execute(final User currUser, final Artist artist,
-                        final Host host) {
-        this.setRemoveEvent(currUser, artist, host);
+    public void execute(Object... params) {
+        this.setRemoveEvent((User) params[1], (Artist) params[2], (Host) params[3]);
     }
 
     /**
@@ -77,14 +73,6 @@ public final class RemoveEvent implements Command {
         this.user = input.getUsername();
         this.timestamp = input.getTimestamp();
         this.name = input.getName();
-    }
-
-    /**
-     * accepts a visitor for the command
-     * @param visitor the visitor
-     */
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

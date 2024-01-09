@@ -4,6 +4,8 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Song;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 import java.util.ArrayList;
@@ -17,19 +19,9 @@ public final class ShowPreferredSongs implements Command {
 
     /**
      * Execute method for visitor pattern
-     * @param currUser the current user
      */
-    public void execute(final User currUser) {
-        this.setResult(currUser);
-    }
-
-    /**
-     * Accept method for visitor pattern
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
+    public void execute(final Object... params) {
+        this.setResult((User) params[1]);
     }
 
     /**

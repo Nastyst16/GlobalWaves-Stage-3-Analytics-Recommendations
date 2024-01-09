@@ -21,12 +21,9 @@ public final class AddAnnouncement implements Command {
 
     /**
      * execute method for AddAnnouncement command
-     * @param currUser the user that is executing the command
-     * @param artist the artist that is executing the command
-     * @param host the host that is executing the command
      */
-    public void execute(final User currUser, final Artist artist, final Host host) {
-        addAnnouncement(currUser, artist, host);
+    public void execute(Object... params) {
+        addAnnouncement((User) params[1], (Artist) params[2], (Host) params[3]);
     }
 
     /**
@@ -68,14 +65,6 @@ public final class AddAnnouncement implements Command {
 
         host.getAnnouncements().add(new Announcement(this.name, this.description, this.user));
         this.message = this.user + " has successfully added new announcement.";
-    }
-
-    /**
-     * accept method for AddAnnouncement command
-     * @param commandVisitor the command visitor
-     */
-    public void accept(final CommandVisitor commandVisitor) {
-        commandVisitor.visit(this);
     }
 
     /**

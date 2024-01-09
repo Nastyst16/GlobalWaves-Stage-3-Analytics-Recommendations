@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 import main.commands.types.Song;
 import main.commands.types.Type;
@@ -24,7 +26,8 @@ public final class Status implements Command {
     /**
      * Execute the command
      */
-    public void execute(final User currUser) {
+    public void execute(final Object... params) {
+        User currUser = (User) params[1];
 
         if (currUser.getCurrentType() != null) {
             this.settingStats(currUser);
@@ -37,11 +40,6 @@ public final class Status implements Command {
             currUser.setPaused(true);
             currUser.setCurrentType(null);
         }
-    }
-
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

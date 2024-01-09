@@ -27,13 +27,13 @@ public final class SwapOnlineOfline implements Command {
 
     /**
      * Executes the command.
-     * @param currUser the current user
-     * @param artist the current artist
-     * @param host the current host
      */
-    public void execute(final User currUser, final Artist artist, final Host host) {
+    public void execute(final Object... params) {
+        User currUser = (User) params[1];
+        Artist currArtist = (Artist) params[2];
+        Host currHost = (Host) params[3];
 
-        if (artist != null || host != null) {
+        if (currArtist != null || currHost != null) {
             this.setMessage(this.user + " is not a normal user.");
             return;
         }
@@ -49,16 +49,6 @@ public final class SwapOnlineOfline implements Command {
             currUser.setOnline(false);
         }
     }
-
-    /**
-     * Accepts a visitor to perform some action on the current command.
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
-    }
-
 
     /**
      * Gets the command of the command.

@@ -6,6 +6,8 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Playlist;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public final class CreatePlayList implements Command {
@@ -18,10 +20,10 @@ public final class CreatePlayList implements Command {
 
     /**
      * executes the command CreatePlayList
-     * @param input the input given by the user
-     * @param currUser the user that issued the command
      */
-    public void execute(final SearchBar input, final User currUser) {
+    public void execute(final Object... params) {
+        SearchBar input = (SearchBar) params[0];
+        User currUser = (User) params[1];
 
 //        if the currUser is offline
         if (!currUser.getOnline()) {
@@ -45,16 +47,6 @@ public final class CreatePlayList implements Command {
         }
 
     }
-
-    /**
-     * accepts a visitor for the command
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
-    }
-
 
     /**
      * constructor for the command CreatePlayList

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
+import main.users.Artist;
 import main.users.Host;
+import main.users.User;
 
 public final class RemoveAnnouncement implements Command {
     private final String command;
@@ -16,10 +18,9 @@ public final class RemoveAnnouncement implements Command {
 
     /**
      * execute method for visitor pattern
-     * @param host the host
      */
-    public void execute(final Host host) {
-        removeAnnouncement(host);
+    public void execute(final Object... params) {
+        removeAnnouncement((Host) params[3]);
     }
 
     /**
@@ -56,14 +57,6 @@ public final class RemoveAnnouncement implements Command {
         this.user = input.getUsername();
         this.timestamp = input.getTimestamp();
         this.name = input.getName();
-    }
-
-    /**
-     * accept method for visitor pattern
-     * @param commandVisitor the command visitor
-     */
-    public void accept(final CommandVisitor commandVisitor) {
-        commandVisitor.visit(this);
     }
 
     /**

@@ -4,6 +4,8 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Playlist;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 import java.util.ArrayList;
@@ -17,19 +19,14 @@ public final class ShowPlaylists implements Command {
     /**
      * Execute the command.
      */
-    public void execute(final User currUser) {
+    public void execute(final Object... params) {
+        User currUser = (User) params[1];
 
 //                copying the playlists
         ArrayList<Playlist> copyList = new ArrayList<>();
         this.copyPlaylists(currUser, copyList);
 
         this.setResult(copyList);
-    }
-
-
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

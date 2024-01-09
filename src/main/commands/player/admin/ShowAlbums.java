@@ -5,6 +5,8 @@ import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.commands.types.Album;
 import main.users.Artist;
+import main.users.Host;
+import main.users.User;
 
 import java.util.ArrayList;
 
@@ -17,10 +19,11 @@ public final class ShowAlbums implements Command {
 
     /**
      * executes the ShowAlbums command and sets the result
-     * @param artist the artist that executes the command
      */
-    public void execute(final Artist artist) {
-        this.setShowAlbums(artist.getAlbums());
+    public void execute(final Object... params) {
+        Artist currArtist = (Artist) params[2];
+
+        this.setShowAlbums(currArtist.getAlbums());
     }
 
     /**
@@ -44,15 +47,6 @@ public final class ShowAlbums implements Command {
         this.timestamp = input.getTimestamp();
 
         this.result = new ArrayList<>();
-    }
-
-    /**
-     * accepts the visitor
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

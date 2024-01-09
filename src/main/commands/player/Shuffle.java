@@ -5,6 +5,8 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Type;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 import java.util.Collections;
@@ -21,21 +23,13 @@ public class Shuffle implements Command {
     /**
      * Execute the command.
      */
-    public void execute(final SearchBar input, final User currUser) {
+    public void execute(final Object... params) {
+        SearchBar input = (SearchBar) params[0];
+        User currUser = (User) params[1];
 
         currUser.setShuffleSeed(input.getSeed());
 
         this.settingShuffle(currUser);
-    }
-
-
-    /**
-     * Accept method for visitor pattern.
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

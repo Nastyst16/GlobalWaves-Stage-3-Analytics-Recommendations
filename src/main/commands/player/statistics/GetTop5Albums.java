@@ -5,6 +5,9 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
 import main.commands.types.Album;
+import main.users.Artist;
+import main.users.Host;
+import main.users.User;
 
 import java.util.ArrayList;
 
@@ -18,7 +21,7 @@ public final class GetTop5Albums implements Command {
     /**
      * Method that executes the command
      */
-    public void execute() {
+    public void execute(final Object... params) {
         this.searchTop5Albums();
     }
 
@@ -80,15 +83,6 @@ public final class GetTop5Albums implements Command {
         this.command = input.getCommand();
         this.timestamp = input.getTimestamp();
         result = new ArrayList<>();
-    }
-
-    /**
-     * Method that accepts the visitor
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

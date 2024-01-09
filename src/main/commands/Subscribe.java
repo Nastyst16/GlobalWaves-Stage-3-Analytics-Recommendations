@@ -7,6 +7,7 @@ import main.collections.Artists;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public class Subscribe implements Command {
@@ -19,8 +20,8 @@ public class Subscribe implements Command {
     /**
      * executes the Subscribe command
      */
-    public void execute(User user) {
-        this.setSubscribe(user);
+    public void execute(Object... params) {
+        this.setSubscribe((User) params[1]);
     }
 
     /**
@@ -59,13 +60,6 @@ public class Subscribe implements Command {
                 }
             }
         }
-    }
-
-    /**
-     * accepts the command
-     */
-    public void accept(final CommandVisitor commandVisitor) {
-        commandVisitor.visit(this);
     }
 
     /**

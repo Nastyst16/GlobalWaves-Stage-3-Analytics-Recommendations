@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public final class SwitchVisibility implements Command {
@@ -16,13 +18,8 @@ public final class SwitchVisibility implements Command {
     /**
      * This method is used to execute the command.
      */
-    public void execute(final User currUser) {
-        this.setVisibility(currUser);
-    }
-
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
+    public void execute(final Object... params) {
+        this.setVisibility((User) params[1]);
     }
 
     /**

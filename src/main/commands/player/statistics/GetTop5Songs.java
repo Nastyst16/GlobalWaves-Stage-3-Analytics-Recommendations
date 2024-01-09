@@ -5,6 +5,9 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Song;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
+import main.users.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,14 +23,8 @@ public final class GetTop5Songs implements Command {
     /**
      * Execute the command
      */
-    public void execute() {
-
+    public void execute(final Object... params) {
         this.searchTop5Songs();
-    }
-
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

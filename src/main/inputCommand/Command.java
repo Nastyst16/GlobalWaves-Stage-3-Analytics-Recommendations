@@ -1,13 +1,10 @@
 package main.inputCommand;
 
-public interface Command {
+import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
+import main.users.User;
 
-    /**
-     * Accepts a visitor
-     * this is used for the visitor pattern
-     * accept is Overridden in all the commands
-     *
-     * @param visitor the visitor to be accepted
-     */
-    void accept(CommandVisitor visitor);
+public interface Command {
+    void execute(Object... params);
 }

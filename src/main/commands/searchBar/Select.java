@@ -9,6 +9,8 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Playlist;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 import java.util.ArrayList;
@@ -32,17 +34,8 @@ public class Select implements Command {
     /**
      * Execute.
      */
-    public void execute(final User currUser) {
-        this.setSelect(currUser);
-    }
-
-    /**
-     * Accept command
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
+    public void execute(Object... params) {
+        this.setSelect((User) params[1]);
     }
 
     /**

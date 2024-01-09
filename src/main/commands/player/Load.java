@@ -10,6 +10,8 @@ import main.commands.types.Podcast;
 import main.commands.types.Song;
 import main.commands.types.Album;
 import main.commands.types.Episode;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 import java.util.ArrayList;
 
@@ -28,19 +30,9 @@ public final class Load implements Command {
 
     /**
      * execute method for load
-     * @param currUser the current user
      */
-    public void execute(final User currUser) {
-        this.setLoad(currUser);
-    }
-
-    /**
-     * accept method for visitor
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
+    public void execute(final Object... params) {
+        this.setLoad((User) params[1]);
     }
 
     /**
@@ -110,6 +102,7 @@ public final class Load implements Command {
             } else if (currUser.getTypeSelected() == ALBUM) {
                 loadAlbum(currUser, Albums.getAlbums());
             }
+            currUser.getListenable().listen(currUser.getCurrentType(), currUser);
 
         } else {
             this.message = "Please select the song first.";

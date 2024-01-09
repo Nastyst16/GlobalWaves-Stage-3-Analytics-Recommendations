@@ -6,6 +6,8 @@ import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public final class ChangePage implements Command {
@@ -20,7 +22,8 @@ public final class ChangePage implements Command {
      * execute the command and change the page
      * calls the setChangePage method
      */
-    public void execute(final User currUser) {
+    public void execute(Object... params) {
+        User currUser = (User) params[1];
 
         this.setChangePage(currUser);
     }
@@ -81,15 +84,6 @@ public final class ChangePage implements Command {
 
             this.setMessage(this.user + " accessed " + this.getNextPage() + " successfully.");
         }
-    }
-
-    /**
-     * accept method for the visitor pattern
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

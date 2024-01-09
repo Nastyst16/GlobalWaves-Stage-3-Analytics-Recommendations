@@ -43,20 +43,11 @@ public class AddAlbum implements Command {
     }
 
     /**
-     * Method that accepts a visitor.
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    /**
      * Method that executes the command
      * and adds a new album to the artist's albums.
      */
-    public void execute(final User currUser, final Artist artist, final Host host) {
-        this.addAlbum(currUser, artist, host);
+    public void execute(Object... params) {
+        this.addAlbum((User) params[1], (Artist) params[2], (Host) params[3]);
     }
 
     /**
@@ -91,26 +82,9 @@ public class AddAlbum implements Command {
         }
 
         for (Song song : albumSongs) {
-
-////            if in Songs there is a song with the same name then continue
-//            boolean found = false;
-//
-//            for (Song s : Songs.getSongs()) {
-//                if (s.getName().equals(song.getName())) {
-//                    found = true;
-//                    break;
-//                }
-//            }
-//            if (found)
-//                continue;
-
             Songs.addSong(song);
         }
         for (User u : Users.getUsers()) {
-//            u.setEverySong(Songs.getSongs());
-
-
-
 
 //            deep copy
             for (Song s : albumSongs) {
@@ -120,19 +94,6 @@ public class AddAlbum implements Command {
 
             }
         }
-
-////        sorting the songs on the criteria: the albums that contains "th" in their name
-////        will be last
-//        for (User u : Users.getUsers()) {
-//            for (int i = 0; i < u.getEverySong().size(); ++i) {
-//                for (int j = i + 1; j < u.getEverySong().size(); ++j) {
-//                    if (u.getEverySong().get(i).getAlbum().contains("th ")
-//                            && !u.getEverySong().get(j).getAlbum().contains("th ")) {
-//                        Collections.swap(u.getEverySong(), i, j);
-//                    }
-//                }
-//            }
-//        }
 
         Albums.addAlbum(new Album(this.user, this.name, this.releaseYear,
                 this.description, this.albumSongs));

@@ -7,6 +7,7 @@ import main.commands.types.Merch;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public class BuyMerch implements Command {
@@ -20,8 +21,8 @@ public class BuyMerch implements Command {
     /**
      * executes the command
      */
-    public void execute(User user) {
-        this.buyMerch(user);
+    public void execute(Object... params) {
+        this.buyMerch((User) params[1]);
     }
 
     /**
@@ -74,15 +75,6 @@ public class BuyMerch implements Command {
         this.user = input.getUsername();
         this.timestamp = input.getTimestamp();
         this.merchName = input.getName();
-    }
-
-    /**
-     * Method that accepts a visitor.
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

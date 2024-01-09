@@ -24,8 +24,8 @@ public class Wrapped implements Command {
     /**
      * executes the command
      */
-    public void execute(User user, Artist artist, Host host) {
-        this.setWrapped(user, artist, host);
+    public void execute(final Object... params) {
+        this.setWrapped((User) params[1], (Artist) params[2], (Host) params[3]);
     }
 
     /**
@@ -333,11 +333,6 @@ public class Wrapped implements Command {
         Map<String, Integer> tmpTopFans = new LinkedHashMap<>();
         int listeners = 0;
 
-//        for (Album a : currArtist.getAlbums()) {
-//
-//            mostListenedAlbums.add(a);
-//        }
-
         for (Album a : Albums.getAlbums()) {
             if (a.getUser().equals(currArtist.getUsername())) {
 
@@ -552,13 +547,6 @@ public class Wrapped implements Command {
         this.command = input.getCommand();
         this.user = input.getUsername();
         this.timestamp = input.getTimestamp();
-    }
-
-
-
-    @Override
-    public void accept(CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     public String getCommand() {

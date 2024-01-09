@@ -27,8 +27,8 @@ public class WrappedMessage implements Command {
     /**
      * executes the command
      */
-    public void execute(User user, Artist artist, Host host) {
-        this.setWrappedMessage(user, artist, host);
+    public void execute(final Object... params) {
+        this.setWrappedMessage((User) params[1], (Artist) params[2], (Host) params[3]);
     }
 
     /**
@@ -50,13 +50,6 @@ public class WrappedMessage implements Command {
         this.command = input.getCommand();
         this.user = input.getUsername();
         this.timestamp = input.getTimestamp();
-    }
-
-
-
-    @Override
-    public void accept(CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     public String getCommand() {

@@ -1,10 +1,13 @@
 package main.commands.player;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import main.commands.searchBar.Search;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Song;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 /**
@@ -23,18 +26,12 @@ public final class AddRemoveInPlaylist implements Command {
      * Executes the command to add or remove a song in a playlist.
      * calls the setMessage method to set the message based on the execution of the command.
      */
-    public void execute(final SearchBar input, final User currUser) {
+    public void execute(final Object... params) {
+        SearchBar input = (SearchBar) params[0];
+        User currUser = (User) params[1];
+
 //        setting message
         this.setMessage(currUser, input.getPlaylistId());
-    }
-
-    /**
-     * Accepts a visitor to this command
-     * and calls the visit method of the visitor.
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

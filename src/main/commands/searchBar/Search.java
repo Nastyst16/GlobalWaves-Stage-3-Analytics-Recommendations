@@ -36,7 +36,8 @@ public class Search implements Command {
     /**
      * This method is used to execute the command.
      */
-    public void execute(final User currUser) {
+    public void execute(Object... params) {
+        User currUser = (User) params[1];
 
         if (!currUser.getOnline()) {
             this.setMessage(this.user + " is offline.");
@@ -44,16 +45,6 @@ public class Search implements Command {
         }
 
         this.setSearch(currUser);
-    }
-
-
-    /**
-     * This method is used to accept the visitor.
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
 

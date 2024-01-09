@@ -20,7 +20,7 @@ public final class GetAllUsers implements Command {
     /**
      * Method that executes the command
      */
-    public void execute() {
+    public void execute(Object... params) {
 
         for (User user : Users.getUsers()) {
             this.result.add(user.getUsername());
@@ -43,14 +43,6 @@ public final class GetAllUsers implements Command {
         this.timestamp = input.getTimestamp();
 
         this.result = new ArrayList<>();
-    }
-
-    /**
-     * Method that accepts the visitor
-     * @param visitor the visitor
-     */
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

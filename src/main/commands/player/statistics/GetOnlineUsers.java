@@ -4,6 +4,8 @@ import main.collections.Users;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public final class GetOnlineUsers implements Command {
     /**
      * Method that executes the command
      */
-    public void execute() {
+    public void execute(final Object... params) {
 
         for (User u : Users.getUsers()) {
             if (u.getOnline()) {
@@ -34,15 +36,6 @@ public final class GetOnlineUsers implements Command {
         this.timestamp = input.getTimestamp();
 
         this.result = new ArrayList<>();
-    }
-
-    /**
-     * Method that accepts the visitor
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

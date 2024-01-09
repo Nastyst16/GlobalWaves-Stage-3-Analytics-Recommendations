@@ -4,6 +4,8 @@ import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.commands.types.Song;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public final class Like implements Command {
@@ -16,17 +18,8 @@ public final class Like implements Command {
     /**
      * executes the command
      */
-    public void execute(final User currUser) {
-        this.likeHelper(currUser);
-    }
-
-    /**
-     * accepts the visitor to perform the command
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
+    public void execute(Object... params) {
+        this.likeHelper((User) params[1]);
     }
 
     /**

@@ -29,8 +29,12 @@ public final class AddEvent implements Command {
     /**
      * executes the setEvent method
      */
-    public void execute(final User currUser, final Artist artist, final Host host) {
-        this.setEvent(currUser, artist, host);
+    public void execute(Object... params) {
+        User currUser = (User) params[1];
+        Artist currArtist = (Artist) params[2];
+        Host currHost = (Host) params[3];
+
+        this.setEvent(currUser, currArtist, currHost);
     }
 
     /**
@@ -148,15 +152,6 @@ public final class AddEvent implements Command {
         this.name = input.getName();
         this.description = input.getDescription();
         this.date = input.getDate();
-    }
-
-    /**
-     * accepts the visitor for the AddEvent class
-     * @param visitor the visitor
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
     }
 
     /**

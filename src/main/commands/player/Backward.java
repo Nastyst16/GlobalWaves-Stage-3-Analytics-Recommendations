@@ -3,6 +3,8 @@ package main.commands.player;
 import main.inputCommand.Command;
 import main.inputCommand.CommandVisitor;
 import main.SearchBar;
+import main.users.Artist;
+import main.users.Host;
 import main.users.User;
 
 public final class Backward implements Command {
@@ -15,17 +17,8 @@ public final class Backward implements Command {
     /**
      * Executes the command.
      */
-    public void execute(final User currUser) {
-        this.setBackward(currUser);
-    }
-
-    /**
-     * Accepts a visitor for the command.
-     * @param visitor The visitor to accept.
-     */
-    @Override
-    public void accept(final CommandVisitor visitor) {
-        visitor.visit(this);
+    public void execute(final Object... params) {
+        this.setBackward((User) params[1]);
     }
 
     /**
