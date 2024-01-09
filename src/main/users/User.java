@@ -937,9 +937,6 @@ public class User implements Observer {
         return originalIndices;
     }
 
-
-//    Stage 2 getter and setters:
-
     /**
      * get the current page
      * @return the current page
@@ -988,8 +985,6 @@ public class User implements Observer {
         this.selectedPageOwner = selectedPageOwner;
     }
 
-//    Stage 3 getter and setters:
-
     /**
      * get the listenable
      * @return the listenable
@@ -1014,26 +1009,38 @@ public class User implements Observer {
         return everyAlbum;
     }
 
+    /**
+     * gets selected album
+     */
     public String getSelectedAlbum() {
         return selectedAlbum;
     }
 
-    public void setSelectedAlbum(String selectedAlbum) {
+    /**
+     * get the searched song
+     */
+    public void setSelectedAlbum(final String selectedAlbum) {
         this.selectedAlbum = selectedAlbum;
     }
 
-    public Song getSearchedSong() {
-        return searchedSong;
-    }
-
+    /**
+     * sets the searched song
+     */
     public void setSearchedSong(Song searchedSong) {
         this.searchedSong = searchedSong;
     }
 
+    /**
+     * verify if the user is premium
+     */
     public boolean isPremium() {
         return premium;
     }
 
+    /**
+     * set the premium status
+     * @param premium
+     */
     public void setPremium(boolean premium) {
         this.premium = premium;
     }
@@ -1053,7 +1060,7 @@ public class User implements Observer {
     }
 
     @Override
-    public void update(Map<String, String> notification) {
+    public void update(final Map<String, String> notification) {
         this.addNotification(notification);
     }
 
@@ -1081,7 +1088,7 @@ public class User implements Observer {
     /**
      * add a listened episode
      */
-    public void addLisenedEpisode(LinkedHashMap<Episode, Integer> listenedEpisode) {
+    public void addLisenedEpisode(final LinkedHashMap<Episode, Integer> listenedEpisode) {
 
 //        if already exists update the number
         for (Map.Entry<Episode, Integer> entry : listenedEpisode.entrySet()) {
@@ -1113,7 +1120,7 @@ public class User implements Observer {
     /**
      * set recommended playlist
      */
-    public void setRecommendedPlaylist(Playlist recommendedPlaylist) {
+    public void setRecommendedPlaylist(final Playlist recommendedPlaylist) {
         this.recommendedPlaylist = recommendedPlaylist;
     }
 
@@ -1129,7 +1136,7 @@ public class User implements Observer {
      * set recommended song
      * @param recommendedSongs
      */
-    public void setRecommendedSongs(Song recommendedSongs) {
+    public void setRecommendedSongs(final Song recommendedSongs) {
         this.recommendedSongs = recommendedSongs;
     }
 
@@ -1143,7 +1150,7 @@ public class User implements Observer {
     /**
      * add a previous page
      */
-    public void addPreviousPage(Object previousPage) {
+    public void addPreviousPage(final Object previousPage) {
         this.previousPages.push(previousPage);
     }
 
@@ -1157,7 +1164,7 @@ public class User implements Observer {
     /**
      * add a next page
      */
-    public void addNextPage(Object nextPage) {
+    public void addNextPage(final Object nextPage) {
         this.nextPages.push(nextPage);
     }
 
@@ -1179,7 +1186,7 @@ public class User implements Observer {
     /**
      * set the current recommendation
      */
-    public void setCurrentRecommendation(Object currentRecommendation) {
+    public void setCurrentRecommendation(final Object currentRecommendation) {
         this.currentRecommendation = currentRecommendation;
     }
 

@@ -93,18 +93,18 @@ public final class Main {
 
         ArrayNode outputs = objectMapper.createArrayNode();
 
-//        reading input test files
+        // reading input test files
         ArrayList<SearchBar> searchBarInputs = objectMapper.
                 readValue(new File(CheckerConstants.TESTS_PATH
                         + filePathInput), new TypeReference<>() { });
 
-//        storing the collections from the library
+        // storing the collections from the library
         storeCollections(library);
 
-//        creating the list of commands
+        // creating the list of commands
         ArrayList<Command> commands = new ArrayList<>();
 
-//        parsing the Json content into corresponding commands
+        // parsing the Json content into corresponding commands
         for (SearchBar input : searchBarInputs) {
 
             String command = input.getCommand();
@@ -113,38 +113,37 @@ public final class Main {
             Artist artist = findingArtist(user, input);
             Host host = findingHost(user, input);
 
-//            calculating how many seconds have gone sine the last command for every user
+            // calculating how many seconds have gone sine the last command for every user
             howManySecsGone(input);
 
             int index = commands.size();
 
+            // design pattern: factory
             Factory factory = new CommandFactory();
-
             commands.add(factory.createCommand(command, input));
 
-            if (index == commands.size() || command.equals("adBreak")) { // for not timplementing all the commands
+            if (index == commands.size() || command.equals("adBreak"))
                 continue;
-            }
 
+            // executing the command
             commands.get(index).execute(input, user, artist, host);
 
             if (commands.get(index) instanceof Wrapped) {
                 if (((Wrapped)commands.get(index)).getResult() == null) {
-                    int idx = index;
+                    commands.remove(index);
                     commands.add(new WrappedMessage(input));
-                    commands.get(idx + 1).execute(input , user, artist, host);
-                    commands.remove(idx);
+                    commands.get(index).execute(input , user, artist, host);
                 }
             }
         }
 
         commands.add(new EndProgram("endProgram"));
-        commands.get(commands.size() - 1).execute(null, null, null, null);
+        commands.get(commands.size() - 1).execute();
 
-//        reseting the collections after every test
+        // reseting the collections after every test
         resetCollections();
 
-//        parsing the requeriments
+        // parsing the requeriments
         parsingReq(commands, filePathOutput, outputs, objectMapper);
     }
 
@@ -223,7 +222,6 @@ public final class Main {
             if (u.getCurrentType() != null) {
                 u.treatingRepeatStatus(u);
             }
-
 
             u.setPrevTimestamp(input.getTimestamp());
         }

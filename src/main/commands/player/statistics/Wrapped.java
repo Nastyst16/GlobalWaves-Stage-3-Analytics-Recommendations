@@ -345,12 +345,14 @@ public class Wrapped implements Command {
 
         for (User u : Users.getUsers()) {
             for (Song s : u.getEverySong()) {
-                if (s.getArtist().equals(currArtist.getUsername())) {
-                    for (Album a : mostListenedAlbums) {
-                        if (a.getName().equals(s.getAlbum())) {
-                            a.addNumberOfListens(s.getNumberOfListens());
-                            break;
-                        }
+                if (!s.getArtist().equals(currArtist.getUsername())) {
+                    continue;
+                }
+
+                for (Album a : mostListenedAlbums) {
+                    if (a.getName().equals(s.getAlbum())) {
+                        a.addNumberOfListens(s.getNumberOfListens());
+                        break;
                     }
                 }
             }
