@@ -16,20 +16,20 @@ public class SeeMerch implements Command {
     /**
      * executes the command
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
         this.seeMerch((User) params[1]);
     }
 
     /**
      * Method that sees the merch.
      */
-    public void seeMerch(User user) {
+    public void seeMerch(final User currUser) {
 
-        if (user == null) {
+        if (currUser == null) {
             this.result.add("The username " + this.user + " doesn't exist.");
         }
 
-        for (Merch merch : user.getBoughtMerchandise()) {
+        for (Merch merch : currUser.getBoughtMerchandise()) {
             this.result.add(merch.getName());
         }
     }

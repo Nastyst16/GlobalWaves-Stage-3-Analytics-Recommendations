@@ -19,7 +19,7 @@ public final class ChangePage implements Command {
      * execute the command and change the page
      * calls the setChangePage method
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
         User currUser = (User) params[1];
 
         this.setChangePage(currUser);
@@ -55,10 +55,6 @@ public final class ChangePage implements Command {
         currUser.addPreviousPage(currUser.getRecommendedPlaylist());
         currUser.addPreviousPage(currUser.getRecommendedSongs());
         currUser.addPreviousPage(currUser.getSelectedPageOwner());
-
-//        currUser.setRecommendedPlaylist(null);
-//        currUser.setRecommendedSongs(null);
-//        currUser.setCurrentRecommendation(null);
 
         currUser.getNextPages().clear();
 

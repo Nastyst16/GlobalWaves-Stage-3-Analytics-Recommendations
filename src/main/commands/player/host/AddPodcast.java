@@ -13,6 +13,8 @@ import main.users.Host;
 
 import java.util.ArrayList;
 
+import static main.users.Host.HOST_PARAM;
+
 public final class AddPodcast implements Command {
 
     private final String command;
@@ -28,7 +30,7 @@ public final class AddPodcast implements Command {
      * execute method for visitor pattern
      */
     public void execute(final Object... params) {
-        addPodcast((User) params[1], (Artist) params[2], (Host) params[3]);
+        addPodcast((User) params[1], (Artist) params[2], (Host) params[HOST_PARAM]);
     }
 
     /**

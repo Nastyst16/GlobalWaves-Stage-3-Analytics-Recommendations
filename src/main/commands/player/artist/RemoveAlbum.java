@@ -15,6 +15,8 @@ import main.users.Host;
 
 import java.util.Iterator;
 
+import static main.users.Host.HOST_PARAM;
+
 public final class RemoveAlbum implements Command {
     private final String command;
     private final String user;
@@ -27,7 +29,7 @@ public final class RemoveAlbum implements Command {
      * executes the RemoveAlbum command
      */
     public void execute(final Object... params) {
-        this.setRemoveAlbum((User) params[1], (Artist) params[2], (Host) params[3]);
+        this.setRemoveAlbum((User) params[1], (Artist) params[2], (Host) params[HOST_PARAM]);
     }
 
     /**

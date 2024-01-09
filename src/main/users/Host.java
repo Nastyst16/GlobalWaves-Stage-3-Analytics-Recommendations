@@ -12,6 +12,7 @@ public class Host {
     private final String city;
     private final ArrayList<Podcast> hostPodcasts;
     private final ArrayList<Announcement> announcements;
+    public static final int HOST_PARAM = 3;
 
 
     public Host(final String username, final int age, final String city) {

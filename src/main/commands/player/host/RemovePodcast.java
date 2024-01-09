@@ -17,12 +17,13 @@ public final class RemovePodcast implements Command {
     @JsonIgnore
     private final String name;
     private String message;
+    private static final int HOST_PARAM = 3;
 
     /**
      * execute method for visitor pattern
      */
-    public void execute(Object... params) {
-        this.setRemovePodcast((User) params[1], (Artist) params[2], (Host) params[3]);
+    public void execute(final Object... params) {
+        this.setRemovePodcast((User) params[1], (Artist) params[2], (Host) params[HOST_PARAM]);
     }
 
     /**

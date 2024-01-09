@@ -24,14 +24,13 @@ public final class PrintCurrentPage implements Command {
     private final String command;
     private final int timestamp;
     private String message;
-
     private static final int MAX_RESULTS = 5;
 
     /**
      * executes the command
      * calls the setPrintCurrPage method
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
         User currUser = (User) params[1];
 
         this.setPrintCurrPage(currUser);
@@ -80,7 +79,8 @@ public final class PrintCurrentPage implements Command {
             return;
         }
 
-        if (currUser.getRecommendedPlaylist() == null && currUser.getCurrentRecommendation() == null) {
+        if (currUser.getRecommendedPlaylist() == null
+                && currUser.getCurrentRecommendation() == null) {
             return;
         }
 

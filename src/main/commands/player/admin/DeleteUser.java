@@ -30,7 +30,7 @@ public final class DeleteUser implements Command {
      * method that executes the DeleteUser command
      * and calls the setDeleteUser method
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
         this.setDeleteUser();
     }
 

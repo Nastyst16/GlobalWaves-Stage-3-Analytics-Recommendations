@@ -7,6 +7,8 @@ import main.users.Host;
 
 import java.util.ArrayList;
 
+import static main.users.Host.HOST_PARAM;
+
 public final class ShowPodcasts implements Command {
     private final String command;
     private final String user;
@@ -17,8 +19,8 @@ public final class ShowPodcasts implements Command {
      * executes the command and sets the result
      * calls the setHost method
      */
-    public void execute(Object... params) {
-        this.setHost((Host) params[3]);
+    public void execute(final Object... params) {
+        this.setHost((Host) params[HOST_PARAM]);
     }
 
     /**

@@ -5,6 +5,8 @@ import main.inputCommand.Command;
 import main.SearchBar;
 import main.users.Host;
 
+import static main.users.Host.HOST_PARAM;
+
 public final class RemoveAnnouncement implements Command {
     private final String command;
     private final String user;
@@ -17,7 +19,7 @@ public final class RemoveAnnouncement implements Command {
      * execute method for visitor pattern
      */
     public void execute(final Object... params) {
-        removeAnnouncement((Host) params[3]);
+        removeAnnouncement((Host) params[HOST_PARAM]);
     }
 
     /**

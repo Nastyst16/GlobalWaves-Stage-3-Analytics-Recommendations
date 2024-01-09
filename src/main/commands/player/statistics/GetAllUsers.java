@@ -19,7 +19,7 @@ public final class GetAllUsers implements Command {
     /**
      * Method that executes the command
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
 
         for (User user : Users.getUsers()) {
             this.result.add(user.getUsername());

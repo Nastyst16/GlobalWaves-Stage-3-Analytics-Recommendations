@@ -14,6 +14,8 @@ import main.users.Host;
 
 import java.util.ArrayList;
 
+import static main.users.Host.HOST_PARAM;
+
 public class AddAlbum implements Command {
     private final String command;
     private final String user;
@@ -43,8 +45,8 @@ public class AddAlbum implements Command {
      * Method that executes the command
      * and adds a new album to the artist's albums.
      */
-    public void execute(Object... params) {
-        this.addAlbum((User) params[1], (Artist) params[2], (Host) params[3]);
+    public void execute(final Object... params) {
+        this.addAlbum((User) params[1], (Artist) params[2], (Host) params[HOST_PARAM]);
     }
 
     /**

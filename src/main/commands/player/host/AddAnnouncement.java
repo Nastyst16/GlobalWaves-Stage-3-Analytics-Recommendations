@@ -17,12 +17,13 @@ public final class AddAnnouncement implements Command {
     @JsonIgnore
     private final String description;
     private String message;
+    private static final int HOST_PARAM = 3;
 
     /**
      * execute method for AddAnnouncement command
      */
-    public void execute(Object... params) {
-        addAnnouncement((User) params[1], (Artist) params[2], (Host) params[3]);
+    public void execute(final Object... params) {
+        addAnnouncement((User) params[1], (Artist) params[2], (Host) params[HOST_PARAM]);
     }
 
     /**

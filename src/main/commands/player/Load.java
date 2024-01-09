@@ -46,7 +46,7 @@ public final class Load implements Command {
     /**
      * Constructor
      */
-    public Load(Song song) {
+    public Load(final Song song) {
         this.command = "load";
         this.user = "user";
         this.timestamp = 0;
@@ -56,7 +56,7 @@ public final class Load implements Command {
     /**
      * Constructor
      */
-    public Load(Playlist playlist) {
+    public Load(final Playlist playlist) {
         this.command = "load";
         this.user = "user";
         this.timestamp = 0;
@@ -193,10 +193,6 @@ public final class Load implements Command {
         for (Song song : currUser.getEverySong()) {
             if (song.getName().equals(currUser.getCurrentSelect().getSelectedName())
                 && song.getAlbum().equals(currUser.getSelectedAlbum())) {
-
-                if (currUser.getSelectedAlbum().equals("Chuck Berry Is On Top")) {
-                    int x = 5;
-                }
 
 //                        deepCopy the song
                 Song songCopy = new Song(song.getName(), song.getDuration(),

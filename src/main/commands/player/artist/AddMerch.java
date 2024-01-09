@@ -8,6 +8,8 @@ import main.commands.types.Merch;
 import main.users.Artist;
 import main.users.Host;
 
+import static main.users.Host.HOST_PARAM;
+
 public final class AddMerch implements Command {
     private final String command;
     private final String user;
@@ -24,7 +26,7 @@ public final class AddMerch implements Command {
      * executes the command AddMerch
      */
     public void execute(final Object... params) {
-        this.setMerch((User) params[1], (Artist) params[2], (Host) params[3]);
+        this.setMerch((User) params[1], (Artist) params[2], (Host) params[HOST_PARAM]);
     }
 
     /**

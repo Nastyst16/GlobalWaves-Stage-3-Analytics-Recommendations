@@ -12,6 +12,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static main.users.Host.HOST_PARAM;
+
 public final class AddEvent implements Command {
     private final String command;
     private final String user;
@@ -27,10 +29,10 @@ public final class AddEvent implements Command {
     /**
      * executes the setEvent method
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
         User currUser = (User) params[1];
         Artist currArtist = (Artist) params[2];
-        Host currHost = (Host) params[3];
+        Host currHost = (Host) params[HOST_PARAM];
 
         this.setEvent(currUser, currArtist, currHost);
     }

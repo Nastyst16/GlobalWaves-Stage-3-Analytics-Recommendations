@@ -13,7 +13,7 @@ public final class Repeat implements Command {
     /**
      * Executes the command
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
         User currUser = (User) params[1];
 
         currUser.setRepeatStatus(this.setRepeatMessage(currUser,

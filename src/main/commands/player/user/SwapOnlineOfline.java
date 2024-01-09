@@ -11,7 +11,7 @@ public final class SwapOnlineOfline implements Command {
     private final String user;
     private final int timestamp;
     private String message;
-
+    private static final int HOST_PARAM = 3;
 
     /**
      * Constructor of the SwapOnlineOfline class.
@@ -30,7 +30,7 @@ public final class SwapOnlineOfline implements Command {
     public void execute(final Object... params) {
         User currUser = (User) params[1];
         Artist currArtist = (Artist) params[2];
-        Host currHost = (Host) params[3];
+        Host currHost = (Host) params[HOST_PARAM];
 
         if (currArtist != null || currHost != null) {
             this.setMessage(this.user + " is not a normal user.");

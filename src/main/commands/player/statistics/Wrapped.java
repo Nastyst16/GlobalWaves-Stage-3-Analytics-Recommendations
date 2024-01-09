@@ -1,34 +1,47 @@
 package main.commands.player.statistics;
 
 import main.SearchBar;
-import main.collections.*;
-import main.commands.types.*;
+import main.collections.Artists;
+import main.collections.Podcasts;
+import main.collections.Songs;
+import main.collections.Users;
+import main.collections.Albums;
+import main.commands.types.Song;
+import main.commands.types.Album;
+import main.commands.types.Episode;
+import main.commands.types.Podcast;
 import main.inputCommand.Command;
 import main.users.Artist;
 import main.users.Host;
 import main.users.User;
 
-import java.util.*;
-
-import static net.sf.saxon.query.QueryResult.serialize;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.List;
+import java.util.LinkedList;
 
 public class Wrapped implements Command {
     private final String command;
     private final String user;
     private final int timestamp;
     private Map<String, Object> result = new LinkedHashMap<>();
+    private static final int MAX_TOP = 5;
+    private static final int HOST_PARAM = 3;
 
     /**
      * executes the command
      */
     public void execute(final Object... params) {
-        this.setWrapped((User) params[1], (Artist) params[2], (Host) params[3]);
+        this.setWrapped((User) params[1], (Artist) params[2], (Host) params[HOST_PARAM]);
     }
 
     /**
      * setting wrapped
      */
-    private void setWrapped(User currUser, Artist currArtist, Host currHost) {
+    private void setWrapped(final User currUser, final Artist currArtist, final Host currHost) {
 
         if (currUser != null) {
             wrappedUser(currUser);
@@ -39,15 +52,13 @@ public class Wrapped implements Command {
         }
     }
 
-    private void wrappedUser(User currUser) {
-
+    private void wrappedUser(final User currUser) {
 
 //        printing the most 5 listened songs
         ArrayList<Artist> mostListenedArtists = new ArrayList<>();
         ArrayList<Song> mostListenedSongs = new ArrayList<>();
         ArrayList<Album> mostListenedAlbums = new ArrayList<>();
         ArrayList<Episode> mostListenedEpisodes = new ArrayList<>();
-
 
 //        deep copying the songs
         for (Song s : currUser.getEverySong()) {
@@ -59,7 +70,6 @@ public class Wrapped implements Command {
             mostListenedSongs.add(new Song(s.getName(), s.getDuration(), s.getAlbum(), s.getTags(),
                     s.getLyrics(), s.getGenre(), s.getReleaseYear(), s.getArtist()));
         }
-
 
         for (Song t : currUser.getEverySong()) {
 
@@ -79,25 +89,8 @@ public class Wrapped implements Command {
             }
         }
 
-////        printing most listened songs
-//        if (currUser.getUsername().equals("jack29"))
-//        for (Song s : mostListenedSongs) {
-//
-//            if (s.getArtist().equals("James Brown") && s.getNumberOfListens() != 0)
-//                System.out.println(s.getName() + " " + s.getNumberOfListens());
-//        }
-//        delete the above code
-//        for (Artist a : Artists.getArtists()) {
-//            int x = 5;
-//        }
-
-
         for (Artist artist : Artists.getArtists()) {
             for (Album a : artist.getAlbums()) {
-
-                if (a.getName().equals("Greatest Hits")) {
-                    int debug =5;
-                }
 
 //                checking if the user listened to this album
 //                and calculating the number of listens for this user
@@ -115,21 +108,21 @@ public class Wrapped implements Command {
                     continue;
                 }
 
-
 //                if there is an album with the same name just add the listens
                 boolean exists = false;
                 for (Album album : mostListenedAlbums) {
                     if (album.getName().equals(a.getName())) {
-//                        album.addNumberOfListens(numberOfListens);
                         exists = true;
                         break;
                     }
                 }
 
                 if (!exists) {
-                    mostListenedAlbums.add(new Album(a.getName(), a.getName(), a.getReleaseYear(), a.getDescription(),
-                            a.getAlbumSongs()));
-                    mostListenedAlbums.get(mostListenedAlbums.size() - 1).addNumberOfListens(numberOfListens);
+                    mostListenedAlbums.add(new Album(a.getName(), a.getName(), a.getReleaseYear(),
+                            a.getDescription(), a.getAlbumSongs()));
+
+                    mostListenedAlbums.get(mostListenedAlbums.size() - 1).
+                            addNumberOfListens(numberOfListens);
                 }
 
             }
@@ -155,10 +148,7 @@ public class Wrapped implements Command {
 
 //        putting the number of listens for each artist
         for (Artist a : mostListenedArtists) {
-
             for (Song s : currUser.getEverySong()) {
-
-//                if (a.getUsername().equals("James Brown") && s.getNumberOfListens() != 0)
                 if (s.getArtist().equals(a.getUsername())) {
                     a.addNumberOfListens(s.getNumberOfListens());
                 }
@@ -174,15 +164,13 @@ public class Wrapped implements Command {
                 continue;
             }
 
-
             if (tmpTopGenres.containsKey(s.getGenre())) {
-                tmpTopGenres.put(s.getGenre(), tmpTopGenres.get(s.getGenre()) + s.getNumberOfListens());
+                tmpTopGenres.put(s.getGenre(), tmpTopGenres.get(s.getGenre())
+                        + s.getNumberOfListens());
             } else {
                 tmpTopGenres.put(s.getGenre(), s.getNumberOfListens());
             }
         }
-
-
 
 //        sorting the mostlistenedepisode by number of listens descending
         mostListenedEpisodes.sort((o1, o2) -> {
@@ -192,9 +180,6 @@ public class Wrapped implements Command {
 
             return o2.getNumberOfListens() - o1.getNumberOfListens();
         });
-
-
-
 
 
 //        sorting the artists
@@ -208,8 +193,6 @@ public class Wrapped implements Command {
 
 //        sorting the genres by number of listens
         tmpTopGenres = sortMapByValueDesc(tmpTopGenres);
-
-
 
 //        sorting the songs
         Collections.sort(mostListenedSongs, Comparator.comparing(Song::getName));
@@ -263,10 +246,8 @@ public class Wrapped implements Command {
             && mostListenedEpisodes.size() == 0) {
 
             result = null;
-
             return;
         }
-
 
         Map<String, Object> topArtists = new LinkedHashMap<>();
         Map<String, Object> topGenres = new LinkedHashMap<>();
@@ -275,9 +256,11 @@ public class Wrapped implements Command {
         Map<String, Object> topEpisodes = new LinkedHashMap<>();
 
 
-        for (int i = 0; i < 5; i++) {
-            if (i < mostListenedArtists.size() && mostListenedArtists.get(i).getNumberOfListens() != 0) {
-                topArtists.put(mostListenedArtists.get(i).getUsername(), mostListenedArtists.get(i).getNumberOfListens());
+        for (int i = 0; i < MAX_TOP; i++) {
+            if (i < mostListenedArtists.size() && mostListenedArtists.get(i).
+                    getNumberOfListens() != 0) {
+                topArtists.put(mostListenedArtists.get(i).getUsername(),
+                        mostListenedArtists.get(i).getNumberOfListens());
             }
 
             if (i < tmpTopGenres.size() && tmpTopGenres.size() != 0) {
@@ -286,20 +269,24 @@ public class Wrapped implements Command {
                         tmpTopGenres.get(tmpTopGenres.keySet().toArray()[i]));
             }
 
-            if (i < mostListenedSongs.size() && mostListenedSongs.get(i).getNumberOfListens() != 0) {
-                topSongs.put(mostListenedSongs.get(i).getName(), mostListenedSongs.get(i).getNumberOfListens());
+            if (i < mostListenedSongs.size() && mostListenedSongs.get(i).
+                    getNumberOfListens() != 0) {
+                topSongs.put(mostListenedSongs.get(i).getName(),
+                        mostListenedSongs.get(i).getNumberOfListens());
             }
 
-            if (i < mostListenedAlbums.size() && mostListenedAlbums.get(i).getNumberOfListens() != 0) {
-                topAlbums.put(mostListenedAlbums.get(i).getName(), mostListenedAlbums.get(i).getNumberOfListens());
+            if (i < mostListenedAlbums.size() && mostListenedAlbums.get(i).
+                    getNumberOfListens() != 0) {
+                topAlbums.put(mostListenedAlbums.get(i).getName(),
+                        mostListenedAlbums.get(i).getNumberOfListens());
             }
 
-            if (i < mostListenedEpisodes.size() && mostListenedEpisodes.get(i).getNumberOfListens() != 0) {
-                topEpisodes.put(mostListenedEpisodes.get(i).getName(), mostListenedEpisodes.get(i).getNumberOfListens());
+            if (i < mostListenedEpisodes.size() && mostListenedEpisodes.get(i).
+                    getNumberOfListens() != 0) {
+                topEpisodes.put(mostListenedEpisodes.get(i).getName(),
+                        mostListenedEpisodes.get(i).getNumberOfListens());
             }
         }
-
-
 
         result.put("topArtists", topArtists);
         result.put("topGenres", topGenres);
@@ -308,13 +295,16 @@ public class Wrapped implements Command {
         result.put("topEpisodes", topEpisodes);
     }
 
-    public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValueDesc(Map<K, V> map) {
+    /**
+     * Method to sort a Map by values in descending order
+     */
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValueDesc(final Map<K, V> map) {
         List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
 
-        // Sortăm lista descrescător
+        // sort the list in descending order
         list.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
 
-        // Construim un nou LinkedHashMap bazat pe lista sortată
+        // Construct a new LinkedHashMap based on the sorted list
         Map<K, V> result = new LinkedHashMap<>();
         for (Map.Entry<K, V> entry : list) {
             result.put(entry.getKey(), entry.getValue());
@@ -323,7 +313,7 @@ public class Wrapped implements Command {
         return result;
     }
 
-    private void wrappedArtist(Artist currArtist) {
+    private void wrappedArtist(final Artist currArtist) {
 
         ArrayList<Album> mostListenedAlbums = new ArrayList<>();
         ArrayList<String> fansWithMostListens = new ArrayList<>();
@@ -334,8 +324,8 @@ public class Wrapped implements Command {
             if (a.getUser().equals(currArtist.getUsername())) {
 
 //                deep copying the album
-                mostListenedAlbums.add(new Album(a.getName(), a.getName(), a.getReleaseYear(), a.getDescription(),
-                        a.getAlbumSongs()));
+                mostListenedAlbums.add(new Album(a.getName(), a.getName(), a.getReleaseYear(),
+                        a.getDescription(), a.getAlbumSongs()));
                 mostListenedAlbums.get(mostListenedAlbums.size() - 1).addNumberOfListens(0);
             }
         }
@@ -373,12 +363,16 @@ public class Wrapped implements Command {
 
 
             for (Song s : u.getEverySong()) {
-                if (s.getArtist().equals(currArtist.getUsername()) && s.getNumberOfListens() != 0) {
-                    tmpTopFans.put(u.getUsername(), tmpTopFans.get(u.getUsername()) + s.getNumberOfListens());
+                if (s.getArtist().equals(currArtist.getUsername())
+                        && s.getNumberOfListens() != 0) {
+
+                    tmpTopFans.put(u.getUsername(), tmpTopFans.get(u.getUsername())
+                            + s.getNumberOfListens());
                     listenedByThisUser = true;
 
 //                    adding the number of listens to the song
-                    tmpTopSongs.put(s.getName(), (int) tmpTopSongs.get(s.getName()) + s.getNumberOfListens());
+                    tmpTopSongs.put(s.getName(), (int) tmpTopSongs.get(s.getName())
+                            + s.getNumberOfListens());
                 }
             }
 
@@ -409,13 +403,16 @@ public class Wrapped implements Command {
         Map<String, Object> topFans = new LinkedHashMap<>();
         Map<String, Object> topAlbums = new LinkedHashMap<>();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < MAX_TOP; i++) {
             if (i < fansWithMostListens.size()) {
                 topFans.put(fansWithMostListens.get(i), tmpTopFans.get(fansWithMostListens.get(i)));
             }
 
-            if (i < mostListenedAlbums.size() && mostListenedAlbums.get(i).getNumberOfListens() != 0) {
-                topAlbums.put(mostListenedAlbums.get(i).getName(), mostListenedAlbums.get(i).getNumberOfListens());
+            if (i < mostListenedAlbums.size()
+                    && mostListenedAlbums.get(i).getNumberOfListens() != 0) {
+
+                topAlbums.put(mostListenedAlbums.get(i).getName(),
+                        mostListenedAlbums.get(i).getNumberOfListens());
             }
         }
 
@@ -425,12 +422,11 @@ public class Wrapped implements Command {
             fansWithMostListens.add(entry.getKey());
         }
 
-
         Map<String, Object> topSongs = new LinkedHashMap<>();
 //        copying the top 5 songs
         int i = 0;
         for (Map.Entry<String, Integer> entry : tmpTopSongs.entrySet()) {
-            if (i == 5) {
+            if (i == MAX_TOP) {
                 break;
             }
 
@@ -443,7 +439,6 @@ public class Wrapped implements Command {
             i++;
         }
 
-
         if (topAlbums.size() == 0
             && topFans.size() == 0
             && topSongs.size() == 0
@@ -454,15 +449,13 @@ public class Wrapped implements Command {
             return;
         }
 
-
-
         result.put("topAlbums", topAlbums);
         result.put("topSongs", topSongs);
         result.put("topFans", fansWithMostListens);
         result.put("listeners", listeners);
     }
 
-    private void wrappedHost(Host currHost) {
+    private void wrappedHost(final Host currHost) {
 
         ArrayList<Episode> mostListenedEpisodes = new ArrayList<>();
         int listeners = 0;
@@ -470,7 +463,6 @@ public class Wrapped implements Command {
 
         ArrayList<Podcast> mostListenedPodcasts = new ArrayList<>();
         mostListenedPodcasts = Podcasts.getPodcasts();
-
 
         boolean found = false;
 
@@ -501,10 +493,7 @@ public class Wrapped implements Command {
                         mostListenedEpisodes.get(mostListenedEpisodes.size() - 1).
                                 addNumberOfListens(u.getLisenedEpisodes().get(e));
                     }
-
                 }
-
-
             }
 
             if (listener) {
@@ -515,9 +504,12 @@ public class Wrapped implements Command {
         }
 
         Map<String, Object> topEpisodes = new LinkedHashMap<>();
-        for (int i = 0; i < 5; i++) {
-            if (i < mostListenedEpisodes.size() && mostListenedEpisodes.get(i).getNumberOfListens() != 0) {
-                topEpisodes.put(mostListenedEpisodes.get(i).getName(), mostListenedEpisodes.get(i).getNumberOfListens());
+        for (int i = 0; i < MAX_TOP; i++) {
+            if (i < mostListenedEpisodes.size() && mostListenedEpisodes.get(i).
+                    getNumberOfListens() != 0) {
+
+                topEpisodes.put(mostListenedEpisodes.get(i).getName(),
+                        mostListenedEpisodes.get(i).getNumberOfListens());
             }
         }
 
@@ -525,8 +517,10 @@ public class Wrapped implements Command {
         result.put("listeners", listeners);
     }
 
-    // Method to sort a Map alphabetically by keys
-    public static Map<String, Integer> sortMapByKey(Map<String, Integer> map) {
+    /**
+     * Method to sort a Map alphabetically by keys
+     */
+    public static Map<String, Integer> sortMapByKey(final Map<String, Integer> map) {
         List<Map.Entry<String, Integer>> entryList = new LinkedList<>(map.entrySet());
 
         // Sort the list alphabetically based on keys
@@ -541,25 +535,43 @@ public class Wrapped implements Command {
         return result;
     }
 
-
-    public Wrapped(SearchBar input) {
+    /**
+     * constructor for the wrapped
+     */
+    public Wrapped(final SearchBar input) {
         this.command = input.getCommand();
         this.user = input.getUsername();
         this.timestamp = input.getTimestamp();
     }
 
+    /**
+     * gets the command
+     * @return the command
+     */
     public String getCommand() {
         return command;
     }
 
+    /**
+     * gets the user
+     * @return the user
+     */
     public String getUser() {
         return user;
     }
 
+    /**
+     * gets the timestamp
+     * @return the timestamp
+     */
     public int getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * gets the result
+     * @return the result
+     */
     public Map<String, Object> getResult() {
         return result;
     }

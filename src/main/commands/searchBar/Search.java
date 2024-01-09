@@ -1,15 +1,24 @@
 package main.commands.searchBar;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import main.collections.*;
-import main.commands.types.*;
+import main.collections.Albums;
+import main.collections.Artists;
+import main.collections.Hosts;
+import main.collections.Playlists;
+import main.collections.Podcasts;
+import main.commands.types.Song;
+import main.commands.types.Album;
+import main.commands.types.Playlist;
+import main.commands.types.Podcast;
 import main.inputCommand.Command;
 import main.SearchBar;
 import main.users.User;
 import main.users.Artist;
 import main.users.Host;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Search implements Command {
     private final String command;
@@ -34,7 +43,7 @@ public class Search implements Command {
     /**
      * This method is used to execute the command.
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
         User currUser = (User) params[1];
 
         if (!currUser.getOnline()) {
@@ -67,7 +76,7 @@ public class Search implements Command {
      * searching by song type
      * @param songs every song
      */
-    public void searchingBySongType(final ArrayList<Song> songs, User currUser) {
+    public void searchingBySongType(final ArrayList<Song> songs) {
         String songPrefix = (String) (filters.get("name"));
         if (songPrefix != null) {
             songPrefix = songPrefix.toLowerCase();
@@ -267,7 +276,7 @@ public class Search implements Command {
 
 //                if only type is songs:
         if (this.type.equals("song")) {
-            this.searchingBySongType(currUser.getEverySong(), currUser);
+            this.searchingBySongType(currUser.getEverySong());
             currUser.setTypeFoundBySearch(0);
             currUser.setSearchedSong(this.resultsType);
         }
@@ -392,6 +401,9 @@ public class Search implements Command {
         return filters;
     }
 
+    /**
+     * This method is used to get the results type of the command.
+     */
     public String getResultsAlbum(final int index) {
         return resultsAlbum.get(index);
     }

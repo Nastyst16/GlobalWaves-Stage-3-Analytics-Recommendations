@@ -26,7 +26,7 @@ public class PreviousNextPage implements Command {
         }
     }
 
-    private void setNextPage(User currUser) {
+    private void setNextPage(final User currUser) {
         if (currUser == null) {
             this.setMessage(this.user + " doesn't exist.");
             return;
@@ -48,11 +48,6 @@ public class PreviousNextPage implements Command {
         currUser.setRecommendedPlaylist((Playlist) currUser.popNextPage());
         currUser.setCurrentRecommendation(currUser.popNextPage());
         currUser.setCurrentPage((String) currUser.popNextPage());
-
-
-//        currUser.setCurrentPage(currUser.getNextPages().lastEntry().getKey());
-//        currUser.setCurrentRecommendation(currUser.getNextPages().lastEntry().getValue());
-//        currUser.getNextPages().remove(currUser.getCurrentPage());
 
         this.setMessage("The user " + this.user + " has navigated successfully to the next page.");
     }
@@ -96,12 +91,8 @@ public class PreviousNextPage implements Command {
         currUser.setCurrentRecommendation(currUser.popPreviousPage());
         currUser.setCurrentPage((String) currUser.popPreviousPage());
 
-
-//        currUser.setCurrentPage(currUser.getPreviousPages().lastEntry().getKey());
-//        currUser.setCurrentRecommendation(currUser.getPreviousPages().lastEntry().getValue());
-//        currUser.getPreviousPages().remove(currUser.getCurrentPage());
-
-        this.setMessage("The user " + this.user + " has navigated successfully to the previous page.");
+        this.setMessage("The user " + this.user
+                + " has navigated successfully to the previous page.");
     }
 
     /**

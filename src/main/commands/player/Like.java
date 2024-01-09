@@ -15,7 +15,7 @@ public final class Like implements Command {
     /**
      * executes the command
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
         this.likeHelper((User) params[1]);
     }
 

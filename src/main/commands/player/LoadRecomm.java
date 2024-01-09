@@ -1,5 +1,6 @@
 package main.commands.player;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.SearchBar;
 import main.commands.searchBar.Select;
 import main.commands.types.Playlist;
@@ -14,13 +15,15 @@ public class LoadRecomm implements Command {
     private final String user;
     private final int timestamp;
     private String message;
+    @JsonIgnore
+    private static final int HOST_PARAM = 3;
 
     /**
      * execute the command and change the page
      */
     public void execute(final Object... params) {
         this.setLoadRecomm((SearchBar) params[0], (User) params[1],
-                (Artist) params[2], (Host) params[3]);
+                (Artist) params[2], (Host) params[HOST_PARAM]);
     }
 
     /**
@@ -36,30 +39,30 @@ public class LoadRecomm implements Command {
     /**
      * sets the load recommendation
      */
-    public void setLoadRecomm(final SearchBar input, User user,
-                              Artist artist, Host host) {
-        if (user == null) {
+    public void setLoadRecomm(final SearchBar input, final User currUser,
+                              final Artist artist, final Host host) {
+        if (currUser == null) {
             this.setMessage(this.user + " doesn't exist.");
             return;
         }
 
-        if (user.getCurrentRecommendation() == null) {
+        if (currUser.getCurrentRecommendation() == null) {
             this.setMessage(this.user + " has no previous recommendation.");
             return;
         }
 
-        Select select = new Select(user.getCurrentRecommendation());
-        user.setCurrentSelect(select);
+        Select select = new Select(currUser.getCurrentRecommendation());
+        currUser.setCurrentSelect(select);
 
-        if (user.getCurrentRecommendation() instanceof Song) {
-            Load load = new Load((Song) user.getCurrentRecommendation());
-            load.execute(input, user, artist, host);
+        if (currUser.getCurrentRecommendation() instanceof Song) {
+            Load load = new Load((Song) currUser.getCurrentRecommendation());
+            load.execute(input, currUser, artist, host);
         } else {
-            Load load = new Load((Playlist) user.getCurrentRecommendation());
-            load.execute(input, user, artist, host);
+            Load load = new Load((Playlist) currUser.getCurrentRecommendation());
+            load.execute(input, currUser, artist, host);
         }
 
-        user.getListenable().listen(user.getCurrentType(), user);
+        currUser.getListenable().listen(currUser.getCurrentType(), currUser);
 
         this.setMessage("Playback loaded successfully.");
     }
@@ -67,7 +70,7 @@ public class LoadRecomm implements Command {
     /**
      * sets the message
      */
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 

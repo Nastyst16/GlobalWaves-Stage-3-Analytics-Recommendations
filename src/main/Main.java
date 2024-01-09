@@ -203,7 +203,6 @@ public final class Main {
         return host;
     }
 
-
     /**
      * this method calculates how many seconds have gone since the last command
      * @param input the current input

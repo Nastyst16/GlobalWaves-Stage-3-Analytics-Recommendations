@@ -19,27 +19,27 @@ public class BuyMerch implements Command {
     /**
      * executes the command
      */
-    public void execute(Object... params) {
+    public void execute(final Object... params) {
         this.buyMerch((User) params[1]);
     }
 
     /**
      * Method that buys merch.
      */
-    public void buyMerch(User user) {
+    public void buyMerch(final User currUser) {
 
-        if (user == null) {
+        if (currUser == null) {
             this.setMessage("The username " + this.user + " doesn't exist.");
         }
 
-        if (user.getSelectedPageOwner() == "") {
+        if (currUser.getSelectedPageOwner() == "") {
             this.setMessage("Cannot buy merch from this page.");
         }
 
 //        searching for the artist based on page
         Artist artist = null;
         for (Artist currArtist : Artists.getArtists()) {
-            if (currArtist.getUsername().equals(user.getSelectedPageOwner())) {
+            if (currArtist.getUsername().equals(currUser.getSelectedPageOwner())) {
                 artist = currArtist;
                 break;
             }
@@ -53,7 +53,7 @@ public class BuyMerch implements Command {
 //        searching for the merchandise from this artist
         for (Merch merch : artist.getMerchandise()) {
             if (merch.getName().equalsIgnoreCase(this.getMerchName())) {
-                user.addBoughtMerchandise(merch);
+                currUser.addBoughtMerchandise(merch);
                 merch.addSold();
 
                 this.setMessage(this.user + " has added new merch successfully.");

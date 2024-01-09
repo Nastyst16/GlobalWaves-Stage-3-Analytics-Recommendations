@@ -8,6 +8,8 @@ import main.commands.types.Event;
 import main.users.Artist;
 import main.users.Host;
 
+import static main.users.Host.HOST_PARAM;
+
 public final class RemoveEvent implements Command {
     private final String command;
     private final String user;
@@ -19,8 +21,8 @@ public final class RemoveEvent implements Command {
     /**
      * executes the RemoveEvent command
      */
-    public void execute(Object... params) {
-        this.setRemoveEvent((User) params[1], (Artist) params[2], (Host) params[3]);
+    public void execute(final Object... params) {
+        this.setRemoveEvent((User) params[1], (Artist) params[2], (Host) params[HOST_PARAM]);
     }
 
     /**
