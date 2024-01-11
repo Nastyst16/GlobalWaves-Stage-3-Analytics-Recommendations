@@ -2,13 +2,10 @@ package main.commands.player;
 
 import main.collections.Playlists;
 import main.collections.Podcasts;
+import main.commands.types.*;
+import main.decoratorPattern.TypeDecorator;
 import main.inputCommand.Command;
 import main.SearchBar;
-import main.commands.types.Playlist;
-import main.commands.types.Podcast;
-import main.commands.types.Song;
-import main.commands.types.Album;
-import main.commands.types.Episode;
 import main.users.User;
 import java.util.ArrayList;
 
@@ -99,7 +96,7 @@ public final class Load implements Command {
             } else if (currUser.getTypeSelected() == ALBUM) {
                 loadAlbum(currUser, Albums.getAlbums());
             }
-            currUser.getListenable().listen(currUser.getCurrentType(), currUser);
+            currUser.getCurrentType().listen(currUser);
 
         } else {
             this.message = "Please select the song first.";

@@ -1,6 +1,9 @@
 package main.commands.types;
 
 import fileio.input.EpisodeInput;
+import main.users.User;
+
+import java.util.LinkedHashMap;
 
 public class Episode implements Type {
     private String name;
@@ -49,8 +52,32 @@ public class Episode implements Type {
     }
 
     @Override
-    public void listen() {
+    public void listen(User user) {
+        Episode currEpisode = this;
 
+////                searching the podcast
+        for (Podcast p : user.getPodcastsPlayed()) {
+
+            boolean found = false;
+
+            for (Episode e : p.getEpisodesList()) {
+                if (e.getName().equals(currEpisode.getName())) {
+                    e.addListen();
+                    p.addListen();
+
+                    LinkedHashMap<Episode, Integer> map = new LinkedHashMap<>();
+                    map.put(e, 1);
+
+                    user.addLisenedEpisode(map);
+
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                break;
+            }
+        }
     }
 
     /**

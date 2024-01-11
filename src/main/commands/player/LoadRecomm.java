@@ -5,6 +5,7 @@ import main.SearchBar;
 import main.commands.searchBar.Select;
 import main.commands.types.Playlist;
 import main.commands.types.Song;
+import main.commands.types.Type;
 import main.inputCommand.Command;
 import main.users.Artist;
 import main.users.Host;
@@ -62,7 +63,8 @@ public class LoadRecomm implements Command {
             load.execute(input, currUser, artist, host);
         }
 
-        currUser.getListenable().listen(currUser.getCurrentType(), currUser);
+        Type currentType = currUser.getCurrentType();
+        currentType.listen(currUser);
 
         this.setMessage("Playback loaded successfully.");
     }

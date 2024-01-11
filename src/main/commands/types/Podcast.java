@@ -1,6 +1,7 @@
 package main.commands.types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import main.users.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +56,8 @@ public final class Podcast implements Type {
     }
 
     @Override
-    public void listen() {
-
+    public void listen(User user) {
+        this.addListen();
     }
 
     /**

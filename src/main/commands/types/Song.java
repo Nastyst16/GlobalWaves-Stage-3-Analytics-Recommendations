@@ -1,8 +1,15 @@
 package main.commands.types;
 
+import main.collections.Albums;
+import main.collections.Artists;
+import main.collections.Songs;
+import main.decoratorPattern.TypeDecorator;
+import main.users.Artist;
+import main.users.User;
+
 import java.util.List;
 
-public class Song implements Type {
+public class Song extends TypeDecorator {
     private String name;
     private int duration;
     private String album;
@@ -15,11 +22,19 @@ public class Song implements Type {
     private int numberOfLikes;
     private int numberOfListens;
 
-
     /**
      * constructor
      */
     public Song() {
+        super(null);
+
+    }
+
+    /**
+     * constructor for decorator
+     */
+    public Song(final Type decoratedType) {
+        super(decoratedType);
 
     }
 
@@ -28,6 +43,7 @@ public class Song implements Type {
      * @param name
      */
     public Song(final String name) {
+        super(null);
         this.name = name;
     }
 
@@ -45,6 +61,8 @@ public class Song implements Type {
     public Song(final String name, final int duration, final String album,
                 final List<String> tags, final String lyrics, final String genre,
                 final int releaseYear, final String artist) {
+        super(null);
+
         this.name = name;
         this.duration = duration;
         this.album = album;
@@ -55,17 +73,32 @@ public class Song implements Type {
         this.artist = artist;
     }
 
+    @Override
+    public void listen(final User user) {
+
+        this.addListen();
+        for (Song s : user.getEverySong()) {
+            if (s.getName().equals(this.getName())
+                    && s.getAlbum().equals(this.getAlbum())) {
+
+                s.addListen();
+            }
+        }
+
+        for (Artist artist : Artists.getArtists()) {
+            if (artist.getUsername().equals(this.artist)) {
+                artist.addListen();
+                break;
+            }
+        }
+    }
+
     /**
      * get name
      * @return
      */
     public String getName() {
         return name;
-    }
-
-    @Override
-    public void listen() {
-
     }
 
     /**

@@ -141,7 +141,7 @@ public final class Main {
         commands.add(new EndProgram("endProgram"));
         commands.get(commands.size() - 1).execute();
 
-        // reseting the collections after every test
+        // reseting the collections after every atest
         resetCollections();
 
         // parsing the requeriments

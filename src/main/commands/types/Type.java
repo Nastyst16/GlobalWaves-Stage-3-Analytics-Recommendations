@@ -1,5 +1,7 @@
 package main.commands.types;
 
+import main.users.User;
+
 public interface Type {
 
     /**
@@ -34,7 +36,7 @@ public interface Type {
     /**
      * listen the type
      */
-    void listen();
+    public void listen(final User user);
 
     /**
      * add listen

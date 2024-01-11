@@ -13,7 +13,6 @@ import main.commands.types.Episode;
 import main.commands.types.Album;
 import main.commands.types.Playlist;
 import main.commands.types.Merch;
-import main.decoratorPattern.ListenCounterDecorator;
 import main.notificationsObserver.Observer;
 
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ public class User implements Observer {
     private String selectedPageOwner;
 
 //    Stage 3 variables
-    private ListenCounterDecorator listenable;
+//    private TypeDecorator listenable;
     private ArrayList<Album> everyAlbum;
     private Song searchedSong;
     private boolean premium = false;
@@ -140,7 +139,6 @@ public class User implements Observer {
         selectedPageOwner = "";
 
 //        Stage 3:
-        listenable = new ListenCounterDecorator();
 
 //        copy the albums
         this.everyAlbum = new ArrayList<>();
@@ -275,7 +273,8 @@ public class User implements Observer {
                 Episode newEpisode = user.getCurrentPodcast().getEpisodesList().get(indexEpisode);
 
                 currentType = newEpisode;
-                user.getListenable().listen(currentType, user);
+                user.setCurrentType(currentType);
+                user.getCurrentType().listen(user);
                 currentType.setSecondsGone(Math.abs(user.getRemainingTime()));
                 user.setRemainingTime(currentType.getDuration() - currentType.getSecondsGone());
             }
@@ -304,8 +303,8 @@ public class User implements Observer {
                     int secsGone = currentType.getSecondsGone() - currentType.getDuration();
 
                     currentType = user.getCurrentPlaylist().getSongList().get(0);
-
-                    user.getListenable().listen(currentType, user);
+                    user.setCurrentType(currentType);
+                    user.getCurrentType().listen(user);
 
                     currentType.setSecondsGone(secsGone);
                     user.setRemainingTime(currentType.getDuration() - currentType.getSecondsGone());
@@ -325,8 +324,8 @@ public class User implements Observer {
 
                         int firstIndex = user.getShuffledIndices().get(0);
                         currentType = user.getCurrentPlaylist().getSongList().get(firstIndex);
-
-                        user.getListenable().listen(currentType, user);
+                        user.setCurrentType(currentType);
+                        user.getCurrentType().listen(user);
 
                         currentType.setSecondsGone(Math.abs(user.getRemainingTime()));
                         user.setRemainingTime(currentType.getDuration()
@@ -344,7 +343,8 @@ public class User implements Observer {
 
                     newSong = user.getCurrentPlaylist().getSongList().get(nextShuffledIndex);
                     currentType = newSong;
-                    user.getListenable().listen(currentType, user);
+                    user.setCurrentType(currentType);
+                    user.getCurrentType().listen(user);
 
 //                if repeat current song we won't change the currentType
                 } else if (user.getRepeatStatus() != 2) {
@@ -354,8 +354,8 @@ public class User implements Observer {
 
                         newSong = playlist.getSongList().get(indexSong + 1);
                         currentType = newSong;
-
-                        user.getListenable().listen(currentType, user);
+                        user.setCurrentType(currentType);
+                        user.getCurrentType().listen(user);
                     } else {
                         break;
                     }
@@ -413,8 +413,8 @@ public class User implements Observer {
                 if (user.getCurrentPlaylist().getSongList().get(index).
                         getName().equals(user.getSelectedName())) {
                     currentType = user.getCurrentPlaylist().getSongList().get(0);
-
-                    user.getListenable().listen(user.getCurrentType(), user);
+                    user.setCurrentType(currentType);
+                    user.getCurrentType().listen(user);
 
                     currentType.setSecondsGone(currentType.getDuration()
                             + currentType.getSecondsGone());
@@ -971,22 +971,6 @@ public class User implements Observer {
      */
     public void setSelectedPageOwner(final String selectedPageOwner) {
         this.selectedPageOwner = selectedPageOwner;
-    }
-
-    /**
-     * get the listenable
-     * @return the listenable
-     */
-    public ListenCounterDecorator getListenable() {
-        return listenable;
-    }
-
-    /**
-     * set the listenable
-     * @param listenable the listenable
-     */
-    public void setListenable(final ListenCounterDecorator listenable) {
-        this.listenable = listenable;
     }
 
     /**
