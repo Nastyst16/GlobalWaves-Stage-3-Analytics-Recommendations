@@ -14,7 +14,7 @@ public class CancelPremium implements Command {
     private final int timestamp;
     private String message;
     @JsonIgnore
-    private final double MAX_MONEY = 1000000;
+    private static final double MAX_MONEY = 1000000;
 
     /**
      * executes the command

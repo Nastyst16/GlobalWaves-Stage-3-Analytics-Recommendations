@@ -52,6 +52,9 @@ public class Wrapped implements Command {
         }
     }
 
+    /**
+     * setting the wrapped for the user
+     */
     private void wrappedUser(final User currUser) {
 
 //        printing the most 5 listened songs
@@ -89,44 +92,7 @@ public class Wrapped implements Command {
             }
         }
 
-        for (Artist artist : Artists.getArtists()) {
-            for (Album a : artist.getAlbums()) {
-
-//                checking if the user listened to this album
-//                and calculating the number of listens for this user
-                boolean listenedToThisAlbum = false;
-                int numberOfListens = 0;
-
-                for (Song s : currUser.getEverySong()) {
-                    if (s.getAlbum().equals(a.getName())) {
-                        listenedToThisAlbum = true;
-                        numberOfListens += s.getNumberOfListens();
-                    }
-                }
-
-                if (!listenedToThisAlbum) {
-                    continue;
-                }
-
-//                if there is an album with the same name just add the listens
-                boolean exists = false;
-                for (Album album : mostListenedAlbums) {
-                    if (album.getName().equals(a.getName())) {
-                        exists = true;
-                        break;
-                    }
-                }
-
-                if (!exists) {
-                    mostListenedAlbums.add(new Album(a.getName(), a.getName(), a.getReleaseYear(),
-                            a.getDescription(), a.getAlbumSongs()));
-
-                    mostListenedAlbums.get(mostListenedAlbums.size() - 1).
-                            addNumberOfListens(numberOfListens);
-                }
-
-            }
-        }
+        userCalculatingMostListenedAlbums(currUser, mostListenedAlbums);
 
         for (Podcast p : currUser.getEveryPodcast()) {
             for (Episode e : p.getEpisodesList()) {
@@ -155,7 +121,6 @@ public class Wrapped implements Command {
             }
         }
 
-
 //        most listened genres based on the songs listened
         Map<String, Integer> tmpTopGenres = new LinkedHashMap<>();
         for (Song s : currUser.getEverySong()) {
@@ -181,7 +146,6 @@ public class Wrapped implements Command {
             return o2.getNumberOfListens() - o1.getNumberOfListens();
         });
 
-
 //        sorting the artists
         mostListenedArtists.sort((o1, o2) -> {
             if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
@@ -193,51 +157,8 @@ public class Wrapped implements Command {
 
 //        sorting the genres by number of listens
         tmpTopGenres = sortMapByValueDesc(tmpTopGenres);
-
-//        sorting the songs
-        Collections.sort(mostListenedSongs, Comparator.comparing(Song::getName));
-
-        mostListenedSongs.sort((o1, o2) -> {
-            if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
-                return o1.getName().compareTo(o2.getName());
-            }
-
-            return o2.getNumberOfListens() - o1.getNumberOfListens();
-        });
-
-//        sorting the albums
-        mostListenedAlbums.sort((o1, o2) -> {
-            if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
-                return o1.getName().compareTo(o2.getName());
-            }
-
-            return o2.getNumberOfListens() - o1.getNumberOfListens();
-        });
-
-//        sorting the episodes
-        mostListenedEpisodes.sort((o1, o2) -> {
-            if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
-                return o1.getName().compareTo(o2.getName());
-            }
-
-            return o2.getNumberOfListens() - o1.getNumberOfListens();
-        });
-
-//        removing the artists with 0 listens
-        for (int i = 0; i < mostListenedArtists.size(); i++) {
-            if (mostListenedArtists.get(i).getNumberOfListens() == 0) {
-                mostListenedArtists.remove(i);
-                i--;
-            }
-        }
-
-//        removing the albums with 0 listens
-        for (int i = 0; i < mostListenedAlbums.size(); i++) {
-            if (mostListenedAlbums.get(i).getNumberOfListens() == 0) {
-                mostListenedAlbums.remove(i);
-                i--;
-            }
-        }
+        sortingEverythingUser(mostListenedArtists, mostListenedSongs,
+                mostListenedAlbums, mostListenedEpisodes);
 
         if (mostListenedArtists.size() == 0
             && tmpTopGenres.size() == 0
@@ -255,38 +176,10 @@ public class Wrapped implements Command {
         Map<String, Object> topAlbums = new LinkedHashMap<>();
         Map<String, Object> topEpisodes = new LinkedHashMap<>();
 
-
-        for (int i = 0; i < MAX_TOP; i++) {
-            if (i < mostListenedArtists.size() && mostListenedArtists.get(i).
-                    getNumberOfListens() != 0) {
-                topArtists.put(mostListenedArtists.get(i).getUsername(),
-                        mostListenedArtists.get(i).getNumberOfListens());
-            }
-
-            if (i < tmpTopGenres.size() && tmpTopGenres.size() != 0) {
-
-                topGenres.put((String) tmpTopGenres.keySet().toArray()[i],
-                        tmpTopGenres.get(tmpTopGenres.keySet().toArray()[i]));
-            }
-
-            if (i < mostListenedSongs.size() && mostListenedSongs.get(i).
-                    getNumberOfListens() != 0) {
-                topSongs.put(mostListenedSongs.get(i).getName(),
-                        mostListenedSongs.get(i).getNumberOfListens());
-            }
-
-            if (i < mostListenedAlbums.size() && mostListenedAlbums.get(i).
-                    getNumberOfListens() != 0) {
-                topAlbums.put(mostListenedAlbums.get(i).getName(),
-                        mostListenedAlbums.get(i).getNumberOfListens());
-            }
-
-            if (i < mostListenedEpisodes.size() && mostListenedEpisodes.get(i).
-                    getNumberOfListens() != 0) {
-                topEpisodes.put(mostListenedEpisodes.get(i).getName(),
-                        mostListenedEpisodes.get(i).getNumberOfListens());
-            }
-        }
+//        storing the top 5 for every map
+        userStoreResultsTop5(mostListenedArtists, mostListenedSongs, mostListenedAlbums,
+                mostListenedEpisodes, tmpTopGenres, topArtists, topGenres, topSongs,
+                topAlbums, topEpisodes);
 
         result.put("topArtists", topArtists);
         result.put("topGenres", topGenres);
@@ -533,6 +426,151 @@ public class Wrapped implements Command {
         }
 
         return result;
+    }
+
+    /**
+     * sorting everything for user wrapped
+     */
+    private void sortingEverythingUser(final ArrayList<Artist> mostListenedArtists,
+                                       final ArrayList<Song> mostListenedSongs,
+                                       final ArrayList<Album> mostListenedAlbums,
+                                       final ArrayList<Episode> mostListenedEpisodes) {
+
+//        sorting the songs
+        Collections.sort(mostListenedSongs, Comparator.comparing(Song::getName));
+
+        mostListenedSongs.sort((o1, o2) -> {
+            if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
+                return o1.getName().compareTo(o2.getName());
+            }
+
+            return o2.getNumberOfListens() - o1.getNumberOfListens();
+        });
+
+//        sorting the albums
+        mostListenedAlbums.sort((o1, o2) -> {
+            if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
+                return o1.getName().compareTo(o2.getName());
+            }
+
+            return o2.getNumberOfListens() - o1.getNumberOfListens();
+        });
+
+//        sorting the episodes
+        mostListenedEpisodes.sort((o1, o2) -> {
+            if (o1.getNumberOfListens() == o2.getNumberOfListens()) {
+                return o1.getName().compareTo(o2.getName());
+            }
+
+            return o2.getNumberOfListens() - o1.getNumberOfListens();
+        });
+
+//        removing the artists with 0 listens
+        for (int i = 0; i < mostListenedArtists.size(); i++) {
+            if (mostListenedArtists.get(i).getNumberOfListens() == 0) {
+                mostListenedArtists.remove(i);
+                i--;
+            }
+        }
+
+//        removing the albums with 0 listens
+        for (int i = 0; i < mostListenedAlbums.size(); i++) {
+            if (mostListenedAlbums.get(i).getNumberOfListens() == 0) {
+                mostListenedAlbums.remove(i);
+                i--;
+            }
+        }
+    }
+
+    /**
+     * calculating the most listened albums for user wrapped
+     */
+    private void userCalculatingMostListenedAlbums(final User currUser,
+                                                   final ArrayList<Album> mostListenedAlbums) {
+        for (Artist artist : Artists.getArtists()) {
+            for (Album a : artist.getAlbums()) {
+
+//                checking if the user listened to this album
+//                and calculating the number of listens for this user
+                boolean listenedToThisAlbum = false;
+                int numberOfListens = 0;
+
+                for (Song s : currUser.getEverySong()) {
+                    if (s.getAlbum().equals(a.getName())) {
+                        listenedToThisAlbum = true;
+                        numberOfListens += s.getNumberOfListens();
+                    }
+                }
+
+                if (!listenedToThisAlbum) {
+                    continue;
+                }
+
+//                if there is an album with the same name just add the listens
+                boolean exists = false;
+                for (Album album : mostListenedAlbums) {
+                    if (album.getName().equals(a.getName())) {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (!exists) {
+                    mostListenedAlbums.add(new Album(a.getName(), a.getName(), a.getReleaseYear(),
+                            a.getDescription(), a.getAlbumSongs()));
+
+                    mostListenedAlbums.get(mostListenedAlbums.size() - 1).
+                            addNumberOfListens(numberOfListens);
+                }
+
+            }
+        }
+    }
+
+    /**
+     * user store results top 5
+     */
+    private void userStoreResultsTop5(final ArrayList<Artist> mostListenedArtists,
+                                      final ArrayList<Song> mostListenedSongs,
+                                      final ArrayList<Album> mostListenedAlbums,
+                                      final ArrayList<Episode> mostListenedEpisodes,
+                                      final Map<String, Integer> tmpTopGenres,
+                                      final Map<String, Object> topArtists,
+                                      final Map<String, Object> topGenres,
+                                      final Map<String, Object> topSongs,
+                                      final Map<String, Object> topAlbums,
+                                      final Map<String, Object> topEpisodes) {
+        for (int i = 0; i < MAX_TOP; i++) {
+            if (i < mostListenedArtists.size() && mostListenedArtists.get(i).
+                    getNumberOfListens() != 0) {
+                topArtists.put(mostListenedArtists.get(i).getUsername(),
+                        mostListenedArtists.get(i).getNumberOfListens());
+            }
+
+            if (i < tmpTopGenres.size() && tmpTopGenres.size() != 0) {
+
+                topGenres.put((String) tmpTopGenres.keySet().toArray()[i],
+                        tmpTopGenres.get(tmpTopGenres.keySet().toArray()[i]));
+            }
+
+            if (i < mostListenedSongs.size() && mostListenedSongs.get(i).
+                    getNumberOfListens() != 0) {
+                topSongs.put(mostListenedSongs.get(i).getName(),
+                        mostListenedSongs.get(i).getNumberOfListens());
+            }
+
+            if (i < mostListenedAlbums.size() && mostListenedAlbums.get(i).
+                    getNumberOfListens() != 0) {
+                topAlbums.put(mostListenedAlbums.get(i).getName(),
+                        mostListenedAlbums.get(i).getNumberOfListens());
+            }
+
+            if (i < mostListenedEpisodes.size() && mostListenedEpisodes.get(i).
+                    getNumberOfListens() != 0) {
+                topEpisodes.put(mostListenedEpisodes.get(i).getName(),
+                        mostListenedEpisodes.get(i).getNumberOfListens());
+            }
+        }
     }
 
     /**

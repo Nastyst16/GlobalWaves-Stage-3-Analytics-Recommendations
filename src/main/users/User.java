@@ -20,7 +20,6 @@ import main.notificationsObserver.Observer;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Stack;
 
 public class User implements Observer {
     private String username;
@@ -64,22 +63,14 @@ public class User implements Observer {
     private boolean online;
 
 //    Stage 3 variables
-//    private TypeDecorator listenable;
     private ArrayList<Album> everyAlbum;
     private Song searchedSong;
     private boolean premium = false;
     private ArrayList<Map<String, String>> notifications;
     private ArrayList<Merch> boughtMerchandise;
     private LinkedHashMap<Episode, Integer> lisenedEpisodes;
-//    private Playlist recommendedPlaylist = null;
-//    private Song recommendedSongs = null;
-//    private Stack<Object> previousPages = new Stack<>();
-//    private String currentPage;
-//    private Object currentRecommendation;
-//    private Stack<Object> nextPages = new Stack<>();
-//    private String selectedPageOwner;
-    PageCareTaker pageCareTaker = new PageCareTaker();
-    Page currentPage = new Page();
+    private PageCareTaker pageCareTaker = new PageCareTaker();
+    private Page currentPage = new Page();
 
     public User(final String username, final int age, final String city,
                 final ArrayList<Song> everySong, final ArrayList<Podcast> everyPodcast) {

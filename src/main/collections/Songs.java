@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public final class Songs {
     private static final Songs INSTANCE = new Songs();
-    private static final ArrayList<Song> everySong = new ArrayList<>();
+    private static final ArrayList<Song> EVERYSONG = new ArrayList<>();
 
     /**
      * default constructor
@@ -43,7 +43,7 @@ public final class Songs {
      * reset the songs after every test
      */
     public static void reset() {
-        everySong.clear();
+        EVERYSONG.clear();
     }
 
     /**
@@ -51,7 +51,7 @@ public final class Songs {
      * @param song the song to be added
      */
     public static void addSong(final Song song) {
-        everySong.add(song);
+        EVERYSONG.add(song);
     }
 
     /**
@@ -59,7 +59,7 @@ public final class Songs {
      * @return the list of songs
      */
     public static ArrayList<Song> getSongs() {
-        return everySong;
+        return EVERYSONG;
     }
 
     /**
@@ -67,6 +67,6 @@ public final class Songs {
      * @param song the song to be removed
      */
     public static void removeSong(final Song song) {
-        everySong.remove(song);
+        EVERYSONG.remove(song);
     }
 }

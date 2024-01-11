@@ -60,7 +60,7 @@ public final class Podcast implements Type {
      * implemented using decorator pattern
      */
     @Override
-    public void listen(User user) {
+    public void listen(final User user) {
         this.addListen();
     }
 

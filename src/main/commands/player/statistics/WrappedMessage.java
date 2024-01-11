@@ -37,7 +37,7 @@ public class WrappedMessage implements Command {
     /**
      * constructor for the wrapped message
      */
-    public WrappedMessage(SearchBar input) {
+    public WrappedMessage(final SearchBar input) {
         this.command = input.getCommand();
         this.user = input.getUsername();
         this.timestamp = input.getTimestamp();

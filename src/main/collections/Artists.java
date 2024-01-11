@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public final class Artists {
     private static final Artists INSTANCE = new Artists();
-    private static final ArrayList<Artist> artists = new ArrayList<>();
+    private static final ArrayList<Artist> ARTISTS = new ArrayList<>();
 
     /**
      * Default constructor.
@@ -19,26 +19,26 @@ public final class Artists {
      */
 
     /**
-     * Resets the list of artists.
+     * Resets the list of ARTISTS.
      */
     public static void reset() {
-        artists.clear();
+        ARTISTS.clear();
     }
 
     /**
-     * Adds an artist to the list of artists.
+     * Adds an artist to the list of ARTISTS.
      * @param artist the artist to be added
      */
     public static void addArtist(final Artist artist) {
-        artists.add(artist);
+        ARTISTS.add(artist);
     }
 
     /**
-     * gets the list of artists.
-     * @return the list of artists
+     * gets the list of ARTISTS.
+     * @return the list of ARTISTS
      */
     public static ArrayList<Artist> getArtists() {
-        return artists;
+        return ARTISTS;
     }
 
     /**
@@ -47,7 +47,7 @@ public final class Artists {
      * @return the artist
      */
     public static Artist getArtist(final String username) {
-        for (Artist artist : artists) {
+        for (Artist artist : ARTISTS) {
             if (artist.getUsername().equals(username)) {
                 return artist;
             }

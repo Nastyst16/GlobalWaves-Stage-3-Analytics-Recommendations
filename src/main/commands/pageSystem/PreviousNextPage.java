@@ -1,10 +1,7 @@
 package main.commands.pageSystem;
 
 import main.SearchBar;
-import main.commands.types.Playlist;
-import main.commands.types.Song;
 import main.inputCommand.Command;
-import main.mementoPattern.Page;
 import main.users.User;
 
 public class PreviousNextPage implements Command {

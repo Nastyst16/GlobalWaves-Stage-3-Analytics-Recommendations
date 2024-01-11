@@ -105,7 +105,8 @@ public final class PrintCurrentPage implements Command {
             recomendedPlaylist.append("\n\nPlaylists recommendations:\n\t[");
 
             if (currUser.getCurrentPage().getRecommendedPlaylist() != null) {
-                recomendedPlaylist.append(currUser.getCurrentPage().getRecommendedPlaylist().getName())
+                recomendedPlaylist.append(currUser.getCurrentPage().
+                                getRecommendedPlaylist().getName())
                         .append("]");
             } else {
                 recomendedPlaylist.append("]");

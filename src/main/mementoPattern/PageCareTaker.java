@@ -24,6 +24,9 @@ public class PageCareTaker {
         this.currentMemento = memento;
     }
 
+    /**
+     * go to previous page
+     */
     public void goToPreviousPage() {
         if (this.previousPages.isEmpty()) {
             return;
@@ -33,6 +36,9 @@ public class PageCareTaker {
         this.currentMemento = this.previousPages.pop();
     }
 
+    /**
+     * go to next page
+     */
     public void goToNextPage() {
         if (this.nextPages.isEmpty()) {
             return;

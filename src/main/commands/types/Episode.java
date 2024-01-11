@@ -51,8 +51,11 @@ public class Episode implements Type {
         return name;
     }
 
+    /**
+     * listens to an episode
+     */
     @Override
-    public void listen(User user) {
+    public void listen(final User user) {
         Episode currEpisode = this;
 
 //        searching the podcast

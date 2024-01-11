@@ -1,7 +1,7 @@
 #
 <div align="center"><img src="https://i.ytimg.com/vi/VZ1d_M4coQ4/maxresdefault.jpg" width="500px"></div>
 
-# Proiect GlobalWaves  - Etapa 2
+# Proiect GlobalWaves  - Etapa 3
 
 #### I used my own code from the previous stage.
 
@@ -74,7 +74,41 @@
         * "ArtistPage": display artist's albums, merch and events
         * "HostPage": display host's podcasts and announcements
 
-    
+Updates for stage 3:
+
+New commands:
+* Wrapped: a user/artist/host can see a personalized statistics based on their activity
+  * User: the user sees top 5 from the following categories: artists, genres, songs, albums, episodes
+  * Artist: the artist sees top 5 from the following categories: albums, songs, fans, listeners
+  * Host: the host sees top 5 from the following categories: episodes, listeners
+* BuyPremium: a user can buy a premium subscription, so he can listen to songs without ads
+  * this also makes the monetization of the app possible, because the user has a balance that is shared with the artists/hosts based on an well defined algorithm
+* CancelPremium: a user can cancel his premium subscription
+  * at the end of this command, the artists/host receive their share of the user's balance
+* Subscribe: a user can subscribe to an artist/host
+  * the user will receive notifications when the artist/host releases a new album/podcast
+  * this command is implemented using the Observer design pattern (more details in the implementation section)
+  * this command toggles the subscription status
+* GetNotifications: a user can see his notifications
+  * the notifications are displayed in the order they were received
+  * the notifications are deleted after they are displayed
+* BuyMerch: a user can buy an item from an artist's merch
+  * the artist's balance is updated
+* SeeMerchant: a user can see his bought items
+  * the items are displayed in the order they were bought
+* UpdateRecommendations: only for users: possible commands:
+  * "random_song": the user receives a random song recommendation
+    * generated besed on a random song with same genre as the current listening song
+  * "random_playlist": the user receives a random playlist recommendation
+    * generated based on the user's liked songs, playlists created and followed playlists
+  * "fans_playlist": the user receives a playlist recommendation
+    * generated based on the current song top 5 fans
+* PreviousPage: the user can go back to the previous page
+* NextPage: the user can go to the next page
+  * the previous and next page commands are connected toghether using the Memento design pattern (more details in the implementation section)
+  * the prev and next pages are saved in a stack
+* LoadRecommendations: the user can listen to the last recommended song or playlist
+  * in the loadrecommendations class I am just doing the setup for the load command
 
 ### Implementation:
 
@@ -82,11 +116,10 @@
     The searchBarInputs variable reresents every command made by the user, so we start reading all of these
     commands one by one in the for at the line 135 from main.
 
-        Before making any move the code sees how many seconds have passed since the last command: lines 146-163.
+        Before making any move the code sees how many seconds have passed since the last command (howManySecsGone method).
 
-        Next there is a chain of if-elses that treats every command, adding the output to the "commands" array
-    and doing all the necessary actions through the ("setSearch", "setSelect", "setLoad", ... ) corresponding
-    set method.
+        Next in the factory there is a switch case that creates the command based on the command requested.
+    The command is executed.
 
         The types by number: -1 - empty, 0 - song, 1 - podcast, 2 - playlist
         The repeat status by number: Song/Podcast-> 0 - no_repeat, 1 - repeat_once, 2 - repeat_infinite
@@ -97,11 +130,34 @@
         The "currentType" variable i call it "generic", because in it i can store a song or a podcast or an episode.
     I made this generic because i wanted that the set of instructions to be made only once, not three times.
 
-        In contrast to the stage 1, besides of the required commands, I implemented 2 design patterns: Singleton and Visitor.
-    The Singleton pattern is in the "Collections" classes, there are 7 of them, one for each type of object.
-    The Visitor pattern is in the "inputCommand" package.
+        In contrast to the stage 2, besides of the required commands,
+    I implemented 4 design patterns: Singleton, Factory, Observer and Memento.
 
-        At the end of main, we write everything into the Json file.
+    The Singleton pattern is in the package "collections" classes, there are 7 of them, one for each type of object.
+
+    The Factory pattern is sored in the package "commandFactory", there i am creating the commands.
+
+    The Observer pattern is in the package "notificationsObserver". In the artist class i have a variable named
+    notificationService, which is an instance of the NotificationService class. The NotificationService class
+    has a list of observers (the user class implements the Observer interface). So the user is an observer.
+    This list helps the code know what users should be notified when an artist releases a new album, new merch, new event.
+
+    The Memento pattern is in the package "mementoPattern", this is used for the previous and next page commands.
+    In my code the currentPage consists in: String currentPage, Object currentRecommendation (this thing is for the
+    loadRecommendation command, i have to know what was the last recommendation made, so i can load it),
+    Playlist recommendedPlaylist, Song recommendedSong, String selectedPageOwner. These things are stored in a class
+    named Page, which has every field modifiable, because this is the variable that we are doing operations on.
+    The PageCareTaker class switches between pages, and saves the current page in a stack. The PageMemento class is
+    just like a page copy, but it is immutable, so it can't be modified. The PageMemento class is used to save the
+    pages in stacks.
+
+        Lines 132-138: Some strange lines. Sorry for them, but for my implementation for parsing the commands at the end (line 148 main)
+    it was impossible for me to have in "Wrapped" class the result field and also the message field. If the result is empty
+    i should have the message field, and if the message field is empty i should have the result field. So i made a
+    different class for the Wrapped command when i have the result empty, so i can show the message field. I know it's
+    not the best solution, but i couldn't find another one. I hope you understand. So, basically, if i had both fields
+    declared in the Wrapped class, in the json file the both fields are present (not OK). I couldnt use JsonIgnore based
+    on a condition.
 
 
 ## Project Structure;
@@ -153,9 +209,23 @@
         * SearchBar.java
         * Test.java
   * commands/
+      * mementoPattern/
+          * Page
+          * PageCareTaker
+          * PageMemento
+      * notificationsObserver/
+          * NotificationService
+          * Observer
+          * Subject
+      * monetization/
+          * BuyMerch
+          * BuyPremium
+          * CancelPremium
+          * SeeMerch
       * pageSystem/
           * ChangePage.java
-          * PrintCurrentPage.java
+          * PrintCurrentPage
+          * PreviousNextPage
       * player/
           * AddRemoveInPlaylist.java
           * Backward.java
@@ -196,6 +266,8 @@
               * GetTop5Artists.java
               * GetTop5Playlists.java
               * GetTop5Songs.java
+              * Wrapped
+              * WrappedMessage
           * user/
               * SwitchConnectionStatus.java
       * searchBar/
@@ -211,6 +283,10 @@
           * Podcast.java
           * Song.java
           * Type.java
+      * GetNotifications
+      * Subscribe
+      * UpdateRecom
+      * LoadRecomm
   * inputCommand/
       * Command.java
       * CommandVisitor.java
@@ -221,4 +297,4 @@
       * User.java
 
 
-#### Assignment Link: [https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa1](https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa1)
+#### Assignment Link: https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa3

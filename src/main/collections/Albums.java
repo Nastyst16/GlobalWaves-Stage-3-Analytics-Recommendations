@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public final class Albums {
     private static final Albums INSTANCE = new Albums();
-    private static final ArrayList<Album> everyAlbum = new ArrayList<>();
+    private static final ArrayList<Album> EVERYSONG = new ArrayList<>();
 
     /**
      * default constructor
@@ -26,7 +26,7 @@ public final class Albums {
      * resets the albums
      */
     public static void reset() {
-        everyAlbum.clear();
+        EVERYSONG.clear();
     }
 
     /**
@@ -34,7 +34,7 @@ public final class Albums {
      * @param album the album to add
      */
     public static void addAlbum(final Album album) {
-        everyAlbum.add(album);
+        EVERYSONG.add(album);
     }
 
     /**
@@ -42,7 +42,7 @@ public final class Albums {
      * @param album the album to remove
      */
     public static void removeAlbum(final Album album) {
-        everyAlbum.remove(album);
+        EVERYSONG.remove(album);
     }
 
     /**
@@ -50,6 +50,6 @@ public final class Albums {
      * @return the list of albums
      */
     public static ArrayList<Album> getAlbums() {
-        return everyAlbum;
+        return EVERYSONG;
     }
 }

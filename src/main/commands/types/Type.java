@@ -36,7 +36,7 @@ public interface Type {
     /**
      * listen the type
      */
-    public void listen(final User user);
+    void listen(User user);
 
     /**
      * add listen

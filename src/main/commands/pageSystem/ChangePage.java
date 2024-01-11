@@ -5,7 +5,6 @@ import main.commands.types.Episode;
 import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.SearchBar;
-import main.mementoPattern.Page;
 import main.mementoPattern.PageMemento;
 import main.users.User;
 
@@ -72,9 +71,11 @@ public final class ChangePage implements Command {
             currUser.getCurrentPage().setCurrentPage(this.getNextPage());
 
             if (this.getNextPage().equals("Artist")) {
-                currUser.getCurrentPage().setSelectedPageOwner(((Song) currUser.getCurrentType()).getArtist());
+                currUser.getCurrentPage().setSelectedPageOwner(((Song) currUser.
+                        getCurrentType()).getArtist());
             } else {
-                currUser.getCurrentPage().setSelectedPageOwner(((Episode) currUser.getCurrentType()).getOwner());
+                currUser.getCurrentPage().setSelectedPageOwner(((Episode) currUser.
+                        getCurrentType()).getOwner());
             }
 
             this.setMessage(this.user + " accessed " + this.getNextPage() + " successfully.");
