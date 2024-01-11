@@ -55,6 +55,10 @@ public final class Podcast implements Type {
         return name;
     }
 
+    /**
+     * overrides the listen method
+     * implemented using decorator pattern
+     */
     @Override
     public void listen(User user) {
         this.addListen();

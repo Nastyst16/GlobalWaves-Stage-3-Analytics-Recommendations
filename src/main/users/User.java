@@ -13,6 +13,8 @@ import main.commands.types.Episode;
 import main.commands.types.Album;
 import main.commands.types.Playlist;
 import main.commands.types.Merch;
+import main.mementoPattern.Page;
+import main.mementoPattern.PageCareTaker;
 import main.notificationsObserver.Observer;
 
 import java.util.ArrayList;
@@ -60,7 +62,6 @@ public class User implements Observer {
 
 //    Stage 2 variables
     private boolean online;
-    private String selectedPageOwner;
 
 //    Stage 3 variables
 //    private TypeDecorator listenable;
@@ -70,13 +71,15 @@ public class User implements Observer {
     private ArrayList<Map<String, String>> notifications;
     private ArrayList<Merch> boughtMerchandise;
     private LinkedHashMap<Episode, Integer> lisenedEpisodes;
-    private Playlist recommendedPlaylist = null;
-    private Song recommendedSongs = null;
-    private Stack<Object> previousPages = new Stack<>();
-    private String currentPage;
-    private Object currentRecommendation;
-    private Stack<Object> nextPages = new Stack<>();
-
+//    private Playlist recommendedPlaylist = null;
+//    private Song recommendedSongs = null;
+//    private Stack<Object> previousPages = new Stack<>();
+//    private String currentPage;
+//    private Object currentRecommendation;
+//    private Stack<Object> nextPages = new Stack<>();
+//    private String selectedPageOwner;
+    PageCareTaker pageCareTaker = new PageCareTaker();
+    Page currentPage = new Page();
 
     public User(final String username, final int age, final String city,
                 final ArrayList<Song> everySong, final ArrayList<Podcast> everyPodcast) {
@@ -134,9 +137,10 @@ public class User implements Observer {
         }
 
 //        Stage 2:
-        currentPage = "Home";
+        currentPage.setCurrentPage("Home");
+
         online = true;
-        selectedPageOwner = "";
+        currentPage.setSelectedPageOwner("");
 
 //        Stage 3:
 
@@ -926,22 +930,6 @@ public class User implements Observer {
     }
 
     /**
-     * get the current page
-     * @return the current page
-     */
-    public String getCurrentPage() {
-        return currentPage;
-    }
-
-    /**
-     * set the current page
-     * @param currentPage the current page
-     */
-    public void setCurrentPage(final String currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    /**
      * get the online status
      * @return the online status
      */
@@ -955,22 +943,6 @@ public class User implements Observer {
      */
     public void setOnline(final boolean online) {
         this.online = online;
-    }
-
-    /**
-     * get the selected page owner
-     * @return the selected page owner
-     */
-    public String getSelectedPageOwner() {
-        return selectedPageOwner;
-    }
-
-    /**
-     * set the selected page owner
-     * @param selectedPageOwner the selected page owner
-     */
-    public void setSelectedPageOwner(final String selectedPageOwner) {
-        this.selectedPageOwner = selectedPageOwner;
     }
 
     /**
@@ -1086,90 +1058,24 @@ public class User implements Observer {
     }
 
     /**
-     * get recommended playlist
+     * get the page care taker
      */
-    public Playlist getRecommendedPlaylist() {
-        return recommendedPlaylist;
+    public PageCareTaker getPageCareTaker() {
+        return pageCareTaker;
     }
 
     /**
-     * set recommended playlist
+     * get the current page
      */
-    public void setRecommendedPlaylist(final Playlist recommendedPlaylist) {
-        this.recommendedPlaylist = recommendedPlaylist;
+    public Page getCurrentPage() {
+        return currentPage;
     }
 
     /**
-     * get recommended song
+     * sets the current page
      */
-    public Song getRecommendedSongs() {
-        return recommendedSongs;
-    }
-
-
-    /**
-     * set recommended song
-     * @param recommendedSongs
-     */
-    public void setRecommendedSongs(final Song recommendedSongs) {
-        this.recommendedSongs = recommendedSongs;
-    }
-
-    /**
-     * get the previous pages
-     */
-    public Stack<Object> getPreviousPages() {
-        return previousPages;
-    }
-
-    /**
-     * add a previous page
-     */
-    public void addPreviousPage(final Object previousPage) {
-        this.previousPages.push(previousPage);
-    }
-
-    /**
-     * pop a previous page
-     */
-    public Object popPreviousPage() {
-        return this.previousPages.pop();
-    }
-
-    /**
-     * add a next page
-     */
-    public void addNextPage(final Object nextPage) {
-        this.nextPages.push(nextPage);
-    }
-
-    /**
-     * pop a next page
-     */
-    public Object popNextPage() {
-        return this.nextPages.pop();
-    }
-
-
-    /**
-     * get the current recommendation
-     */
-    public Object getCurrentRecommendation() {
-        return currentRecommendation;
-    }
-
-    /**
-     * set the current recommendation
-     */
-    public void setCurrentRecommendation(final Object currentRecommendation) {
-        this.currentRecommendation = currentRecommendation;
-    }
-
-    /**
-     * get the next pages
-     */
-    public Stack<Object> getNextPages() {
-        return nextPages;
+    public void setCurrentPage(final Page currentPage) {
+        this.currentPage = currentPage;
     }
 
 }

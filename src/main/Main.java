@@ -126,6 +126,10 @@ public final class Main {
                 continue;
             }
 
+            if (input.getTimestamp() == 245) {
+                int debug = 65;
+            }
+
             // executing the command
             commands.get(index).execute(input, user, artist, host);
 

@@ -30,29 +30,29 @@ public class Subscribe implements Command {
             return;
         }
 
-        if (currUser.getSelectedPageOwner().equals("")
-            || currUser.getSelectedPageOwner().equals("Home")) {
+        if (currUser.getCurrentPage().getSelectedPageOwner().equals("")
+            || currUser.getCurrentPage().getSelectedPageOwner().equals("Home")) {
             this.message = "To subscribe you need to be on the page of an artist or host.";
         }
 
         for (Artist a : Artists.getArtists()) {
-            if (a.getUsername().equals(currUser.getSelectedPageOwner())) {
+            if (a.getUsername().equals(currUser.getCurrentPage().getSelectedPageOwner())) {
                 if (a.getNotificationService().containsObserver(currUser)) {
                     this.message = this.user + " unsubscribed from "
-                            + currUser.getSelectedPageOwner() + " successfully.";
+                            + currUser.getCurrentPage().getSelectedPageOwner() + " successfully.";
                     a.getNotificationService().removeObserver(currUser);
                     return;
                 }
             }
         }
 
-        if (currUser.getSelectedPageOwner().equals("")) {
+        if (currUser.getCurrentPage().getSelectedPageOwner().equals("")) {
             this.message = "User " + this.user + " has subscribed to you.";
         } else {
             this.message = this.user + " subscribed to "
-                    + currUser.getSelectedPageOwner() + " successfully.";
+                    + currUser.getCurrentPage().getSelectedPageOwner() + " successfully.";
             for (Artist a : Artists.getArtists()) {
-                if (a.getUsername().equals(currUser.getSelectedPageOwner())) {
+                if (a.getUsername().equals(currUser.getCurrentPage().getSelectedPageOwner())) {
                     a.getNotificationService().addObserver(currUser);
                     break;
                 }

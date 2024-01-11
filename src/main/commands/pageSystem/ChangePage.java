@@ -5,6 +5,8 @@ import main.commands.types.Episode;
 import main.commands.types.Song;
 import main.inputCommand.Command;
 import main.SearchBar;
+import main.mementoPattern.Page;
+import main.mementoPattern.PageMemento;
 import main.users.User;
 
 public final class ChangePage implements Command {
@@ -50,33 +52,37 @@ public final class ChangePage implements Command {
             return;
         }
 
-        currUser.addPreviousPage(currUser.getCurrentPage());
-        currUser.addPreviousPage(currUser.getCurrentRecommendation());
-        currUser.addPreviousPage(currUser.getRecommendedPlaylist());
-        currUser.addPreviousPage(currUser.getRecommendedSongs());
-        currUser.addPreviousPage(currUser.getSelectedPageOwner());
+        PageMemento memento1 = currUser.getCurrentPage().save();
+        if (currUser.getPageCareTaker().getCurrentMemento() == null) {
+            currUser.getPageCareTaker().setMemento(memento1);
+        }
+        currUser.getPageCareTaker().addPageCurrentMemento(memento1);
 
-        currUser.getNextPages().clear();
+        currUser.getPageCareTaker().clearNextPages();
 
         if (this.getNextPage().equals("Home") || this.getNextPage().equals("LikedContent")) {
 
-            currUser.setCurrentPage(this.getNextPage());
-            currUser.setSelectedPageOwner("");
+            currUser.getCurrentPage().setCurrentPage(this.getNextPage());
+            currUser.getCurrentPage().setSelectedPageOwner("");
             this.setMessage(this.user + " accessed " + this.getNextPage() + " successfully.");
         }
 
         if (this.getNextPage().equals("Artist") || this.getNextPage().equals("Host")) {
 
-            currUser.setCurrentPage(this.getNextPage());
+            currUser.getCurrentPage().setCurrentPage(this.getNextPage());
 
             if (this.getNextPage().equals("Artist")) {
-                currUser.setSelectedPageOwner(((Song) currUser.getCurrentType()).getArtist());
+                currUser.getCurrentPage().setSelectedPageOwner(((Song) currUser.getCurrentType()).getArtist());
             } else {
-                currUser.setSelectedPageOwner(((Episode) currUser.getCurrentType()).getOwner());
+                currUser.getCurrentPage().setSelectedPageOwner(((Episode) currUser.getCurrentType()).getOwner());
             }
 
             this.setMessage(this.user + " accessed " + this.getNextPage() + " successfully.");
         }
+
+        PageMemento memento2 = currUser.getCurrentPage().save();
+        currUser.getPageCareTaker().setMemento(memento2);
+
     }
 
     /**

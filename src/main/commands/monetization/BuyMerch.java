@@ -32,14 +32,15 @@ public class BuyMerch implements Command {
             this.setMessage("The username " + this.user + " doesn't exist.");
         }
 
-        if (currUser.getSelectedPageOwner() == "") {
+        if (currUser.getCurrentPage().getSelectedPageOwner() == "") {
             this.setMessage("Cannot buy merch from this page.");
         }
 
 //        searching for the artist based on page
         Artist artist = null;
         for (Artist currArtist : Artists.getArtists()) {
-            if (currArtist.getUsername().equals(currUser.getSelectedPageOwner())) {
+            if (currArtist.getUsername().equals(currUser.
+                    getCurrentPage().getSelectedPageOwner())) {
                 artist = currArtist;
                 break;
             }

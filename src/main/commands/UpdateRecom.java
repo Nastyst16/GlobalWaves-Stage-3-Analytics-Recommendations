@@ -163,8 +163,8 @@ public class UpdateRecom implements Command {
         recommendationPlaylist.setName(this.user + "'s recommendations");
         recommendationPlaylist.setUser(this.user);
 
-        currUser.setRecommendedPlaylist(recommendationPlaylist);
-        currUser.setCurrentRecommendation(recommendationPlaylist);
+        currUser.getCurrentPage().setRecommendedPlaylist(recommendationPlaylist);
+        currUser.getCurrentPage().setCurrentRecommendation(recommendationPlaylist);
 
         this.setMessage("The recommendations for user " + currUser.getUsername()
                 + " have been updated successfully.");
@@ -203,8 +203,8 @@ public class UpdateRecom implements Command {
         int index = random.nextInt(songs.size());
         Song randomSong = songs.get(index);
 
-        currUser.setRecommendedSongs(randomSong);
-        currUser.setCurrentRecommendation(randomSong);
+        currUser.getCurrentPage().setRecommendedSong(randomSong);
+        currUser.getCurrentPage().setCurrentRecommendation(randomSong);
 
         this.setMessage("The recommendations for user " + currUser.getUsername()
                 + " have been updated successfully.");
@@ -302,12 +302,12 @@ public class UpdateRecom implements Command {
         recommendationPlaylist.setName(currentSongArtist.getUsername()
                 + " Fan Club recommendations");
 
-        currUser.setRecommendedPlaylist(recommendationPlaylist);
+        currUser.getCurrentPage().setRecommendedPlaylist(recommendationPlaylist);
 
         this.setMessage("The recommendations for user " + currUser.getUsername()
                 + " have been updated successfully.");
 
-        currUser.setCurrentRecommendation(recommendationPlaylist);
+        currUser.getCurrentPage().setCurrentRecommendation(recommendationPlaylist);
     }
 
     /**

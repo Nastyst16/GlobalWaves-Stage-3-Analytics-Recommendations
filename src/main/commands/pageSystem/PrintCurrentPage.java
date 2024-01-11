@@ -59,28 +59,30 @@ public final class PrintCurrentPage implements Command {
             return;
         }
 
+        String currentPage = currUser.getCurrentPage().getCurrentPage();
+
 //        if the current page is Home
-        if (currUser.getCurrentPage().equals("Home")) {
+        if (currentPage.equals("Home")) {
             printHome(currUser);
 
 //          if the current page is LikedContent
-        } else if (currUser.getCurrentPage().equals("LikedContent")) {
+        } else if (currentPage.equals("LikedContent")) {
             printLikedContent(currUser);
             return;
 
 //          if the current page is Artist
-        } else if (currUser.getCurrentPage().equals("Artist")) {
+        } else if (currentPage.equals("Artist")) {
             printArtist(currUser);
             return;
 
 //          if the current page is Host
-        } else if (currUser.getCurrentPage().equals("Host")) {
+        } else if (currentPage.equals("Host")) {
             printHost(currUser);
             return;
         }
 
-        if (currUser.getRecommendedPlaylist() == null
-                && currUser.getCurrentRecommendation() == null) {
+        if (currUser.getCurrentPage().getRecommendedPlaylist() == null
+                && currUser.getCurrentPage().getCurrentRecommendation() == null) {
             return;
         }
 
@@ -88,11 +90,12 @@ public final class PrintCurrentPage implements Command {
 
         StringBuilder recomendedPlaylist = new StringBuilder();
 
-        if (currUser.getRecommendedPlaylist() != null || currUser.getRecommendedSongs() != null) {
+        if (currUser.getCurrentPage().getRecommendedPlaylist() != null
+                || currUser.getCurrentPage().getRecommendedSong() != null) {
             recomendedPlaylist.append("\n\nSong recommendations:\n\t");
 
-            if (currUser.getRecommendedSongs() != null) {
-                Song song = currUser.getRecommendedSongs();
+            if (currUser.getCurrentPage().getRecommendedSong() != null) {
+                Song song = currUser.getCurrentPage().getRecommendedSong();
                 recomendedPlaylist.append("[")
                         .append(song.getName())
                         .append("]");
@@ -101,8 +104,8 @@ public final class PrintCurrentPage implements Command {
             }
             recomendedPlaylist.append("\n\nPlaylists recommendations:\n\t[");
 
-            if (currUser.getRecommendedPlaylist() != null) {
-                recomendedPlaylist.append(currUser.getRecommendedPlaylist().getName())
+            if (currUser.getCurrentPage().getRecommendedPlaylist() != null) {
+                recomendedPlaylist.append(currUser.getCurrentPage().getRecommendedPlaylist().getName())
                         .append("]");
             } else {
                 recomendedPlaylist.append("]");
@@ -182,18 +185,18 @@ public final class PrintCurrentPage implements Command {
 
         StringBuilder recomendedPlaylist = new StringBuilder();
 
-        if (currUser.getRecommendedPlaylist() != null) {
+        if (currUser.getCurrentPage().getRecommendedPlaylist() != null) {
             recomendedPlaylist.append("\n\nSong recommendations:\n\t");
 
-            if (currUser.getRecommendedSongs() != null) {
-                Song song = currUser.getRecommendedSongs();
+            if (currUser.getCurrentPage().getRecommendedSong() != null) {
+                Song song = currUser.getCurrentPage().getRecommendedSong();
                 recomendedPlaylist.append(song.getName())
                         .append("]");
             } else {
                 recomendedPlaylist.append("[]");
             }
             recomendedPlaylist.append("\n\nPlaylist recommendations:\n\t")
-                    .append(currUser.getRecommendedPlaylist().getName());
+                    .append(currUser.getCurrentPage().getRecommendedPlaylist().getName());
         }
 
 
@@ -211,7 +214,7 @@ public final class PrintCurrentPage implements Command {
      */
     private void printArtist(final User currUser) {
 
-        Artist currentArtist = Artists.getArtist(currUser.getSelectedPageOwner());
+        Artist currentArtist = Artists.getArtist(currUser.getCurrentPage().getSelectedPageOwner());
 
         ArrayList<String> albumsByName = new ArrayList<>();
         StringBuilder merchByName = new StringBuilder();
@@ -259,7 +262,7 @@ public final class PrintCurrentPage implements Command {
      */
     private void printHost(final User currUser) {
 
-        Host currentHost = Hosts.getHost(currUser.getSelectedPageOwner());
+        Host currentHost = Hosts.getHost(currUser.getCurrentPage().getSelectedPageOwner());
 
         StringBuilder podcastsByName = new StringBuilder();
         StringBuilder announcementsByName = new StringBuilder();

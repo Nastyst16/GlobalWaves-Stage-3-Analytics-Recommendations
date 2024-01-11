@@ -1,15 +1,12 @@
 package main.commands.types;
 
-import main.collections.Albums;
 import main.collections.Artists;
-import main.collections.Songs;
-import main.decoratorPattern.TypeDecorator;
 import main.users.Artist;
 import main.users.User;
 
 import java.util.List;
 
-public class Song extends TypeDecorator {
+public class Song implements Type {
     private String name;
     private int duration;
     private String album;
@@ -26,15 +23,6 @@ public class Song extends TypeDecorator {
      * constructor
      */
     public Song() {
-        super(null);
-
-    }
-
-    /**
-     * constructor for decorator
-     */
-    public Song(final Type decoratedType) {
-        super(decoratedType);
 
     }
 
@@ -43,7 +31,6 @@ public class Song extends TypeDecorator {
      * @param name
      */
     public Song(final String name) {
-        super(null);
         this.name = name;
     }
 
@@ -61,7 +48,6 @@ public class Song extends TypeDecorator {
     public Song(final String name, final int duration, final String album,
                 final List<String> tags, final String lyrics, final String genre,
                 final int releaseYear, final String artist) {
-        super(null);
 
         this.name = name;
         this.duration = duration;
@@ -73,6 +59,10 @@ public class Song extends TypeDecorator {
         this.artist = artist;
     }
 
+    /**
+     * overrides the listen method
+     * implemented using decorator pattern
+     */
     @Override
     public void listen(final User user) {
 

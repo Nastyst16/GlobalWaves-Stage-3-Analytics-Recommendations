@@ -89,12 +89,12 @@ public class Select implements Command {
 
 
                 if (currUser.getTypeFoundBySearch() == ARTIST) {
-                    currUser.setCurrentPage("Artist");
-                    currUser.setSelectedPageOwner(name);
+                    currUser.getCurrentPage().setCurrentPage("Artist");
+                    currUser.getCurrentPage().setSelectedPageOwner(name);
                     this.setMessage("Successfully selected " + name + "'s page.");
                 } else if (currUser.getTypeFoundBySearch() == HOST) {
-                    currUser.setCurrentPage("Host");
-                    currUser.setSelectedPageOwner(name);
+                    currUser.getCurrentPage().setCurrentPage("Host");
+                    currUser.getCurrentPage().setSelectedPageOwner(name);
                     this.setMessage("Successfully selected " + name + "'s page.");
                 } else {
                     this.setMessage("Successfully selected " + name + ".");

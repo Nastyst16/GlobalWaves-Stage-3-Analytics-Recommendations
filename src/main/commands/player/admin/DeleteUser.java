@@ -133,7 +133,7 @@ public final class DeleteUser implements Command {
         for (User u : Users.getUsers()) {
 
 //            if the user selected the artist page
-            if (u.getSelectedPageOwner().equals(this.user)) {
+            if (u.getCurrentPage().getSelectedPageOwner().equals(this.user)) {
                 this.setMessage(this.user + " can't be deleted.");
                 return;
             }
@@ -199,7 +199,7 @@ public final class DeleteUser implements Command {
         for (User currentUser : users) {
 
 //            if the user selected the host page
-            if (currentUser.getSelectedPageOwner().equals(this.user)) {
+            if (currentUser.getCurrentPage().getSelectedPageOwner().equals(this.user)) {
                 this.setMessage(this.user + " can't be deleted.");
                 return;
             }

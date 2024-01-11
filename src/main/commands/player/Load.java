@@ -2,8 +2,11 @@ package main.commands.player;
 
 import main.collections.Playlists;
 import main.collections.Podcasts;
-import main.commands.types.*;
-import main.decoratorPattern.TypeDecorator;
+import main.commands.types.Playlist;
+import main.commands.types.Song;
+import main.commands.types.Podcast;
+import main.commands.types.Album;
+import main.commands.types.Episode;
 import main.inputCommand.Command;
 import main.SearchBar;
 import main.users.User;

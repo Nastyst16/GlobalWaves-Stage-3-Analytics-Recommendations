@@ -47,19 +47,19 @@ public class LoadRecomm implements Command {
             return;
         }
 
-        if (currUser.getCurrentRecommendation() == null) {
+        if (currUser.getCurrentPage().getCurrentRecommendation() == null) {
             this.setMessage(this.user + " has no previous recommendation.");
             return;
         }
 
-        Select select = new Select(currUser.getCurrentRecommendation());
+        Select select = new Select(currUser.getCurrentPage().getCurrentRecommendation());
         currUser.setCurrentSelect(select);
 
-        if (currUser.getCurrentRecommendation() instanceof Song) {
-            Load load = new Load((Song) currUser.getCurrentRecommendation());
+        if (currUser.getCurrentPage().getCurrentRecommendation() instanceof Song) {
+            Load load = new Load((Song) currUser.getCurrentPage().getCurrentRecommendation());
             load.execute(input, currUser, artist, host);
         } else {
-            Load load = new Load((Playlist) currUser.getCurrentRecommendation());
+            Load load = new Load((Playlist) currUser.getCurrentPage().getCurrentRecommendation());
             load.execute(input, currUser, artist, host);
         }
 

@@ -4,6 +4,7 @@ import main.SearchBar;
 import main.commands.types.Playlist;
 import main.commands.types.Song;
 import main.inputCommand.Command;
+import main.mementoPattern.Page;
 import main.users.User;
 
 public class PreviousNextPage implements Command {
@@ -32,22 +33,13 @@ public class PreviousNextPage implements Command {
             return;
         }
 
-        if (currUser.getNextPages().isEmpty()) {
+        if (currUser.getPageCareTaker().hasNextPages()) {
             this.setMessage("There are no pages left to go forward.");
             return;
         }
 
-        currUser.addPreviousPage(currUser.getCurrentPage());
-        currUser.addPreviousPage(currUser.getCurrentRecommendation());
-        currUser.addPreviousPage(currUser.getRecommendedPlaylist());
-        currUser.addPreviousPage(currUser.getRecommendedSongs());
-        currUser.addPreviousPage(currUser.getSelectedPageOwner());
-
-        currUser.setSelectedPageOwner((String) currUser.popNextPage());
-        currUser.setRecommendedSongs((Song) currUser.popNextPage());
-        currUser.setRecommendedPlaylist((Playlist) currUser.popNextPage());
-        currUser.setCurrentRecommendation(currUser.popNextPage());
-        currUser.setCurrentPage((String) currUser.popNextPage());
+        currUser.getPageCareTaker().goToNextPage();
+        currUser.getCurrentPage().restore(currUser.getPageCareTaker().getCurrentMemento());
 
         this.setMessage("The user " + this.user + " has navigated successfully to the next page.");
     }
@@ -74,22 +66,13 @@ public class PreviousNextPage implements Command {
             return;
         }
 
-        if (currUser.getPreviousPages().isEmpty()) {
+        if (currUser.getPageCareTaker().hasPreviousPages()) {
             this.setMessage(this.user + " has no previous pages.");
             return;
         }
 
-        currUser.addNextPage(currUser.getCurrentPage());
-        currUser.addNextPage(currUser.getCurrentRecommendation());
-        currUser.addNextPage(currUser.getRecommendedPlaylist());
-        currUser.addNextPage(currUser.getRecommendedSongs());
-        currUser.addNextPage(currUser.getSelectedPageOwner());
-
-        currUser.setSelectedPageOwner((String) currUser.popPreviousPage());
-        currUser.setRecommendedSongs((Song) currUser.popPreviousPage());
-        currUser.setRecommendedPlaylist((Playlist) currUser.popPreviousPage());
-        currUser.setCurrentRecommendation(currUser.popPreviousPage());
-        currUser.setCurrentPage((String) currUser.popPreviousPage());
+        currUser.getPageCareTaker().goToPreviousPage();
+        currUser.getCurrentPage().restore(currUser.getPageCareTaker().getCurrentMemento());
 
         this.setMessage("The user " + this.user
                 + " has navigated successfully to the previous page.");

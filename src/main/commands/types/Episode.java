@@ -55,7 +55,7 @@ public class Episode implements Type {
     public void listen(User user) {
         Episode currEpisode = this;
 
-////                searching the podcast
+//        searching the podcast
         for (Podcast p : user.getPodcastsPlayed()) {
 
             boolean found = false;
