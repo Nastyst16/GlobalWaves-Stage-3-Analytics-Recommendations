@@ -91,13 +91,13 @@ public final class Load implements Command {
                 loadSong(currUser);
 
             } else if (currUser.getTypeSelected() == PODCAST) {
-                loadPodcast(currUser, Podcasts.getPodcasts());
+                loadPodcast(currUser, Podcasts.getInstance().getPodcasts());
 
             } else if (currUser.getTypeSelected() == PLAYLIST) {
                 loadPlaylist(currUser);
 
             } else if (currUser.getTypeSelected() == ALBUM) {
-                loadAlbum(currUser, Albums.getAlbums());
+                loadAlbum(currUser, Albums.getInstance().getAlbums());
             }
             currUser.getCurrentType().listen(currUser);
 
@@ -120,7 +120,7 @@ public final class Load implements Command {
      * @param currUser the current user
      */
     public void loadPlaylist(final User currUser) {
-        for (Playlist playlist : Playlists.getPlaylists()) {
+        for (Playlist playlist : Playlists.getInstance().getPlaylists()) {
             if (playlist.getName().equals(currUser.
                     getCurrentSelect().getSelectedName())) {
                 currUser.setTypeLoaded(2);

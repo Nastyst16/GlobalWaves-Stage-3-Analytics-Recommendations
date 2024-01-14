@@ -29,7 +29,7 @@ public final class GetTop5Albums implements Command {
 
 //        calculating the number of likes of every album
         ArrayList<Integer> numberOfLikes = new ArrayList<>();
-        for (Album album : Albums.getAlbums()) {
+        for (Album album : Albums.getInstance().getAlbums()) {
             int nrOfLikes = 0;
             for (int i = 0; i < album.getSongList().size(); i++) {
                 nrOfLikes += album.getSongList().get(i).getNumberOfLikes();
@@ -37,7 +37,7 @@ public final class GetTop5Albums implements Command {
             numberOfLikes.add(nrOfLikes);
         }
 
-        ArrayList<Album> sortedAlbums = new ArrayList<>(Albums.getAlbums());
+        ArrayList<Album> sortedAlbums = new ArrayList<>(Albums.getInstance().getAlbums());
         for (int i = 0; i < numberOfLikes.size(); i++) {
             for (int j = i + 1; j < numberOfLikes.size(); j++) {
                 if (numberOfLikes.get(i) < numberOfLikes.get(j)) {

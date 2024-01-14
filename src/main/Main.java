@@ -109,7 +109,7 @@ public final class Main {
 
             String command = input.getCommand();
 
-            User user = findingUser(input, Users.getUsers());
+            User user = findingUser(input, Users.getInstance().getUsers());
             Artist artist = findingArtist(user, input);
             Host host = findingHost(user, input);
 
@@ -174,7 +174,7 @@ public final class Main {
     public static Artist findingArtist(final User user, final SearchBar input) {
         Artist artist = null;
         if (user == null) {
-            for (Artist a : Artists.getArtists()) {
+            for (Artist a : Artists.getInstance().getArtists()) {
                 if (a.getUsername().equals(input.getUsername())) {
                     artist = a;
                     break;
@@ -193,7 +193,7 @@ public final class Main {
     public static Host findingHost(final User user, final SearchBar input) {
         Host host = null;
         if (user == null) {
-            for (Host h : Hosts.getHosts()) {
+            for (Host h : Hosts.getInstance().getHosts()) {
                 if (h.getUsername().equals(input.getUsername())) {
                     host = h;
                     break;
@@ -208,7 +208,7 @@ public final class Main {
      * @param input the current input
      */
     public static void howManySecsGone(final SearchBar input) {
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
             if (u.getCurrentType() != null && !u.isPaused() && u.getOnline()) {
                 int newSecsGone = input.getTimestamp() - u.getPrevTimestamp();
 
@@ -254,13 +254,13 @@ public final class Main {
      */
     private static void storeCollections(final LibraryInput library) {
 //        storing songs
-        Songs.storeSongs(library);
+        Songs.getInstance().storeSongs(library);
 
 //        reading Podcasts && Episodes
-        Podcasts.storePodcasts(library);
+        Podcasts.getInstance().storePodcasts(library);
 
 //        reading users
-        Users.storeUsers(library);
+        Users.getInstance().storeUsers(library);
     }
 
     /**
@@ -268,13 +268,13 @@ public final class Main {
      * after every test
      */
     public static void resetCollections() {
-        Songs.reset();
-        Podcasts.reset();
-        Playlists.reset();
-        Users.reset();
-        Artists.reset();
-        Hosts.reset();
-        Albums.reset();
+        Songs.getInstance().reset();
+        Podcasts.getInstance().reset();
+        Playlists.getInstance().reset();
+        Users.getInstance().reset();
+        Artists.getInstance().reset();
+        Hosts.getInstance().reset();
+        Albums.getInstance().reset();
     }
 
 }

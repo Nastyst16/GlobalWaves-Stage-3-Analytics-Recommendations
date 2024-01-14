@@ -21,13 +21,13 @@ public final class GetAllUsers implements Command {
      */
     public void execute(final Object... params) {
 
-        for (User user : Users.getUsers()) {
+        for (User user : Users.getInstance().getUsers()) {
             this.result.add(user.getUsername());
         }
-        for (Artist artist : Artists.getArtists()) {
+        for (Artist artist : Artists.getInstance().getArtists()) {
             this.result.add(artist.getUsername());
         }
-        for (Host host : Hosts.getHosts()) {
+        for (Host host : Hosts.getInstance().getHosts()) {
             this.result.add(host.getUsername());
         }
 

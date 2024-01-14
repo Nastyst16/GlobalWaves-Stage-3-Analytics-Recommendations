@@ -75,7 +75,7 @@ public class Song implements Type {
             }
         }
 
-        for (Artist a : Artists.getArtists()) {
+        for (Artist a : Artists.getInstance().getArtists()) {
             if (a.getUsername().equals(this.artist)) {
                 a.addListen();
                 break;

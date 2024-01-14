@@ -35,7 +35,7 @@ public class Subscribe implements Command {
             this.message = "To subscribe you need to be on the page of an artist or host.";
         }
 
-        for (Artist a : Artists.getArtists()) {
+        for (Artist a : Artists.getInstance().getArtists()) {
             if (a.getUsername().equals(currUser.getCurrentPage().getSelectedPageOwner())) {
                 if (a.getNotificationService().containsObserver(currUser)) {
                     this.message = this.user + " unsubscribed from "
@@ -51,7 +51,7 @@ public class Subscribe implements Command {
         } else {
             this.message = this.user + " subscribed to "
                     + currUser.getCurrentPage().getSelectedPageOwner() + " successfully.";
-            for (Artist a : Artists.getArtists()) {
+            for (Artist a : Artists.getInstance().getArtists()) {
                 if (a.getUsername().equals(currUser.getCurrentPage().getSelectedPageOwner())) {
                     a.getNotificationService().addObserver(currUser);
                     break;

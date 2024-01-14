@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public final class Users {
     private static final Users INSTANCE = new Users();
-    private static final ArrayList<User> USERS = new ArrayList<>();
+    private final ArrayList<User> users = new ArrayList<>();
 
     /**
      * default constructor
@@ -28,52 +28,53 @@ public final class Users {
      * store the users from the input
      * @param library the input
      */
-    public static void storeUsers(final LibraryInput library) {
+    public void storeUsers(final LibraryInput library) {
         ArrayList<UserInput> userInputs = library.getUsers();
 //        storing users
         for (UserInput userInput : userInputs) {
-            Users.addUser(new User(userInput.getUsername(), userInput.getAge(),
-                    userInput.getCity(), Songs.getSongs(), Podcasts.getPodcasts()));
+            Users.getInstance().addUser(new User(userInput.getUsername(),
+                    userInput.getAge(), userInput.getCity(), Songs.getInstance().getSongs(),
+                    Podcasts.getInstance().getPodcasts()));
         }
     }
 
     /**
      * reset the users after every test
      */
-    public static void reset() {
-        USERS.clear();
+    public void reset() {
+        users.clear();
     }
 
     /**
      * add a user to the list
      * @param user the user to be added
      */
-    public static void addUser(final User user) {
-        USERS.add(user);
+    public void addUser(final User user) {
+        users.add(user);
     }
 
     /**
      * get the list of users
      * @return the list of users
      */
-    public static ArrayList<User> getUsers() {
-        return USERS;
+    public ArrayList<User> getUsers() {
+        return users;
     }
 
     /**
      * remove a user from the list
      * @param user the user to be removed
      */
-    public static void removeUser(final User user) {
-        USERS.remove(user);
+    public void removeUser(final User user) {
+        users.remove(user);
     }
 
     /**
      * get a user by username
      * @param username the username of the user
      */
-    public static User getUser(final String username) {
-        for (User user : USERS) {
+    public User getUser(final String username) {
+        for (User user : users) {
             if (user.getUsername().equals(username)) {
                 return user;
             }

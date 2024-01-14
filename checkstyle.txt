@@ -1,4 +1,2 @@
 Starting audit...
-[ERROR] C:\Users\crist\Desktop\GitHub\GlobalWaves-Stage-3-Analytics-Recommendations\.\src\main\commands\player\statistics\Wrapped.java:194: Line is longer than 100 characters (found 106). [LineLength]
 Audit done.
-Checkstyle ends with 1 errors.

@@ -58,7 +58,7 @@ public final class RemovePodcast implements Command {
         }
 
 //        verifying if a users currently listens to the podcast
-        for (User currentUser : Users.getUsers()) {
+        for (User currentUser : Users.getInstance().getUsers()) {
             if (currentUser.getCurrentType() != null) {
                 for (Podcast podcast : host.getHostPodcasts()) {
                     this.setMessage(this.user + " can't delete this podcast.");
@@ -70,9 +70,9 @@ public final class RemovePodcast implements Command {
 //        deleting everything related to the podcast
         for (Podcast p : host.getHostPodcasts()) {
 
-            for (User u : Users.getUsers()) {
+            for (User u : Users.getInstance().getUsers()) {
 
-                u.setEveryPodcast(Podcasts.getPodcasts());
+                u.setEveryPodcast(Podcasts.getInstance().getPodcasts());
 //                deleting also every user listened podcasts
                 for (Podcast podcastToRemove : u.getPodcastsPlayed()) {
                     if (podcastToRemove.getName().equals(p.getName())) {
@@ -95,7 +95,7 @@ public final class RemovePodcast implements Command {
         for (Podcast podcast : host.getHostPodcasts()) {
             if (podcast.getName().equals(this.name)) {
                 host.getHostPodcasts().remove(podcast);
-                Podcasts.removePodcast(podcast);
+                Podcasts.getInstance().removePodcast(podcast);
                 break;
             }
         }

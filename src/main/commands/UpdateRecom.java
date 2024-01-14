@@ -113,9 +113,9 @@ public class UpdateRecom implements Command {
         }
 
 //        sorting every song based on the total number of likes
-        ArrayList<Song> everySongSortedByLikes = new ArrayList<>(Songs.getSongs());
+        ArrayList<Song> everySongSortedByLikes = new ArrayList<>(Songs.getInstance().getSongs());
 
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
             for (Song s : u.getLikedSongs()) {
                 int songIndex = everySongSortedByLikes.indexOf(s);
                 everySongSortedByLikes.get(songIndex).setNumberOfLikes(everySongSortedByLikes.
@@ -187,7 +187,7 @@ public class UpdateRecom implements Command {
         String currentGenre = ((Song) currUser.getCurrentType()).getGenre();
 
         ArrayList<Song> songs = new ArrayList<>();
-        for (Song s : Songs.getSongs()) {
+        for (Song s : Songs.getInstance().getSongs()) {
             if (s.getGenre().equals(currentGenre)) {
                 songs.add(s);
             }
@@ -220,7 +220,7 @@ public class UpdateRecom implements Command {
 
         Artist currentSongArtist = null;
 //        searching for the artist of the current song
-        for (Artist a : Artists.getArtists()) {
+        for (Artist a : Artists.getInstance().getArtists()) {
             if (a.getUsername().equals(((Song) currUser.getCurrentType()).getArtist())) {
                 currentSongArtist = a;
                 break;
@@ -228,7 +228,7 @@ public class UpdateRecom implements Command {
         }
 
         int numberOfLikes;
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
             numberOfLikes = 0;
 
             for (Song s : u.getLikedSongs()) {
@@ -257,7 +257,7 @@ public class UpdateRecom implements Command {
             }
         }
 
-        ArrayList<Song> everySong = Songs.getSongs();
+        ArrayList<Song> everySong = Songs.getInstance().getSongs();
 //        sorting descending everySong based on the number of likes
         everySong.sort((o1, o2) -> {
             if (o1.getNumberOfLikes() == o2.getNumberOfLikes()) {

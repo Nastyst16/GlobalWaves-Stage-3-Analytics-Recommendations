@@ -38,7 +38,7 @@ public final class GetTop5Songs implements Command {
      */
     public void searchTop5Songs() {
 
-        ArrayList<Song> sortedSong = new ArrayList<>(Songs.getSongs());
+        ArrayList<Song> sortedSong = new ArrayList<>(Songs.getInstance().getSongs());
         Collections.sort(sortedSong, Comparator.comparingInt(Song::getNumberOfLikes).reversed());
 
         int i = 0;

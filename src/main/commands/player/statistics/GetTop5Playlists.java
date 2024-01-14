@@ -38,7 +38,8 @@ public final class GetTop5Playlists implements Command {
      */
     public void searchTop5Playlists() {
 
-        ArrayList<Playlist> sortedPlaylists = new ArrayList<>(Playlists.getPlaylists());
+        ArrayList<Playlist> sortedPlaylists = new ArrayList<>(Playlists.
+                getInstance().getPlaylists());
         Collections.sort(sortedPlaylists, Comparator.
                 comparingInt(Playlist::getFollowers).reversed());
 

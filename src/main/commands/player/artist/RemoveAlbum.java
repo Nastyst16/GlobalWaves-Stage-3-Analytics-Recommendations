@@ -66,7 +66,7 @@ public final class RemoveAlbum implements Command {
 
 
 //        verifying if a users currently listens to the album
-        for (User currentUser : Users.getUsers()) {
+        for (User currentUser : Users.getInstance().getUsers()) {
             if (currentUser.getCurrentType() != null && currentUser.getCurrentPlaylist() != null) {
                 if (currentUser.getCurrentPlaylist().getName().equals(this.name)) {
                     this.setMessage(this.user + " can't delete this album.");
@@ -92,11 +92,11 @@ public final class RemoveAlbum implements Command {
         for (Album album : artist.getAlbums()) {
             if (album.getName().equals(this.name)) {
                 artist.getAlbums().remove(album);
-                Albums.removeAlbum(album);
+                Albums.getInstance().removeAlbum(album);
 
 //                deleting also every song from the album
-                Songs.getSongs().removeAll(album.getAlbumSongs());
-                for (User u : Users.getUsers()) {
+                Songs.getInstance().getSongs().removeAll(album.getAlbumSongs());
+                for (User u : Users.getInstance().getUsers()) {
                     u.getLikedSongs().removeAll(album.getAlbumSongs());
 
                     for (Playlist playlist : u.getPlayListList()) {

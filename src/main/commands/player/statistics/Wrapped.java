@@ -108,7 +108,7 @@ public class Wrapped implements Command {
             }
         }
 
-        for (Artist a : Artists.getArtists()) {
+        for (Artist a : Artists.getInstance().getArtists()) {
             mostListenedArtists.add(new Artist(a));
         }
 
@@ -156,7 +156,7 @@ public class Wrapped implements Command {
         });
 
 //        sorting the genres by number of listens
-        tmpTopGenres = sortMapByValueDesc(tmpTopGenres);
+        tmpTopGenres = sortDesc(tmpTopGenres);
         sortingEverythingUser(mostListenedArtists, mostListenedSongs,
                 mostListenedAlbums, mostListenedEpisodes);
 
@@ -191,7 +191,7 @@ public class Wrapped implements Command {
     /**
      * Method to sort a Map by values in descending order
      */
-    public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValueDesc(final Map<K, V> map) {
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortDesc(final Map<K, V> map) {
         List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
 
         // sort the list in descending order
@@ -213,7 +213,7 @@ public class Wrapped implements Command {
         Map<String, Integer> tmpTopFans = new LinkedHashMap<>();
         int listeners = 0;
 
-        for (Album a : Albums.getAlbums()) {
+        for (Album a : Albums.getInstance().getAlbums()) {
             if (a.getUser().equals(currArtist.getUsername())) {
 
 //                deep copying the album
@@ -223,7 +223,7 @@ public class Wrapped implements Command {
             }
         }
 
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
             for (Song s : u.getEverySong()) {
                 if (!s.getArtist().equals(currArtist.getUsername())) {
                     continue;
@@ -239,7 +239,7 @@ public class Wrapped implements Command {
         }
 
         Map<String, Integer> tmpTopSongs = new LinkedHashMap<>();
-        for (Song s : Songs.getSongs()) {
+        for (Song s : Songs.getInstance().getSongs()) {
             if (s.getArtist().equals(currArtist.getUsername())) {
 
                 tmpTopSongs.put(s.getName(), 0);
@@ -247,11 +247,11 @@ public class Wrapped implements Command {
         }
 
 //        putting in tmpTopFans every user
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
             tmpTopFans.put(u.getUsername(), 0);
         }
 
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
             boolean listenedByThisUser = false;
 
 
@@ -274,9 +274,9 @@ public class Wrapped implements Command {
             }
         }
 
-        tmpTopFans = sortMapByValueDesc(tmpTopFans);
+        tmpTopFans = sortDesc(tmpTopFans);
         tmpTopSongs = sortMapByKey(tmpTopSongs);
-        tmpTopSongs = sortMapByValueDesc(tmpTopSongs);
+        tmpTopSongs = sortDesc(tmpTopSongs);
 
 //        sorting the albums
         mostListenedAlbums.sort((o1, o2) -> {
@@ -355,12 +355,12 @@ public class Wrapped implements Command {
 
 
         ArrayList<Podcast> mostListenedPodcasts = new ArrayList<>();
-        mostListenedPodcasts = Podcasts.getPodcasts();
+        mostListenedPodcasts = Podcasts.getInstance().getPodcasts();
 
         boolean found = false;
 
 //        deep copying the episodes
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
 
             boolean listener = false;
 
@@ -487,7 +487,7 @@ public class Wrapped implements Command {
      */
     private void userCalculatingMostListenedAlbums(final User currUser,
                                                    final ArrayList<Album> mostListenedAlbums) {
-        for (Artist artist : Artists.getArtists()) {
+        for (Artist artist : Artists.getInstance().getArtists()) {
             for (Album a : artist.getAlbums()) {
 
 //                checking if the user listened to this album

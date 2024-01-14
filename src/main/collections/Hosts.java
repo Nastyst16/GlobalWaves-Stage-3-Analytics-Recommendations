@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public final class Hosts {
     private static final Hosts INSTANCE = new Hosts();
-    private static final ArrayList<Host> HOSTS = new ArrayList<>();
+    private final ArrayList<Host> hosts = new ArrayList<>();
 
     /**
      * Default constructor.
@@ -24,32 +24,32 @@ public final class Hosts {
     /**
      * Resets the list of hosts.
      */
-    public static void reset() {
-        HOSTS.clear();
+    public void reset() {
+        hosts.clear();
     }
 
     /**
      * Adds a host to the list of hosts.
      * @param host the host to be added
      */
-    public static void addHost(final Host host) {
-        HOSTS.add(host);
+    public void addHost(final Host host) {
+        hosts.add(host);
     }
 
     /**
      * gets the list of hosts.
      * @return the list of hosts
      */
-    public static ArrayList<Host> getHosts() {
-        return HOSTS;
+    public ArrayList<Host> getHosts() {
+        return hosts;
     }
 
     /**
      * Removes a host from the list of hosts.
      * @param host the host to be removed
      */
-    public static void removeHost(final Host host) {
-        HOSTS.remove(host);
+    public void removeHost(final Host host) {
+        hosts.remove(host);
     }
 
     /**
@@ -57,8 +57,8 @@ public final class Hosts {
      * @param username the username of the host to be found
      * @return the host if found, null otherwise
      */
-    public static Host getHost(final String username) {
-        for (Host host : HOSTS) {
+    public Host getHost(final String username) {
+        for (Host host : hosts) {
             if (host.getUsername().equals(username)) {
                 return host;
             }

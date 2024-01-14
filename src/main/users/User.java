@@ -119,7 +119,7 @@ public class User implements Observer {
 
 //        copy the songs
         this.everySong = new ArrayList<>();
-        for (Song song : Songs.getSongs()) {
+        for (Song song : Songs.getInstance().getSongs()) {
             Song copySong = new Song(song.getName(), song.getDuration(), song.getAlbum(),
                     song.getTags(), song.getLyrics(), song.getGenre(),
                     song.getReleaseYear(), song.getArtist());
@@ -137,7 +137,7 @@ public class User implements Observer {
 
 //        copy the albums
         this.everyAlbum = new ArrayList<>();
-        for (Album album : Albums.getAlbums()) {
+        for (Album album : Albums.getInstance().getAlbums()) {
             Album copyAlbum = new Album(album.getUser(), album.getName(), album.getReleaseYear(),
                     album.getDescription(), album.getAlbumSongs());
 
@@ -179,7 +179,7 @@ public class User implements Observer {
 
             song.setNumberOfLikes(song.getNumberOfLikes() - 1);
 
-            for (Song tmp : Songs.getSongs()) {
+            for (Song tmp : Songs.getInstance().getSongs()) {
                 if (tmp.getName().equals(song.getName())
                         && tmp.getAlbum().equals(song.getAlbum())) {
                     tmp.setNumberOfLikes(tmp.getNumberOfLikes() - 1);
@@ -190,7 +190,7 @@ public class User implements Observer {
 
         } else {
 
-            for (Song tmp : Songs.getSongs()) {
+            for (Song tmp : Songs.getInstance().getSongs()) {
                 if (tmp.getName().equals(song.getName())
                         && tmp.getAlbum().equals(song.getAlbum())) {
                     this.likedSongs.add(tmp);

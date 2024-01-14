@@ -157,7 +157,7 @@ public class Search implements Command {
         String podcastPrefix = (String) (filters.get("name"));
         String owner = (String) (filters.get("owner"));
 
-        for (Podcast podcast : Podcasts.getPodcasts()) {
+        for (Podcast podcast : Podcasts.getInstance().getPodcasts()) {
             if ((podcastPrefix == null || podcast.getName().startsWith(podcastPrefix))
                     && (owner == null || podcast.getOwner().equals(owner))) {
                 results.add(podcast.getName());
@@ -179,7 +179,7 @@ public class Search implements Command {
         String owner = (String) (filters.get("owner"));
         String name = (String) (filters.get("name"));
 
-        for (Playlist playlist : Playlists.getPlaylists()) {
+        for (Playlist playlist : Playlists.getInstance().getPlaylists()) {
             if (playlist.getVisibility().equals("private") && !playlist.getUser().equals(user)) {
                 continue;
             }
@@ -207,7 +207,7 @@ public class Search implements Command {
         String owner = (String) (filters.get("owner"));
         String description = (String) (filters.get("description"));
 
-        for (Artist a : Artists.getArtists()) {
+        for (Artist a : Artists.getInstance().getArtists()) {
             for (Album album : a.getAlbums()) {
 
                 if ((name == null || album.getName().startsWith(name))
@@ -233,7 +233,7 @@ public class Search implements Command {
     public void searchingByArtist() {
         String name = (String) (filters.get("name"));
 
-        for (Artist artist : Artists.getArtists()) {
+        for (Artist artist : Artists.getInstance().getArtists()) {
             if (artist.getUsername().startsWith(name)) {
                 results.add(artist.getUsername());
             }
@@ -253,7 +253,7 @@ public class Search implements Command {
     public void searchingByHost() {
         String name = (String) (filters.get("name"));
 
-        for (Host host : Hosts.getHosts()) {
+        for (Host host : Hosts.getInstance().getHosts()) {
             if (host.getUsername().startsWith(name)) {
                 results.add(host.getUsername());
             }
@@ -295,7 +295,7 @@ public class Search implements Command {
 
 //        if only type is album
         if (this.type.equals("album")) {
-            this.searchingByAlbum(Albums.getAlbums());
+            this.searchingByAlbum(Albums.getInstance().getAlbums());
             currUser.setTypeFoundBySearch(ALBUM);
         }
 

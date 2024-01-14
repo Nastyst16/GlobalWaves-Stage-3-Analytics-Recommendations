@@ -81,9 +81,9 @@ public class AddAlbum implements Command {
         }
 
         for (Song song : albumSongs) {
-            Songs.addSong(song);
+            Songs.getInstance().addSong(song);
         }
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
 
 //            deep copy
             for (Song s : albumSongs) {
@@ -94,18 +94,18 @@ public class AddAlbum implements Command {
             }
         }
 
-        Albums.addAlbum(new Album(this.user, this.name, this.releaseYear,
+        Albums.getInstance().addAlbum(new Album(this.user, this.name, this.releaseYear,
                 this.description, this.albumSongs));
 
 
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
             u.getEveryAlbum().add(new Album(this.user, this.name, this.releaseYear,
                     this.description, this.albumSongs));
         }
 
 
-        artist.getAlbums().add(Albums.getAlbums().
-                get(Albums.getAlbums().size() - 1));
+        artist.getAlbums().add(Albums.getInstance().getAlbums().
+                get(Albums.getInstance().getAlbums().size() - 1));
         this.setMessage(this.user + " has added new album successfully.");
 
         artist.getNotificationService().notifyUsers("New Album",

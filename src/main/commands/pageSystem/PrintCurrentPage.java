@@ -215,7 +215,8 @@ public final class PrintCurrentPage implements Command {
      */
     private void printArtist(final User currUser) {
 
-        Artist currentArtist = Artists.getArtist(currUser.getCurrentPage().getSelectedPageOwner());
+        Artist currentArtist = Artists.getInstance().getArtist(currUser.
+                getCurrentPage().getSelectedPageOwner());
 
         ArrayList<String> albumsByName = new ArrayList<>();
         StringBuilder merchByName = new StringBuilder();
@@ -263,7 +264,8 @@ public final class PrintCurrentPage implements Command {
      */
     private void printHost(final User currUser) {
 
-        Host currentHost = Hosts.getHost(currUser.getCurrentPage().getSelectedPageOwner());
+        Host currentHost = Hosts.getInstance().getHost(currUser.
+                getCurrentPage().getSelectedPageOwner());
 
         StringBuilder podcastsByName = new StringBuilder();
         StringBuilder announcementsByName = new StringBuilder();

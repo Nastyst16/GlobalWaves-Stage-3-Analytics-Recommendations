@@ -30,7 +30,7 @@ public final class CreatePlayList implements Command {
 
 //                verify if a playlist with the same name exists;
         String msg = "Playlist created successfully.";
-        for (Playlist p : Playlists.getPlaylists()) {
+        for (Playlist p : Playlists.getInstance().getPlaylists()) {
             if (p.getName().equals(input.getPlaylistName())) {
                 msg = "A playlist with the same name already exists.";
             }
@@ -40,7 +40,7 @@ public final class CreatePlayList implements Command {
 
         if (!msg.equals("A playlist with the same name already exists.")) {
             currUser.addPlaylistToList(this.getPlaylist());
-            Playlists.addPlaylist(this.getPlaylist());
+            Playlists.getInstance().addPlaylist(this.getPlaylist());
         }
 
     }

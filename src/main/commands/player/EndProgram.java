@@ -30,7 +30,7 @@ public class EndProgram implements Command {
      */
     public void execute(final Object... params) {
 
-        for (Artist artist : Artists.getArtists()) {
+        for (Artist artist : Artists.getInstance().getArtists()) {
             sortedArtistsByNumberOfListens.add(artist);
         }
 
@@ -56,7 +56,7 @@ public class EndProgram implements Command {
 
     private void calculateMonetizationBasedOnCurrPremiumUsers() {
 
-        for (User user : Users.getUsers()) {
+        for (User user : Users.getInstance().getUsers()) {
 
             if (!user.isPremium()) {
                 continue;
@@ -71,7 +71,7 @@ public class EndProgram implements Command {
             }
 
             double songsListenedOfThisArtist = 0;
-            for (Artist artist : Artists.getArtists()) {
+            for (Artist artist : Artists.getInstance().getArtists()) {
                 songsListenedOfThisArtist = 0;
 
                 for (Song s : user.getEverySong()) {

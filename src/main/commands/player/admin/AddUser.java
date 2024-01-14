@@ -50,19 +50,19 @@ public final class AddUser implements Command {
      */
     public void addUser() {
 
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
             if (u.getUsername().equals(this.user)) {
                 this.setMessage("The username " + this.user + " is already taken.");
                 return;
             }
         }
-        for (Artist artist : Artists.getArtists()) {
+        for (Artist artist : Artists.getInstance().getArtists()) {
             if (artist.getUsername().equals(this.user)) {
                 this.setMessage("The username " + this.user + " is already taken.");
                 return;
             }
         }
-        for (Host host : Hosts.getHosts()) {
+        for (Host host : Hosts.getInstance().getHosts()) {
             if (host.getUsername().equals(this.user)) {
                 this.setMessage("The username " + this.user + " is already taken.");
                 return;
@@ -71,15 +71,16 @@ public final class AddUser implements Command {
 
         if (this.type.equals("user")) {
 
-            Users.addUser(new User(user, age, city, Songs.getSongs(), Podcasts.getPodcasts()));
+            Users.getInstance().addUser(new User(user, age, city, Songs.getInstance().getSongs(),
+                    Podcasts.getInstance().getPodcasts()));
 
         } else if (this.type.equals("artist")) {
 
-            Artists.addArtist(new Artist(user, age, city));
+            Artists.getInstance().addArtist(new Artist(user, age, city));
 
         } else if (this.type.equals("host")) {
 
-            Hosts.addHost(new Host(user, age, city));
+            Hosts.getInstance().addHost(new Host(user, age, city));
         }
         this.setMessage("The username " + user + " has been added successfully.");
     }

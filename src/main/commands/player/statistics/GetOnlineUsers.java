@@ -17,7 +17,7 @@ public final class GetOnlineUsers implements Command {
      */
     public void execute(final Object... params) {
 
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
             if (u.getOnline()) {
                 result.add(u.getUsername());
             }

@@ -38,7 +38,7 @@ public class BuyMerch implements Command {
 
 //        searching for the artist based on page
         Artist artist = null;
-        for (Artist currArtist : Artists.getArtists()) {
+        for (Artist currArtist : Artists.getInstance().getArtists()) {
             if (currArtist.getUsername().equals(currUser.
                     getCurrentPage().getSelectedPageOwner())) {
                 artist = currArtist;

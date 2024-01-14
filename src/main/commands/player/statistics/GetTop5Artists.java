@@ -31,7 +31,7 @@ public final class GetTop5Artists implements Command {
 //        the artist with the most liked songs
         ArrayList<Integer> numberOfLikes = new ArrayList<>();
 
-        for (Artist artist : Artists.getArtists()) {
+        for (Artist artist : Artists.getInstance().getArtists()) {
             int nrOfLikes = 0;
             for (Album album : artist.getAlbums()) {
                 for (Song song : album.getSongList()) {
@@ -41,7 +41,7 @@ public final class GetTop5Artists implements Command {
             numberOfLikes.add(nrOfLikes);
         }
 
-        ArrayList<Artist> sortedArtists = new ArrayList<>(Artists.getArtists());
+        ArrayList<Artist> sortedArtists = new ArrayList<>(Artists.getInstance().getArtists());
         for (int i = 0; i < numberOfLikes.size(); i++) {
             for (int j = i + 1; j < numberOfLikes.size(); j++) {
                 if (numberOfLikes.get(i) < numberOfLikes.get(j)) {

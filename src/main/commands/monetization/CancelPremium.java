@@ -51,7 +51,7 @@ public class CancelPremium implements Command {
         }
 
         double songsListenedOfThisArtist = 0;
-        for (Artist artist : Artists.getArtists()) {
+        for (Artist artist : Artists.getInstance().getArtists()) {
             songsListenedOfThisArtist = 0;
 
             for (Song s : currUser.getEverySong()) {

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public final class Podcasts {
     private static final Podcasts INSTANCE = new Podcasts();
-    private static final ArrayList<Podcast> EVERYPODCAST = new ArrayList<>();
+    private final ArrayList<Podcast> podcasts = new ArrayList<>();
 
     /**
      * default constructor.
@@ -30,7 +30,7 @@ public final class Podcasts {
      * Stores the podcasts from the input file.
      * @param library the input file
      */
-    public static void storePodcasts(final LibraryInput library) {
+    public void storePodcasts(final LibraryInput library) {
         ArrayList<PodcastInput> podcastInputs = library.getPodcasts();
 
 //        storing podcasts
@@ -40,7 +40,7 @@ public final class Podcasts {
                 episodes.add(new Episode(episodeInput));
                 episodes.get(episodes.size() - 1).setOwner(podcastInput.getOwner());
             }
-            Podcasts.addPodcast(new Podcast(podcastInput.getName(),
+            Podcasts.getInstance().addPodcast(new Podcast(podcastInput.getName(),
                     podcastInput.getOwner(), episodes));
         }
     }
@@ -48,31 +48,31 @@ public final class Podcasts {
     /**
      * Resets the list of podcasts.
      */
-    public static void reset() {
-        EVERYPODCAST.clear();
+    public void reset() {
+        podcasts.clear();
     }
 
     /**
      * Adds a podcast to the list of podcasts.
      * @param podcast the podcast to be added
      */
-    public static void addPodcast(final Podcast podcast) {
-        EVERYPODCAST.add(podcast);
+    public void addPodcast(final Podcast podcast) {
+        podcasts.add(podcast);
     }
 
     /**
      * gets the list of podcasts.
      * @return the list of podcasts
      */
-    public static ArrayList<Podcast> getPodcasts() {
-        return EVERYPODCAST;
+    public ArrayList<Podcast> getPodcasts() {
+        return podcasts;
     }
 
     /**
      * Removes a podcast from the list of podcasts.
      * @param podcast the podcast to be removed
      */
-    public static void removePodcast(final Podcast podcast) {
-        EVERYPODCAST.remove(podcast);
+    public void removePodcast(final Podcast podcast) {
+        podcasts.remove(podcast);
     }
 }

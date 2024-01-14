@@ -49,12 +49,12 @@ public final class DeleteUser implements Command {
      */
     public void setDeleteUser() {
 
-        ArrayList<User> users = Users.getUsers();
+        ArrayList<User> users = Users.getInstance().getUsers();
 
 //        finding the user
-        User currUser = Users.getUser(this.user);
-        Artist artist = Artists.getArtist(this.user);
-        Host host = Hosts.getHost(this.user);
+        User currUser = Users.getInstance().getUser(this.user);
+        Artist artist = Artists.getInstance().getArtist(this.user);
+        Host host = Hosts.getInstance().getHost(this.user);
 
 //        if we couldn't find anything above
         if (currUser == null && artist == null && host == null) {
@@ -87,7 +87,7 @@ public final class DeleteUser implements Command {
         }
 
 //        verifying if a user is listening to one of the user playlists
-        for (User currentUser : Users.getUsers()) {
+        for (User currentUser : Users.getInstance().getUsers()) {
             for (Playlist playlist : currUser.getPlayListList()) {
                 if (currentUser.getCurrentPlaylist() != null
                         && currentUser.getCurrentPlaylist().getName().equals(playlist.getName())) {
@@ -99,7 +99,7 @@ public final class DeleteUser implements Command {
 
         for (Playlist followedPlaylist : currUser.getFollowedPlaylists()) {
 //            remove the follower
-            for (Playlist p : Playlists.getPlaylists()) {
+            for (Playlist p : Playlists.getInstance().getPlaylists()) {
                 if (p.getName().equals(followedPlaylist.getName())) {
                     p.setFollowers(p.getFollowers() - 1);
                 }
@@ -107,9 +107,9 @@ public final class DeleteUser implements Command {
 
         }
 
-        Users.removeUser(currUser);
+        Users.getInstance().removeUser(currUser);
 
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
             u.getFollowedPlaylists().removeAll(currUser.getPlayListList());
         }
 
@@ -130,7 +130,7 @@ public final class DeleteUser implements Command {
             return;
         }
 
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
 
 //            if the user selected the artist page
             if (u.getCurrentPage().getSelectedPageOwner().equals(this.user)) {
@@ -158,10 +158,10 @@ public final class DeleteUser implements Command {
 //        deleting everything related to the artist
         for (Album a : artist.getAlbums()) {
 
-            Songs.getSongs().removeAll(a.getAlbumSongs());
-            for (User u : Users.getUsers()) {
+            Songs.getInstance().getSongs().removeAll(a.getAlbumSongs());
+            for (User u : Users.getInstance().getUsers()) {
 
-                u.setEverySong(Songs.getSongs());
+                u.setEverySong(Songs.getInstance().getSongs());
 //                deleting also every user liked songs corelated to the artist
                 for (Song songToRemove : a.getAlbumSongs()) {
 
@@ -175,7 +175,7 @@ public final class DeleteUser implements Command {
                 }
             }
         }
-        Albums.getAlbums().removeAll(artist.getAlbums());
+        Albums.getInstance().getAlbums().removeAll(artist.getAlbums());
 
         this.setMessage(this.user + " was successfully deleted.");
     }
@@ -221,7 +221,7 @@ public final class DeleteUser implements Command {
         }
 
 //        deleting everything related to the host
-        Iterator<Podcast> iterator = Podcasts.getPodcasts().iterator();
+        Iterator<Podcast> iterator = Podcasts.getInstance().getPodcasts().iterator();
         while (iterator.hasNext()) {
             Podcast podcast = iterator.next();
 
@@ -234,7 +234,7 @@ public final class DeleteUser implements Command {
             }
         }
         for (User u : users) {
-            u.setEveryPodcast(Podcasts.getPodcasts());
+            u.setEveryPodcast(Podcasts.getInstance().getPodcasts());
         }
 
         this.setMessage(this.user + " was successfully deleted.");

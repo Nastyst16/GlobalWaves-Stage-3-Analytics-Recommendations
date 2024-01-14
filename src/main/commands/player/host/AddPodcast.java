@@ -62,7 +62,7 @@ public final class AddPodcast implements Command {
         }
 
 //        verifying if the podcast already exists
-        for (Podcast podcast : Podcasts.getPodcasts()) {
+        for (Podcast podcast : Podcasts.getInstance().getPodcasts()) {
             if (podcast.getName().equals(this.name)) {
                 this.setMessage(this.user + " has another podcast with the same name.");
                 return;
@@ -76,11 +76,11 @@ public final class AddPodcast implements Command {
 
 
 //        adding the podcast
-        Podcasts.addPodcast(new Podcast(this.name, this.user, this.episodes));
+        Podcasts.getInstance().addPodcast(new Podcast(this.name, this.user, this.episodes));
 
         host.getHostPodcasts().add(new Podcast(this.name, this.user, this.episodes));
 
-        for (User u : Users.getUsers()) {
+        for (User u : Users.getInstance().getUsers()) {
 
             ArrayList<Episode> episodesCopy = new ArrayList<>();
             for (Episode e : this.episodes) {

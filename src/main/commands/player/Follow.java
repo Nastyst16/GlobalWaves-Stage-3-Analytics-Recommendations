@@ -55,7 +55,7 @@ public final class Follow implements Command {
             return;
         }
 
-        ArrayList<Playlist> everyPlaylist = Playlists.getPlaylists();
+        ArrayList<Playlist> everyPlaylist = Playlists.getInstance().getPlaylists();
 
         int indexPlaylist = everyPlaylist.indexOf(currUser.getSelectedPlaylist());
 

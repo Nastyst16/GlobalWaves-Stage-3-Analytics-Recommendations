@@ -109,7 +109,7 @@ public class Select implements Command {
                     currUser.setSelectedAlbum(currUser.getCurrentSearch().
                             getResultsAlbum(index - 1));
 
-                    for (Album album : Albums.getAlbums()) {
+                    for (Album album : Albums.getInstance().getAlbums()) {
                         if (album.getName().equals(currUser.getSelectedAlbum())) {
                             currUser.setSelectedPlaylist(album);
                             break;
@@ -122,7 +122,7 @@ public class Select implements Command {
                 } else if (currUser.getTypeFoundBySearch() == PLAYLIST) {
                     currUser.setTypeSelected(PLAYLIST);
 
-                    for (Playlist playlist : Playlists.getPlaylists()) {
+                    for (Playlist playlist : Playlists.getInstance().getPlaylists()) {
                         if (playlist.getName().equals(name)
                             && playlist.getName().equals(currUser.getCurrentSearch().
                                 getResultsAlbum(index))) {
@@ -135,7 +135,7 @@ public class Select implements Command {
 //                    albums
                 } else if (currUser.getTypeFoundBySearch() == ALBUM) {
                     currUser.setTypeSelected(ALBUM);
-                    for (Album album : Albums.getAlbums()) {
+                    for (Album album : Albums.getInstance().getAlbums()) {
                         if (album.getName().equals(name)) {
                             currUser.setSelectedPlaylist(album);
                             break;
